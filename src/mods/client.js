@@ -129,7 +129,7 @@ function SevenNetworkServer() {
 }
 
 process.once('loaded', () => {
-  console.log('Welcome to xVenge');
+  console.log('Welcome to SevenNetwork');
 
   global.clientInit = function () {
     FixQuitLogic();
