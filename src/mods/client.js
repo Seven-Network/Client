@@ -58,6 +58,10 @@ function modifyFetcher() {
           t += `?hash=${hash}`;
         }
       }
+      // Delete hash if logging out
+      if (t.includes('logout')) {
+        localStorage.setItem('Hash', null);
+      }
     }
     var r =
         'string' == typeof e
