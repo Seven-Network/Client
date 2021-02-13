@@ -1,8 +1,8 @@
-# xVenge
+# Seven Network Client
 
-xVenge is a client in development with an experimental development that allows developers to modify game data without the need for having to mix and match whenever a new game version comes out.
+Seven Network Client is a Private Venge.io Client that connects to the Seven Network Private Server
 
-_Note: xVenge is a codename_
+_Note: SevenNetwork is a temporary name and can change any time_
 
 ## Project Structure
 
