@@ -14,23 +14,53 @@ function allowSoloCustom() {
 }
 
 function addGGWeapons() {
+  const weaponEnity = pc.app.getEntityFromIndex(
+    '1a599c4d-e39b-40f8-b41e-a6a260acb9bb'
+  );
+  weaponEnity.script.popup.itemNames = [
+    'Scar',
+    'Shotgun',
+    'Sniper',
+    'Tec-9',
+    'M4',
+    'LMG',
+    'Desert-Eagle',
+  ];
+}
+
+function setupGGWeapons() {
   // You want to wait for Map:Loaded when doing
   // anything outside main menu
   // pc.app.on('Map:Loaded', () => {
-    console.log("Changed weapons.") // Remove me
-    const weaponEnity = pc.app.getEntityFromIndex(
-      '1a599c4d-e39b-40f8-b41e-a6a260acb9bb'
-    );
-    weaponEnity.script.popup.itemNames = [
-      'Scar',
-      'Shotgun',
-      'Sniper',
-      'Tec-9',
-      'M4',
-      'LMG',
-      'Desert-Eagle',
-    ];
-  // });
+
+  const holderEnity = pc.app.getEntityFromIndex(
+    'ffd2ace5-ed11-472d-8ec6-7f36980e3fa6'
+  );
+
+  // M4
+  const m4Entity = new pc.Entity();
+  holderEnity.addChild(m4Entity);
+  m4Entity.setName('M4');
+  m4Entity.setLocalPosition(-0.1, 0, 0.02);
+  m4Entity.setLocalScale(21, 21, 21);
+  m4Entity.addComponent('model', {
+    enabled: true,
+    type: 'asset',
+    asset: 36716849,
+    materialAsset: null,
+    castShadows: true,
+    castShadowsLightmap: true,
+    receiveShadows: true,
+    lightmapped: false,
+    lightmapSizeMultiplier: 1,
+    castShadowsLightMap: true,
+    lightMapped: false,
+    lightMapSizeMultiplier: 1,
+    isStatic: false,
+    layers: [0],
+    batchGroupId: null,
+  });
+  m4Entity.tags.add('Weapon');
 }
 
 function modifyFetcher() {
@@ -394,6 +424,10 @@ process.once('loaded', () => {
   };
 
   global.mapInit = function () {
+    setupGGWeapons();
+  };
+
+  global.startInit = function () {
     addGGWeapons();
-  }
+  };
 });

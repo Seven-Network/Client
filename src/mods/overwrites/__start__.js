@@ -144,9 +144,11 @@
                           console.error(err);
                       }
 
+                      global.mapInit();
+
                       app.start();
 
-                      global.mapInit();
+                      global.startInit();
                   });
               });
           });
