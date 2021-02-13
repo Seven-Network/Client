@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>xVenge</title>
+    <title>Venge.io</title>
 
     <meta name="description" content="Venge is an objective-based first-person shooter. Every match is an intense unique experience with the ability cards that you can get in the game. Play it on browser, no download, and free!">
 
@@ -26,37 +26,20 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     
     <script type="text/javascript">
-        var VERSION = 'e4fbbb';
-        var VERSION_CODE = '1.0.64';
+        var VERSION = '332fd8';
+        var VERSION_CODE = '1.0.67';
     </script>
 
-    <script src="playcanvas-stable.min.js?v=1.0.64"></script>
+    <script type="text/javascript" src="adblock.js"></script>
+    <script type="text/javascript" src="provider.js?v=1.2"></script>
+
+    <script src="playcanvas-stable.min.js?v=1.0.67"></script>
     <script src="__settings__.js"></script>
 </head>
 <body>
     <script src="__modules__.js"></script>
     <script src="__start__.js"></script>
     <script src="__loading__.js?v=1.5"></script>
-
-    <div id="matchmaking" class="matchmaking-wrapper">
-      <!-- The actual matchmaking dialog -->
-      <div class="matchmaking">
-        <div class="matchmaking-loader">
-          <div class="lds-dual-ring"></div>
-        </div>
-        <div class="matchmaking-content">
-          <div class="matchmaking-title">
-            Matchmaking...
-          </div>
-          <div class="matchmaking-description">
-            Time elapsed: 0:15
-          </div>
-        </div>
-      </div>
-      <button onclick="stopMatchmaking()" class="matchmaking-cancel">
-        CANCEL
-      </button>
-    </div>
 
     <div id="preroll"></div>
 
@@ -72,6 +55,6 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'UA-56170709-45');
-    </script>
+    </script> 
 </body>
 </html>
