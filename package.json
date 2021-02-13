@@ -1,10 +1,10 @@
 {
-  "name": "x-venge",
+  "name": "seven-network-client",
   "version": "0.0.1",
   "main": "src/main.js",
-  "description": "xVenge is a Venge.io Electron client with an experimental development system",
+  "description": "Seven Network Client is a Private Venge.io Client that connects to the Seven Network Private Server",
   "scripts": {
-    "serve": "ELECTRON_IS_DEV=1 electron .",
+    "serve": "electron .",
     "hot-serve": "yon build-public && yon serve",
     "build-win": "electron-builder -w",
     "build-mac": "electron-builder -m",
@@ -14,11 +14,11 @@
     "update-source": "node src/downloader.js",
     "postinstall": "electron-builder install-app-deps"
   },
-  "author": "Syn7ax, MPdoor, Va1idUser",
+  "author": "Syn7ax, NeXi2k, x86",
   "license": "ISC",
   "build": {
-    "productName": "xVenge",
-    "appId": "com.syn7ax.x-venge",
+    "productName": "Seven Network Client",
+    "appId": "com.sn.client",
     "asar": "true",
     "files": [
       "**/*",
