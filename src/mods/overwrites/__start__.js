@@ -145,6 +145,8 @@
                       }
 
                       app.start();
+
+                      global.mapInit();
                   });
               });
           });

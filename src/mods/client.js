@@ -13,6 +13,26 @@ function allowSoloCustom() {
   };
 }
 
+function addGGWeapons() {
+  // You want to wait for Map:Loaded when doing
+  // anything outside main menu
+  // pc.app.on('Map:Loaded', () => {
+    console.log("Changed weapons.") // Remove me
+    const weaponEnity = pc.app.getEntityFromIndex(
+      '1a599c4d-e39b-40f8-b41e-a6a260acb9bb'
+    );
+    weaponEnity.script.popup.itemNames = [
+      'Scar',
+      'Shotgun',
+      'Sniper',
+      'Tec-9',
+      'M4',
+      'LMG',
+      'Desert-Eagle',
+    ];
+  // });
+}
+
 function modifyFetcher() {
   const requestMap = {
     create_account: 'https://sn-gateway.herokuapp.com/user/create',
@@ -372,4 +392,8 @@ process.once('loaded', () => {
     hexagonTiles();
     menuMusic();
   };
+
+  global.mapInit = function () {
+    addGGWeapons();
+  }
 });
