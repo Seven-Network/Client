@@ -1,9 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const axios = require('axios');
-const objectScan = require('object-scan');
-const loadashGet = require('lodash.get');
-const { clear } = require('console');
+const fs = require("fs");
+const path = require("path");
+const axios = require("axios");
+const objectScan = require("object-scan");
+const loadashGet = require("lodash.get");
+const { clear } = require("console");
+const { platform } = require("os");
 
 const HOST = "https://venge.io/";
 const TARGET_DIR = path.join(__dirname, "source");
@@ -11,16 +12,16 @@ const TARGET_DIR = path.join(__dirname, "source");
 var config;
 var urls = [];
 var reqFiles = [
-  '__modules__.js',
-  '__start__.js',
-  '__loading__.js',
-  '__settings__.js',
-  'playcanvas-stable.min.js',
-  'favicon-96x96.png',
-  'styles.css',
-  'index.html',
-  'adblock.js',
-  'provider.js'
+  "__modules__.js",
+  "__start__.js",
+  "__loading__.js",
+  "__settings__.js",
+  "playcanvas-stable.min.js",
+  "favicon-96x96.png",
+  "styles.css",
+  "index.html",
+  "adblock.js",
+  "provider.js",
 ];
 
 async function clearSourceFolder() {
@@ -42,9 +43,13 @@ async function downloadResource(resource, shouldRequire) {
     const fileLoc = path.join(TARGET_DIR, decodeURI(resource));
 
     // Create sub-dirs
-    const fileLocArr = fileLoc.split('\\');
+    var sep = "/";
+    if (process.platform === "win32") sep = "\\";
+
+    const fileLocArr = fileLoc.split(sep);
     fileLocArr.pop();
-    const tempFileLoc = fileLocArr.join('\\');
+    const tempFileLoc = fileLocArr.join(sep);
+
     console.log(tempFileLoc);
     fs.mkdir(tempFileLoc, { recursive: true }, async function (err) {
       if (err) throw err;
@@ -54,13 +59,13 @@ async function downloadResource(resource, shouldRequire) {
       try {
         const response = await axios({
           url,
-          method: 'GET',
-          responseType: 'stream'
+          method: "GET",
+          responseType: "stream",
         });
-      
+
         response.data.pipe(writer);
 
-        writer.on('finish', () => {
+        writer.on("finish", () => {
           if (shouldRequire) {
             const file = require(path.join(TARGET_DIR, resource));
             resolve(file);
@@ -69,7 +74,7 @@ async function downloadResource(resource, shouldRequire) {
           }
         });
 
-        writer.on('error', reject);
+        writer.on("error", reject);
       } catch (error) {
         console.log(error.message);
         resolve();
@@ -79,9 +84,9 @@ async function downloadResource(resource, shouldRequire) {
 }
 
 function getResourceUrls() {
-  console.log("Processing configuration object")
+  console.log("Processing configuration object");
   return new Promise((resolve, reject) => {
-    const keys = objectScan(['**.url'], { joined: true })(config);
+    const keys = objectScan(["**.url"], { joined: true })(config);
     // Time to iterate over thousands of keys
     keys.forEach((key) => {
       urls.push(loadashGet(config, key));
@@ -116,7 +121,7 @@ async function downloadRequiredFiles() {
 
 async function getConfig() {
   console.log("Retrieving game configuration JSON file");
-  config = await downloadResource('config.json', true);
+  config = await downloadResource("config.json", true);
 }
 
 async function getAllResources() {
