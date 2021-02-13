@@ -18,7 +18,9 @@ var reqFiles = [
   'playcanvas-stable.min.js',
   'favicon-96x96.png',
   'styles.css',
-  'index.html'
+  'index.html',
+  'adblock.js',
+  'provider.js'
 ];
 
 async function clearSourceFolder() {
@@ -40,10 +42,10 @@ async function downloadResource(resource, shouldRequire) {
     const fileLoc = path.join(TARGET_DIR, decodeURI(resource));
 
     // Create sub-dirs
-    const fileLocArr = fileLoc.split('/');
+    const fileLocArr = fileLoc.split('\\');
     fileLocArr.pop();
-    const tempFileLoc = fileLocArr.join('/');
-
+    const tempFileLoc = fileLocArr.join('\\');
+    console.log(tempFileLoc);
     fs.mkdir(tempFileLoc, { recursive: true }, async function (err) {
       if (err) throw err;
 
