@@ -96,7 +96,6 @@ function modifyFetcher() {
 function websocketProxy() {
   window.WebSocket = new Proxy(window.WebSocket, {
     construct: function (target, args) {
-      console.log(args);
       if (args[0].includes('invite.venge.io')) {
         args[0] = args[0].replace(
           'wss://invite.venge.io/',
