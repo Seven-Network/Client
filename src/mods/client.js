@@ -120,10 +120,8 @@ process.once('loaded', () => {
   };
 
   global.mapInit = function () {
-    setupGGWeapons();
   };
 
   global.startInit = function () {
-    addGGWeapons();
   };
 });
