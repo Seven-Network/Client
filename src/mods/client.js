@@ -142,6 +142,19 @@ function modifyFetcher() {
   };
 }
 
+function websocketProxy() {
+  window.WebSocket = new Proxy(window.WebSocket, {
+    construct: function(target, args) {
+      console.log(args);
+      if (args[0].includes("invite.venge.io")) {
+        args[0] = args[0].replace("wss://invite.venge.io/", "ws://localhost:7778/");
+      }
+      const instance = new target(...args);
+      return instance;
+    }
+  });
+}
+
 function sevenNetworkServer() {
   (() => {
     Object.freeze(Object);
@@ -409,18 +422,19 @@ process.once('loaded', () => {
   console.log('Welcome to Seven Network');
 
   global.clientInit = function () {
-    fixQuitLogic();
-    allowSoloCustom();
+    // fixQuitLogic();
+    // allowSoloCustom();
     modifyFetcher();
-    sevenNetworkServer();
-    respawnAnimation();
-    matchFoundAnimation();
-    deathMessage();
-    removeEmoteHint();
+    // websocketProxy();
+    // sevenNetworkServer();
+    // respawnAnimation();
+    // matchFoundAnimation();
+    // deathMessage();
+    // removeEmoteHint();
     reduceSpellHintFix();
     scoreboardFix();
-    hexagonTiles();
-    menuMusic();
+    // hexagonTiles();
+    // menuMusic();
   };
 
   global.mapInit = function () {
