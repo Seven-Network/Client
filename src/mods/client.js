@@ -108,6 +108,150 @@ function websocketProxy() {
   });
 }
 
+function addGGWeapons() {
+  const weaponEnity = pc.app.getEntityFromIndex(
+    '1a599c4d-e39b-40f8-b41e-a6a260acb9bb'
+  );
+  weaponEnity.script.popup.itemNames = [
+    'Scar',
+    'Shotgun',
+    'Sniper',
+    'Tec-9',
+    'M4',
+    'LMG',
+    'Desert-Eagle',
+  ];
+  weaponEnity.script.popup.itemImages = [
+    34217429,
+    31196952,
+    31196950,
+    31196954,
+    36674698,
+    36674696,
+    36674697,
+  ];
+}
+
+function setupGGWeapons() {
+  // You want to wait for Map:Loaded when doing
+  // anything outside main menu
+  // pc.app.on('Map:Loaded', () => {
+
+  const holderEntity = pc.app.getEntityFromIndex(
+    'ffd2ace5-ed11-472d-8ec6-7f36980e3fa6'
+  );
+
+  // M4
+  const m4Entity = new pc.Entity();
+  holderEntity.addChild(m4Entity);
+  m4Entity.setName('M4');
+  m4Entity.setLocalPosition(-0.1, 0, 0.02);
+  m4Entity.setLocalScale(21, 21, 21);
+  m4Entity.addComponent('model', {
+    enabled: true,
+    type: 'asset',
+    asset: 36716849,
+    materialAsset: null,
+    castShadows: true,
+    castShadowsLightmap: true,
+    receiveShadows: true,
+    lightmapped: false,
+    lightmapSizeMultiplier: 1,
+    castShadowsLightMap: true,
+    lightMapped: false,
+    lightMapSizeMultiplier: 1,
+    isStatic: false,
+    layers: [0],
+    batchGroupId: null,
+  });
+  m4Entity.tags.add('Weapon');
+
+  // LMG
+  const lmgEntity = new pc.Entity();
+  holderEntity.addChild(lmgEntity);
+  lmgEntity.setName('LMG');
+  lmgEntity.setLocalPosition(-0.1, 0, 0.02);
+  lmgEntity.setLocalScale(21, 21, 21);
+  lmgEntity.addComponent('model', {
+    enabled: true,
+    type: 'asset',
+    asset: 36716852,
+    materialAsset: null,
+    castShadows: true,
+    castShadowsLightmap: true,
+    receiveShadows: true,
+    lightmapped: false,
+    lightmapSizeMultiplier: 1,
+    castShadowsLightMap: true,
+    lightMapped: false,
+    lightMapSizeMultiplier: 1,
+    isStatic: false,
+    layers: [0],
+    batchGroupId: null,
+  });
+  lmgEntity.tags.add('Weapon');
+
+  // Desert-Eagle
+  const desertEntity = new pc.Entity();
+  holderEntity.addChild(desertEntity);
+  desertEntity.setName('Desert-Eagle');
+  desertEntity.setLocalPosition(-0.1, 0, 0.02);
+  desertEntity.setLocalScale(21, 21, 21);
+  desertEntity.addComponent('model', {
+    enabled: true,
+    type: 'asset',
+    asset: 36716855,
+    materialAsset: null,
+    castShadows: true,
+    castShadowsLightmap: true,
+    receiveShadows: true,
+    lightmapped: false,
+    lightmapSizeMultiplier: 1,
+    castShadowsLightMap: true,
+    lightMapped: false,
+    lightMapSizeMultiplier: 1,
+    isStatic: false,
+    layers: [0],
+    batchGroupId: null,
+  });
+  desertEntity.tags.add('Weapon');
+}
+
+function weaponSelectFix() {
+  Menu.prototype.onWeaponSelect = function (e) {
+    var t = this.weaponEntity.findByTag('Weapon'),
+      n = this.app.assets.find(e + '-Thumbnail-White.png');
+    for (var i in t) {
+      t[i].enabled = !1;
+    }
+    (this.weaponIcon.element.textureAsset = n),
+      (this.weaponName.element.text = e.toLowerCase()),
+      this.entity.sound.play('Whoosh'),
+      (pc.session.weapon = e);
+  };
+}
+
+function menuEntity() {
+  const bannerEntity = pc.app.getEntityFromIndex(
+    '2baa7f22-cb28-4cbb-a175-55b8d4385c6f'
+  );
+
+  const contentEntity = pc.app.getEntityFromIndex(
+    '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
+  );
+
+  bannerEntity.enabled = false;
+  contentEntity.setLocalPosition(0, -110, 0);
+  contentEntity.setLocalScale(1.05, 1.05, 1.05)
+  contentEntity.element.margin = { w: 120, x: -460, y: -600, z:-460 }
+  contentEntity.children[0].children[2].enabled = false //Social Links
+  contentEntity.children[0].children[1].children[1].children[1].children[1].enabled = 0 //Quest Bar
+  contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0 //Shop Notification (also called 'Slider')
+  
+
+  window.contentEntity = contentEntity;
+}
+
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
 
@@ -116,11 +260,15 @@ process.once('loaded', () => {
     allowSoloCustom();
     modifyFetcher();
     websocketProxy();
+    weaponSelectFix();
   };
 
   global.mapInit = () => {
+    setupGGWeapons();
+    menuEntity();
   };
 
   global.startInit = () => {
+    addGGWeapons();
   };
 });
