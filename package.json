@@ -14,7 +14,7 @@
     "update-source": "node src/downloader.js",
     "postinstall": "electron-builder install-app-deps"
   },
-  "author": "Syn7ax, NeXi2k, x86",
+  "author": "Seven Network",
   "license": "ISC",
   "build": {
     "productName": "Seven Network Client",
