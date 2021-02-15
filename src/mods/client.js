@@ -278,6 +278,44 @@ function menuRework() {
   contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0; //Shop Notification (also called 'Slider')
 }
 
+function IngameInit() {
+  (MapManager.prototype.setMap = function (t) {
+    if (this.isLoaded) return !1;
+    console.log('Loading map : ', t), (this.mapName = t);
+    var a = this,
+      e = this.app.scenes.find(t),
+      o = '1.0.0';
+    'undefined' != typeof VERSION && (o = VERSION),
+      (this.isLoading = Date.now()),
+      (pc.isMapLoaded = !1);
+    var i = this.app.root.findByName('Map');
+    i && i.sound && (i.sound.stop('Ambient'), i.sound.stop('Rain')),
+      e &&
+        e.url &&
+        (this.app.scenes.loadSceneHierarchy(e.url + '?v=' + o, function (t, i) {
+          i &&
+            (a.mapHolder.reparent(i),
+            a.app.scenes.loadSceneSettings(e.url + '?v=' + o, function (t, a) {
+              setTimeout(function () {
+                (pc.isMapLoaded = !0), pc.app.fire('Map:Loaded', !0);
+              }, 1e3);
+            })),
+            t && console.log('[ERROR] ', t);
+        }),
+        (this.isLoaded = !0));
+        global.levelInit();
+        console.log("Loaded Level Init")
+  })
+}
+
+function IngameRework() {
+  const fpsPingCounter = pc.app.getEntityFromIndex(
+    '2885c322-8cea-4b70-b591-89266a1bb5a0'
+  );
+
+  window.fpsPingCounter = fpsPingCounter
+}
+
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
 
@@ -288,6 +326,7 @@ process.once('loaded', () => {
     modifyFetcher();
     websocketProxy();
     weaponSelectFix();
+    IngameInit();
   };
 
   global.mapInit = () => {
@@ -298,4 +337,8 @@ process.once('loaded', () => {
   global.startInit = () => {
     addGGWeapons();
   };
+
+  global.levelInit = () => {
+    IngameRework();
+  }
 });
