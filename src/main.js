@@ -64,7 +64,7 @@ function createWindow() {
   });
 
   win.webContents.on('dom-ready', (event) => {
-    iwin.setTitle(`Seven-Network-Client`);
+    win.setTitle(`Seven-Network-Client`);
     event.preventDefault();
   });
 }
