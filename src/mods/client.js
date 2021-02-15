@@ -278,42 +278,107 @@ function menuRework() {
   contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0; //Shop Notification (also called 'Slider')
 }
 
-function IngameInit() {
-  (MapManager.prototype.setMap = function (t) {
-    if (this.isLoaded) return !1;
-    console.log('Loading map : ', t), (this.mapName = t);
-    var a = this,
-      e = this.app.scenes.find(t),
-      o = '1.0.0';
-    'undefined' != typeof VERSION && (o = VERSION),
-      (this.isLoading = Date.now()),
-      (pc.isMapLoaded = !1);
-    var i = this.app.root.findByName('Map');
-    i && i.sound && (i.sound.stop('Ambient'), i.sound.stop('Rain')),
-      e &&
-        e.url &&
-        (this.app.scenes.loadSceneHierarchy(e.url + '?v=' + o, function (t, i) {
-          i &&
-            (a.mapHolder.reparent(i),
-            a.app.scenes.loadSceneSettings(e.url + '?v=' + o, function (t, a) {
-              setTimeout(function () {
-                (pc.isMapLoaded = !0), pc.app.fire('Map:Loaded', !0);
-              }, 1e3);
-            })),
-            t && console.log('[ERROR] ', t);
-        }),
-        (this.isLoaded = !0));
-        global.levelInit();
-        console.log("Loaded Level Init")
-  })
+function ingameRework() {
+  pc.app.on('Map:Loaded', () => {
+    const ingameOverlay = pc.app.getEntityFromIndex(
+      '9fcdea8c-ee29-403e-8e5b-0eddd1e548f6'
+    );
+
+    window.ingameOverlay = ingameOverlay;
+
+    if (ingameOverlay) {
+      //FPS Counter
+      const fpsPingCounterEntity = pc.app.getEntityFromIndex(
+        '2885c322-8cea-4b70-b591-89266a1bb5a0'
+      );
+      fpsPingCounterEntity.setLocalScale(1.5, 1.5, 1);
+      fpsPingCounterEntity.element.color = { r: 0, g: 0.9, b: 0.9, a: 1 };
+
+      //Healht Bar
+      const healthBarEntity = pc.app.getEntityFromIndex(
+        'd024dcbc-ab7c-4ab5-983e-47c86da9e017'
+      );
+      healthBarEntity.setLocalScale(1.4, 1.4, 1);
+      healthBarEntity.children[2].children[0].element.color = {
+        r: 0,
+        g: 0.75,
+        b: 0.75,
+        a: 1,
+      }; //Changes health bar color
+
+      //Change Opacity of Scoreboards
+      const tabScoreboardEntity = pc.app.getEntityFromIndex(
+        '907d5c7e-7daa-4663-a7e9-5807b0f17a74'
+      )
+      tabScoreboardEntity.children[0].element.opacity = 1
+
+      //Pause Menu
+      const ingameBannerEntity = pc.app.getEntityFromIndex(
+        '274f775a-5d43-4147-8bbf-6db846f698c6'
+      );
+      ingameBannerEntity.enabled = false;
+
+      //Overall Pause Menu Rework
+      const pauseMenuWeaponsEntity = pc.app.getEntityFromIndex(
+        '677b52db-53b5-44fb-9c99-75733583d542'
+      );
+      const pauseMenuEntity = pc.app.getEntityFromIndex(
+        '042afaa4-4432-4e25-845e-9a1a7eb897a1'
+      );
+
+      pauseMenuWeaponsEntity.enabled = false;
+      pauseMenuEntity.element.margin = { x: -315, y: -180, z: -315, w: -210 };
+      pauseMenuEntity.element.opacity = 0.8
+      pauseMenuEntity.parent.element.opacity = 0
+      pauseMenuEntity.element.opacity = 1
+
+      window.pauseMenuWeaponsEntity = pauseMenuWeaponsEntity;
+      window.pauseMenuEntity = pauseMenuEntity;
+    }
+  });
 }
 
-function IngameRework() {
-  const fpsPingCounter = pc.app.getEntityFromIndex(
-    '2885c322-8cea-4b70-b591-89266a1bb5a0'
-  );
-
-  window.fpsPingCounter = fpsPingCounter
+function ggWeaponsKeybinds() {
+  (Player.prototype.setKeyboard = function () {
+    return (
+      !pc.isFinished &&
+      'INPUT' != document.activeElement.tagName &&
+      !(
+        !this.isCardSelection &&
+        this.isMapLoaded &&
+        ('GUNGAME' != pc.currentMode &&
+          (this.app.keyboard.wasPressed(pc.KEY_1) &&
+            this.setWeapon('Scar'),
+          this.app.keyboard.wasPressed(pc.KEY_2) &&
+            this.setWeapon('Shotgun'),
+          this.app.keyboard.wasPressed(pc.KEY_3) &&
+            this.setWeapon('Sniper'),
+          this.app.keyboard.wasPressed(pc.KEY_4) &&
+            this.setWeapon('Tec-9'),
+          this.app.keyboard.wasPressed(pc.KEY_5) &&
+            this.setWeapon('M4'),
+          this.app.keyboard.wasPressed(pc.KEY_6) &&
+            this.setWeapon('LMG'),
+          this.app.keyboard.wasPressed(pc.KEY_7) &&
+            this.setWeapon('Desert-Eagle')),
+        this.isDeath && this.isCircularMenuActive)
+      ) &&
+      (this.isCardSelection &&
+        (this.app.keyboard.wasPressed(pc.KEY_1) && this.onBuyCard1(),
+        this.app.keyboard.wasPressed(pc.KEY_2) && this.onBuyCard2(),
+        this.app.keyboard.wasPressed(pc.KEY_3) && this.onBuyCard3()),
+      !this.movement.locked &&
+        (this.app.keyboard.wasPressed(pc.KEY_H) && this.emote(),
+        this.app.keyboard.wasPressed(pc.KEY_B) && this.buyAbility(),
+        this.app.keyboard.wasReleased(pc.KEY_B) && this.buyAbilityEnd(),
+        this.app.keyboard.wasPressed(pc.KEY_TAB) &&
+          this.app.fire('Overlay:PlayerStats', !0),
+        void (
+          this.app.keyboard.wasReleased(pc.KEY_TAB) &&
+          this.app.fire('Overlay:PlayerStats', !1)
+        )))
+    );
+  })
 }
 
 process.once('loaded', () => {
@@ -326,19 +391,16 @@ process.once('loaded', () => {
     modifyFetcher();
     websocketProxy();
     weaponSelectFix();
-    IngameInit();
+    ggWeaponsKeybinds();
   };
 
   global.mapInit = () => {
     setupGGWeapons();
     menuRework();
+    ingameRework();
   };
 
   global.startInit = () => {
     addGGWeapons();
   };
-
-  global.levelInit = () => {
-    IngameRework();
-  }
 });
