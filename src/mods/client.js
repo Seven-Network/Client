@@ -231,7 +231,7 @@ function weaponSelectFix() {
   };
 }
 
-function menuEntity() {
+function menuRework() {
   const bannerEntity = pc.app.getEntityFromIndex(
     '2baa7f22-cb28-4cbb-a175-55b8d4385c6f'
   );
@@ -242,12 +242,11 @@ function menuEntity() {
 
   bannerEntity.enabled = false;
   contentEntity.setLocalPosition(0, -110, 0);
-  contentEntity.setLocalScale(1.05, 1.05, 1.05)
-  contentEntity.element.margin = { w: 120, x: -460, y: -600, z:-460 }
-  contentEntity.children[0].children[2].enabled = false //Social Links
-  contentEntity.children[0].children[1].children[1].children[1].children[1].enabled = 0 //Quest Bar
-  contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0 //Shop Notification (also called 'Slider')
-  
+  contentEntity.setLocalScale(1.05, 1.05, 1.05);
+  contentEntity.element.margin = { w: 120, x: -460, y: -600, z: -460 };
+  contentEntity.children[0].children[2].enabled = false; //Social Links
+  contentEntity.children[0].children[1].children[1].children[1].children[1].enabled = 0; //Quest Bar
+  contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0; //Shop Notification (also called 'Slider')
 
   window.contentEntity = contentEntity;
 }
@@ -265,7 +264,7 @@ process.once('loaded', () => {
 
   global.mapInit = () => {
     setupGGWeapons();
-    menuEntity();
+    menuRework();
   };
 
   global.startInit = () => {
