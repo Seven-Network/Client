@@ -247,8 +247,6 @@ function menuRework() {
   contentEntity.children[0].children[2].enabled = false; //Social Links
   contentEntity.children[0].children[1].children[1].children[1].children[1].enabled = 0; //Quest Bar
   contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0; //Shop Notification (also called 'Slider')
-
-  window.contentEntity = contentEntity;
 }
 
 process.once('loaded', () => {
