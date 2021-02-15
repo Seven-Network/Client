@@ -1,6 +1,7 @@
 const { app, BrowserWindow, globalShortcut, clipboard } = require('electron');
 const path = require('path');
 const shortcut = require('electron-localshortcut');
+const RPC = require('discord-rpc');
 
 const isDev = require('electron-is-dev');
 
@@ -64,10 +65,30 @@ function createWindow() {
   });
 
   win.webContents.on('dom-ready', (event) => {
-    win.setTitle(`Seven-Network-Client`);
+    win.setTitle(`Seven Network Client`);
     event.preventDefault();
   });
 }
+
+const rpc = new RPC.Client({
+  transport: 'ipc',
+});
+
+rpc.on('ready', () => {
+  rpc.setActivity({
+    details: 'Playing on Seven Network',
+    state: 'In Testing Phase',
+    startTimestamp: new Date(),
+    largeImageKey: 'Nothing',
+    largeImageText: 'Testing Icon',
+  });
+
+  console.log('Rich presence should be now active');
+});
+
+rpc.login({
+  clientId: '810864138837295125',
+});
 
 app.whenReady().then(createWindow);
 
