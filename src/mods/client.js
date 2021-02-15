@@ -113,7 +113,25 @@ function websocketProxy() {
           'wss://sn-invite.herokuapp.com/'
         );
       }
+
       const instance = new target(...args);
+
+      const messageHandler = function (event) {
+        if (instance.url.includes('sn-invite.herokuapp.com')) {
+          if (window.ipinterv) return;
+          window.ipinterv = setInterval(() => {
+            instance.send('ping');
+          }, 10000);
+        }
+      };
+
+      instance.addEventListener('message', messageHandler);
+      instance.addEventListener('close', () => {
+        if (window.ipinterv) {
+          clearInterval(window.ipinterv);
+        }
+      });
+
       return instance;
     },
   });
@@ -264,6 +282,7 @@ process.once('loaded', () => {
   console.log('Welcome to Seven Network');
 
   global.clientInit = () => {
+    window._messagePack = MessagePack.initialize(0xfff);
     fixQuitLogic();
     allowSoloCustom();
     modifyFetcher();
