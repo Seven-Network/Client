@@ -20,12 +20,16 @@ function modifyFetcher() {
     logout: 'https://sn-gateway.herokuapp.com/user/logout',
     get_details: 'https://sn-gateway.herokuapp.com/user/details',
     create_room: 'https://sn-invite.herokuapp.com/create-room',
+    get_room: 'https://sn-game-na.herokuapp.com/get-room',
   };
 
   Fetcher.prototype.fetch = function (t, e, i) {
     if (t.includes('gateway.venge.io') || t.includes('matchmaking.venge.io')) {
       // We start doing business with the URL if it is gateway URL
       var params = new URLSearchParams(new URL(t).search);
+
+      // Remember hash if needed in case it's a room request
+      const roomHash = params.get('hash');
 
       // This does not work ATM.
       // Check if hash is needed
@@ -50,6 +54,12 @@ function modifyFetcher() {
       }
       // Update params
       var params = new URLSearchParams(new URL(t).search);
+
+      // Add room hash if needed
+      if (t.includes('get-room')) {
+        t += `/${roomHash}`;
+      }
+
       // Add hash if not present
       if (!params.get('hash')) {
         const hash = localStorage.getItem('Hash');
@@ -59,6 +69,7 @@ function modifyFetcher() {
           t += `?hash=${hash}`;
         }
       }
+
       // Delete hash if logging out
       if (t.includes('logout')) {
         localStorage.setItem('Hash', null);
