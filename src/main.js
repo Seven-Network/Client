@@ -1,7 +1,7 @@
 const { app, BrowserWindow, globalShortcut, clipboard } = require('electron');
 const path = require('path');
 const shortcut = require('electron-localshortcut');
-const RPC = require("discord-rpc");
+const RPC = require('discord-rpc');
 
 const isDev = require('electron-is-dev');
 
@@ -71,23 +71,23 @@ function createWindow() {
 }
 
 const rpc = new RPC.Client({
-  transport: "ipc"
+  transport: 'ipc',
 });
 
-rpc.on("ready", () => {
+rpc.on('ready', () => {
   rpc.setActivity({
-    details: "Playing on Seven Network",
-    state: "In Testing Phase",
+    details: 'Playing on Seven Network',
+    state: 'In Testing Phase',
     startTimestamp: new Date(),
-    largeImageKey: "Nothing",
-    largeImageText: "Testing Icon",
+    largeImageKey: 'Nothing',
+    largeImageText: 'Testing Icon',
   });
 
-  console.log("Rich presence should be now active");
+  console.log('Rich presence should be now active');
 });
 
 rpc.login({
-    clientId: "810864138837295125"
+  clientId: '810864138837295125',
 });
 
 app.whenReady().then(createWindow);
@@ -101,4 +101,5 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
-}});
+  }
+});
