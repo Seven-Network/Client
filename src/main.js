@@ -76,11 +76,11 @@ const rpc = new RPC.Client({
 
 rpc.on('ready', () => {
   rpc.setActivity({
-    details: 'Playing on Seven Network',
+    details: 'Currently playing',
     state: 'In Testing Phase',
     startTimestamp: new Date(),
-    largeImageKey: 'Nothing',
-    largeImageText: 'Testing Icon',
+    largeImageKey: 'logoclient',
+    largeImageText: 'Stop touching our Logo ;)',
   });
 
   console.log('Rich presence should be now active');
