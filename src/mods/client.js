@@ -315,10 +315,12 @@ function modifyMenuUI() {
     '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
   );
 
-  bannerEntity.enabled = false;
+  window.contentEntity = contentEntity;
+
+  bannerEntity.enabled = false; // Disable Ad banner
   contentEntity.setLocalPosition(0, -110, 0);
   contentEntity.element.margin = { w: 120, x: -460, y: -600, z: -460 };
-  contentEntity.children[0].children[2].enabled = false; //Social Links
+  contentEntity.children[0].children[2].enabled = false; // Social Links
   contentEntity.children[0].children[1].children[1].children[1].children[1].enabled = 0; //Quest Bar
   contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0; //Shop Notification (also called 'Slider')
   contentEntity.parent.children[2].children[1].children[0].element.width = 300;
@@ -344,14 +346,14 @@ function modifyInGameOverlay() {
     );
 
     if (ingameOverlay) {
-      //FPS Counter
+      // FPS Counter
       const fpsPingCounterEntity = pc.app.getEntityFromIndex(
         '2885c322-8cea-4b70-b591-89266a1bb5a0'
       );
       fpsPingCounterEntity.setLocalScale(1.5, 1.5, 1);
       fpsPingCounterEntity.element.color = { r: 0, g: 0.9, b: 0.9, a: 1 };
 
-      //Healht Bar
+      // Health Bar
       const healthBarEntity = pc.app.getEntityFromIndex(
         'd024dcbc-ab7c-4ab5-983e-47c86da9e017'
       );
@@ -361,28 +363,27 @@ function modifyInGameOverlay() {
         g: 0.75,
         b: 0.75,
         a: 1,
-      }; //Changes health bar color
+      }; // Changes health bar color
 
-      //Change Opacity of Scoreboards
+      // Change Opacity of Scoreboards
       const tabScoreboardEntity = pc.app.getEntityFromIndex(
         '907d5c7e-7daa-4663-a7e9-5807b0f17a74'
       );
       tabScoreboardEntity.children[0].element.opacity = 1;
 
-      //Pause Menu
+      // Pause Menu
       const ingameBannerEntity = pc.app.getEntityFromIndex(
         '274f775a-5d43-4147-8bbf-6db846f698c6'
       );
       ingameBannerEntity.enabled = false;
 
-      //Overall Pause Menu Rework
+      // Overall Pause Menu Rework
       const pauseMenuWeaponsEntity = pc.app.getEntityFromIndex(
         '677b52db-53b5-44fb-9c99-75733583d542'
       );
       const pauseMenuEntity = pc.app.getEntityFromIndex(
         '042afaa4-4432-4e25-845e-9a1a7eb897a1'
       );
-
       pauseMenuWeaponsEntity.enabled = false;
       pauseMenuEntity.element.margin = { x: -315, y: -180, z: -315, w: -210 };
       pauseMenuEntity.element.opacity = 0.8;
@@ -429,6 +430,55 @@ function modifyKeybinds() {
   };
 }
 
+function modifyRoomProperties() {
+  // Remove all Maps except Sierra & Xibalba for now
+  const mapSelectionPrivate = pc.app.getEntityFromIndex(
+    'a82cb119-ed8e-42ac-8ed9-6f82b4032fc1'
+  );
+  (mapSelectionPrivate.script.popup.itemNames = ['Sierra', 'Xibalba']),
+    (mapSelectionPrivate.script.popup.itemImages = [32202739, 32202738]);
+  window.mapSelectionPrivate = mapSelectionPrivate;
+  const mapSelectionPublic = pc.app.getEntityFromIndex(
+    'c9b08a93-b86e-4fdf-a9e5-2e447e73b641'
+  );
+  window.mapSelectionPublic = mapSelectionPublic;
+  mapSelectionPublic.script.scripts[1].data = `{
+      "maps": [{
+        "id": "Sierra",
+        "Image": "Sierra-512x.jpg",
+        "Title": "Sierra",
+        "Mode": "Point"
+      },
+      {
+        "id": "Xibalba",
+        "Image": "Xibalba-512x.jpg",
+        "Title": "Xibalba",
+        "Mode": "Point"
+      }]
+    }`;
+
+  // Changing player limit from 4 to 6
+  const playerLimit = pc.app.getEntityFromIndex(
+    'bf844e30-96d9-408b-8315-82f20348df96'
+  );
+  window.playerLimit = playerLimit;
+  playerLimit.element.text = '1 / 6';
+}
+
+function modifyRoomManagerInit() {
+  RoomManager.prototype.initialize = new Proxy(
+    RoomManager.prototype.initialize,
+    {
+      apply: (target, thisArg, args) => {
+        target.apply(thisArg, args);
+        thisArg.currentMaps = ['Sierra', 'Xibalba'];
+        thisArg.username = 'Unknown Guest';
+        thisArg.maxPlayers = 6;
+      },
+    }
+  );
+}
+
 function fixQuitLogic() {
   Player.prototype.onLeave = function () {
     this.app.mouse.disablePointerLock();
@@ -452,6 +502,7 @@ process.once('loaded', () => {
     modifyFetcher();
     websocketProxy();
     modifyKeybinds();
+    modifyRoomManagerInit();
     weaponSelectionFix();
     fixQuitLogic();
     allowSoloCustom();
@@ -466,5 +517,6 @@ process.once('loaded', () => {
 
   global.startInit = () => {
     addWeaponsToMainMenuSelector();
+    modifyRoomProperties();
   };
 });
