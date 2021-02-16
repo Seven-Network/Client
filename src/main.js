@@ -86,9 +86,15 @@ rpc.on('ready', () => {
   console.log('Rich presence should be now active');
 });
 
-rpc.login({
-  clientId: '810864138837295125',
-});
+rpc
+  .login({
+    clientId: '810864138837295125',
+  })
+  .catch((err) => {
+    console.log(
+      'Connection failed. Most likely is the user not running discord currently.'
+    );
+  });
 
 app.whenReady().then(createWindow);
 
