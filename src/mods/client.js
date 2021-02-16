@@ -137,7 +137,7 @@ function websocketProxy() {
   });
 }
 
-function addGGWeapons() {
+function addWeaponsToMainMenuSelector() {
   const weaponEnity = pc.app.getEntityFromIndex(
     '1a599c4d-e39b-40f8-b41e-a6a260acb9bb'
   );
@@ -161,7 +161,7 @@ function addGGWeapons() {
   ];
 }
 
-function setupGGWeapons() {
+function addWeaponsToMainMenuScene() {
   // You want to wait for Map:Loaded when doing
   // anything outside main menu
   // pc.app.on('Map:Loaded', () => {
@@ -246,7 +246,7 @@ function setupGGWeapons() {
   desertEntity.tags.add('Weapon');
 }
 
-function weaponSelectFix() {
+function weaponSelectionFix() {
   Menu.prototype.onWeaponSelect = function (e) {
     var t = this.weaponEntity.findByTag('Weapon'),
       n = this.app.assets.find(e + '-Thumbnail-White.png');
@@ -260,7 +260,7 @@ function weaponSelectFix() {
   };
 }
 
-function menuRework() {
+function modifyMenuUI() {
   const bannerEntity = pc.app.getEntityFromIndex(
     '2baa7f22-cb28-4cbb-a175-55b8d4385c6f'
   );
@@ -271,11 +271,116 @@ function menuRework() {
 
   bannerEntity.enabled = false;
   contentEntity.setLocalPosition(0, -110, 0);
-  contentEntity.setLocalScale(1.05, 1.05, 1.05);
   contentEntity.element.margin = { w: 120, x: -460, y: -600, z: -460 };
   contentEntity.children[0].children[2].enabled = false; //Social Links
   contentEntity.children[0].children[1].children[1].children[1].children[1].enabled = 0; //Quest Bar
   contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0; //Shop Notification (also called 'Slider')
+  contentEntity.parent.children[2].children[1].children[0].element.width = 300;
+  contentEntity.parent.children[2].children[1].children[0].element.height = 200;
+  contentEntity.parent.children[2].children[1].element.margin = {
+    x: 215,
+    y: -20,
+    z: -210,
+    w: -25,
+  };
+  contentEntity.parent.children[2].children[0].element.color = {
+    r: 0,
+    g: 0.5,
+    b: 0.5,
+    a: 1,
+  };
+}
+
+function modifyInGameOverlay() {
+  pc.app.on('Map:Loaded', () => {
+    const ingameOverlay = pc.app.getEntityFromIndex(
+      '9fcdea8c-ee29-403e-8e5b-0eddd1e548f6'
+    );
+
+    if (ingameOverlay) {
+      //FPS Counter
+      const fpsPingCounterEntity = pc.app.getEntityFromIndex(
+        '2885c322-8cea-4b70-b591-89266a1bb5a0'
+      );
+      fpsPingCounterEntity.setLocalScale(1.5, 1.5, 1);
+      fpsPingCounterEntity.element.color = { r: 0, g: 0.9, b: 0.9, a: 1 };
+
+      //Healht Bar
+      const healthBarEntity = pc.app.getEntityFromIndex(
+        'd024dcbc-ab7c-4ab5-983e-47c86da9e017'
+      );
+      healthBarEntity.setLocalScale(1.4, 1.4, 1);
+      healthBarEntity.children[2].children[0].element.color = {
+        r: 0,
+        g: 0.75,
+        b: 0.75,
+        a: 1,
+      }; //Changes health bar color
+
+      //Change Opacity of Scoreboards
+      const tabScoreboardEntity = pc.app.getEntityFromIndex(
+        '907d5c7e-7daa-4663-a7e9-5807b0f17a74'
+      );
+      tabScoreboardEntity.children[0].element.opacity = 1;
+
+      //Pause Menu
+      const ingameBannerEntity = pc.app.getEntityFromIndex(
+        '274f775a-5d43-4147-8bbf-6db846f698c6'
+      );
+      ingameBannerEntity.enabled = false;
+
+      //Overall Pause Menu Rework
+      const pauseMenuWeaponsEntity = pc.app.getEntityFromIndex(
+        '677b52db-53b5-44fb-9c99-75733583d542'
+      );
+      const pauseMenuEntity = pc.app.getEntityFromIndex(
+        '042afaa4-4432-4e25-845e-9a1a7eb897a1'
+      );
+
+      pauseMenuWeaponsEntity.enabled = false;
+      pauseMenuEntity.element.margin = { x: -315, y: -180, z: -315, w: -210 };
+      pauseMenuEntity.element.opacity = 0.8;
+      pauseMenuEntity.parent.element.opacity = 0;
+      pauseMenuEntity.element.opacity = 1;
+    }
+  });
+}
+
+function modifyKeybinds() {
+  Player.prototype.setKeyboard = function () {
+    return (
+      !pc.isFinished &&
+      'INPUT' != document.activeElement.tagName &&
+      !(
+        !this.isCardSelection &&
+        this.isMapLoaded &&
+        ('GUNGAME' != pc.currentMode &&
+          (this.app.keyboard.wasPressed(pc.KEY_1) && this.setWeapon('Scar'),
+          this.app.keyboard.wasPressed(pc.KEY_2) && this.setWeapon('Shotgun'),
+          this.app.keyboard.wasPressed(pc.KEY_3) && this.setWeapon('Sniper'),
+          this.app.keyboard.wasPressed(pc.KEY_4) && this.setWeapon('Tec-9'),
+          this.app.keyboard.wasPressed(pc.KEY_5) && this.setWeapon('M4'),
+          this.app.keyboard.wasPressed(pc.KEY_6) && this.setWeapon('LMG'),
+          this.app.keyboard.wasPressed(pc.KEY_7) &&
+            this.setWeapon('Desert-Eagle')),
+        this.isDeath && this.isCircularMenuActive)
+      ) &&
+      (this.isCardSelection &&
+        (this.app.keyboard.wasPressed(pc.KEY_1) && this.onBuyCard1(),
+        this.app.keyboard.wasPressed(pc.KEY_2) && this.onBuyCard2(),
+        this.app.keyboard.wasPressed(pc.KEY_3) && this.onBuyCard3()),
+      !this.movement.locked &&
+        (this.app.keyboard.wasPressed(pc.KEY_H) && this.emote(),
+        this.app.keyboard.wasPressed(pc.KEY_B) && this.buyAbility(),
+        this.app.keyboard.wasReleased(pc.KEY_B) && this.buyAbilityEnd(),
+        this.app.keyboard.wasPressed(pc.KEY_TAB) &&
+          this.app.fire('Overlay:PlayerStats', !0),
+        void (
+          this.app.keyboard.wasReleased(pc.KEY_TAB) &&
+          this.app.fire('Overlay:PlayerStats', !1)
+        )))
+    );
+  };
 }
 
 process.once('loaded', () => {
@@ -287,15 +392,17 @@ process.once('loaded', () => {
     allowSoloCustom();
     modifyFetcher();
     websocketProxy();
-    weaponSelectFix();
+    weaponSelectionFix();
+    modifyKeybinds();
   };
 
   global.mapInit = () => {
-    setupGGWeapons();
-    menuRework();
+    addWeaponsToMainMenuScene();
+    modifyMenuUI();
+    modifyInGameOverlay();
   };
 
   global.startInit = () => {
-    addGGWeapons();
+    addWeaponsToMainMenuSelector();
   };
 });
