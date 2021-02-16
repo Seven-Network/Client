@@ -76,19 +76,25 @@ const rpc = new RPC.Client({
 
 rpc.on('ready', () => {
   rpc.setActivity({
-    details: 'Playing on Seven Network',
+    details: 'Currently playing',
     state: 'In Testing Phase',
     startTimestamp: new Date(),
-    largeImageKey: 'Nothing',
-    largeImageText: 'Testing Icon',
+    largeImageKey: 'logoclient',
+    largeImageText: 'Stop touching our Logo ;)',
   });
 
   console.log('Rich presence should be now active');
 });
 
-rpc.login({
-  clientId: '810864138837295125',
-});
+rpc
+  .login({
+    clientId: '810864138837295125',
+  })
+  .catch((err) => {
+    console.log(
+      'Connection failed. Most likely is the user not running discord currently.'
+    );
+  });
 
 app.whenReady().then(createWindow);
 
