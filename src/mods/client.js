@@ -1,18 +1,3 @@
-function fixQuitLogic() {
-  Player.prototype.onLeave = function () {
-    this.app.mouse.disablePointerLock();
-    window.location.href = 'index.html';
-  };
-}
-
-function allowSoloCustom() {
-  RoomManager.prototype.onStart = function () {
-    this.app.fire('Analytics:Event', 'Invite', 'TriedToStart');
-    this.send([this.keys.start]);
-    this.app.fire('Analytics:Event', 'Invite', 'Start');
-  };
-}
-
 function modifyFetcher() {
   const requestMap = {
     create_account: 'https://sn-gateway.herokuapp.com/user/create',
@@ -135,6 +120,67 @@ function websocketProxy() {
       return instance;
     },
   });
+}
+
+function modifyLinkEntity() {
+  const copyLinkButtonEntity = pc.app.getEntityFromIndex(
+    'e205d856-7111-4a26-aecf-2c874f50c61c'
+  );
+  copyLinkButtonEntity.element.text = 'Copy ID';
+  RoomManager.prototype.onHashSet = function (t) {
+    if (t) {
+      var e = t.result.split('#');
+      window.location.hash = '#' + e[1];
+    }
+    this.sessionLink.script.input.element.value = window.location.href
+      .split('#')
+      .pop();
+  };
+  RoomManager.prototype.room = function (t) {
+    if (this.isStarted) return !1;
+    if (t.length > 0) {
+      var e = t[0],
+        i = t[1],
+        a = t[2],
+        n = t[3],
+        s = Math.min(e.length, this.maxPlayers);
+      if (
+        (i ||
+          (this.app.fire('View:Match', 'Room'),
+          this.app.fire('Analytics:Event', 'Invite', 'Join'),
+          n && this.start()),
+        e.length > 0)
+      ) {
+        (this.playersEntity.element.text = e.slice(0, 4).join(', ')),
+          (this.playerCountEntity.element.text = s + ' / ' + this.maxPlayers),
+          (this.invitePlayers.element.text = e.slice(0, 4).join(', ')),
+          (this.inviteCountEntity.element.text = s + ' / ' + this.maxPlayers),
+          (this.matchCountEntity.element.text = s + ' / ' + this.maxPlayers),
+          this.setFriendList(e);
+        var o = e.map(function (t) {
+          return { username: t };
+        });
+        this.app.fire('CustomList:Friends', { list: o }),
+          (this.currentUsernames = e);
+      }
+      this.sessionLink.script.input.element.value = window.location.href
+        .split('#')
+        .pop();
+      (pc.isOwner = i),
+        setTimeout(
+          function (t) {
+            console.log(t.isMatchmaking),
+              !a ||
+                n ||
+                t.isMatchmaking ||
+                t.app.fire('CustomChat:Match', { hash: t.roomId });
+          },
+          500,
+          this
+        ),
+        this.private([a]);
+    }
+  };
 }
 
 function addWeaponsToMainMenuSelector() {
@@ -383,23 +429,39 @@ function modifyKeybinds() {
   };
 }
 
+function fixQuitLogic() {
+  Player.prototype.onLeave = function () {
+    this.app.mouse.disablePointerLock();
+    window.location.href = 'index.html';
+  };
+}
+
+function allowSoloCustom() {
+  RoomManager.prototype.onStart = function () {
+    this.app.fire('Analytics:Event', 'Invite', 'TriedToStart');
+    this.send([this.keys.start]);
+    this.app.fire('Analytics:Event', 'Invite', 'Start');
+  };
+}
+
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
 
   global.clientInit = () => {
     window._messagePack = MessagePack.initialize(0xfff);
-    fixQuitLogic();
-    allowSoloCustom();
     modifyFetcher();
     websocketProxy();
-    weaponSelectionFix();
     modifyKeybinds();
+    weaponSelectionFix();
+    fixQuitLogic();
+    allowSoloCustom();
   };
 
   global.mapInit = () => {
     addWeaponsToMainMenuScene();
     modifyMenuUI();
     modifyInGameOverlay();
+    modifyLinkEntity();
   };
 
   global.startInit = () => {
