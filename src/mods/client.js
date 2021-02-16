@@ -395,6 +395,13 @@ function modifyInGameOverlay() {
       pauseMenuEntity.element.opacity = 0.8;
       pauseMenuEntity.parent.element.opacity = 0;
       pauseMenuEntity.element.opacity = 1;
+
+      //Viewmodel Position change
+      const modifyViewmodel = pc.app.getEntityFromIndex(
+        '63cc6332-bf3e-4da6-a11b-c467bead28a4'
+      );
+      window.modifyViewmodel = modifyViewmodel
+      modifyViewmodel.localPosition = {x: 0.45, y: 0.60, z: -0.50}
     }
   });
 }
