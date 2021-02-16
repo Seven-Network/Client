@@ -275,10 +275,20 @@ function modifyMenuUI() {
   contentEntity.children[0].children[2].enabled = false; //Social Links
   contentEntity.children[0].children[1].children[1].children[1].children[1].enabled = 0; //Quest Bar
   contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0; //Shop Notification (also called 'Slider')
-  contentEntity.parent.children[2].children[1].children[0].element.width = 300
-  contentEntity.parent.children[2].children[1].children[0].element.height = 200
-  contentEntity.parent.children[2].children[1].element.margin = {x: 215, y: -20, z: -210, w: -25} 
-  contentEntity.parent.children[2].children[0].element.color = {r: 0, g: 0.5, b: 0.5, a: 1} 
+  contentEntity.parent.children[2].children[1].children[0].element.width = 300;
+  contentEntity.parent.children[2].children[1].children[0].element.height = 200;
+  contentEntity.parent.children[2].children[1].element.margin = {
+    x: 215,
+    y: -20,
+    z: -210,
+    w: -25,
+  };
+  contentEntity.parent.children[2].children[0].element.color = {
+    r: 0,
+    g: 0.5,
+    b: 0.5,
+    a: 1,
+  };
 }
 
 function modifyInGameOverlay() {
@@ -329,9 +339,9 @@ function modifyInGameOverlay() {
 
       pauseMenuWeaponsEntity.enabled = false;
       pauseMenuEntity.element.margin = { x: -315, y: -180, z: -315, w: -210 };
-      pauseMenuEntity.element.opacity = 0.8
-      pauseMenuEntity.parent.element.opacity = 0
-      pauseMenuEntity.element.opacity = 1
+      pauseMenuEntity.element.opacity = 0.8;
+      pauseMenuEntity.parent.element.opacity = 0;
+      pauseMenuEntity.element.opacity = 1;
     }
   });
 }
