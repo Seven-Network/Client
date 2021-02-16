@@ -271,11 +271,14 @@ function menuRework() {
 
   bannerEntity.enabled = false;
   contentEntity.setLocalPosition(0, -110, 0);
-  contentEntity.setLocalScale(1.05, 1.05, 1.05);
   contentEntity.element.margin = { w: 120, x: -460, y: -600, z: -460 };
   contentEntity.children[0].children[2].enabled = false; //Social Links
   contentEntity.children[0].children[1].children[1].children[1].children[1].enabled = 0; //Quest Bar
   contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0; //Shop Notification (also called 'Slider')
+  contentEntity.parent.children[2].children[1].children[0].element.width = 300
+  contentEntity.parent.children[2].children[1].children[0].element.height = 200
+  contentEntity.parent.children[2].children[1].element.margin = {x: 215, y: -20, z: -210, w: -25} 
+  contentEntity.parent.children[2].children[0].element.color = {r: 0, g: 0.5, b: 0.5, a: 1} 
 }
 
 function ingameRework() {
@@ -283,8 +286,6 @@ function ingameRework() {
     const ingameOverlay = pc.app.getEntityFromIndex(
       '9fcdea8c-ee29-403e-8e5b-0eddd1e548f6'
     );
-
-    window.ingameOverlay = ingameOverlay;
 
     if (ingameOverlay) {
       //FPS Counter
@@ -331,9 +332,6 @@ function ingameRework() {
       pauseMenuEntity.element.opacity = 0.8
       pauseMenuEntity.parent.element.opacity = 0
       pauseMenuEntity.element.opacity = 1
-
-      window.pauseMenuWeaponsEntity = pauseMenuWeaponsEntity;
-      window.pauseMenuEntity = pauseMenuEntity;
     }
   });
 }
