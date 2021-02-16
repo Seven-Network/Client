@@ -127,15 +127,19 @@ function modifyLinkEntity() {
     'e205d856-7111-4a26-aecf-2c874f50c61c'
   );
   copyLinkButtonEntity.element.text = 'Copy ID';
+
   RoomManager.prototype.onHashSet = function (t) {
     if (t) {
       var e = t.result.split('#');
       window.location.hash = '#' + e[1];
     }
-    this.sessionLink.script.input.element.value = window.location.href
-      .split('#')
-      .pop();
+    if (this.sessionLink.script.input.element) {
+      this.sessionLink.script.input.element.value = window.location.href
+        .split('#')
+        .pop();
+    }
   };
+
   RoomManager.prototype.room = function (t) {
     if (this.isStarted) return !1;
     if (t.length > 0) {
@@ -163,9 +167,11 @@ function modifyLinkEntity() {
         this.app.fire('CustomList:Friends', { list: o }),
           (this.currentUsernames = e);
       }
-      this.sessionLink.script.input.element.value = window.location.href
-        .split('#')
-        .pop();
+      if (this.sessionLink.script.input.element) {
+        this.sessionLink.script.input.element.value = window.location.href
+          .split('#')
+          .pop();
+      }
       (pc.isOwner = i),
         setTimeout(
           function (t) {
