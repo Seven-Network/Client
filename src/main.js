@@ -35,6 +35,10 @@ function createWindow() {
     win.loadFile('src/public/index.html');
   });
 
+  shortcut.register(win, 'F2', () => {
+    win.webContents.executeJavaScript('toggleJoinPanel()');
+  });
+
   shortcut.register(win, 'F3', () => {
     var game = win.webContents.getURL().split('#').pop();
     var url = 'https://venge.io/#' + game;

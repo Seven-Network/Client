@@ -1,45 +1,234 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Venge.io</title>
 
-    <meta name="description" content="Venge is an objective-based first-person shooter. Every match is an intense unique experience with the ability cards that you can get in the game. Play it on browser, no download, and free!">
+    <meta
+      name="description"
+      content="Venge is an objective-based first-person shooter. Every match is an intense unique experience with the ability cards that you can get in the game. Play it on browser, no download, and free!"
+    />
 
-    <meta name="keywords" content="multiplayer, io, 3D Shooter, objective-based, FPS, no download, browser game, game, web game">
+    <meta
+      name="keywords"
+      content="multiplayer, io, 3D Shooter, objective-based, FPS, no download, browser game, game, web game"
+    />
 
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="website" />
 
-    <meta property="og:title" content="Play Venge.io!">
-    <meta property="og:description" content="Click on this link to start a game with your friend! Venge is an objective-based first-person shooter. Play it on browser, no download, and free!">
-    
-    <meta property="og:site_name" content="venge.io">
+    <meta property="og:title" content="Play Venge.io!" />
+    <meta
+      property="og:description"
+      content="Click on this link to start a game with your friend! Venge is an objective-based first-person shooter. Play it on browser, no download, and free!"
+    />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <meta property="og:site_name" content="venge.io" />
 
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+    />
+
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+
     <script type="text/javascript">
-        var VERSION = '332fd8';
-        var VERSION_CODE = '0.0.6';
+      var VERSION = '332fd8';
+      var VERSION_CODE = '0.0.6';
     </script>
 
     <script type="text/javascript" src="adblock.js"></script>
 
     <script src="playcanvas-stable.min.js?v=1.0.67"></script>
     <script src="__settings__.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <script src="__modules__.js"></script>
     <script src="__start__.js"></script>
     <script src="__loading__.js?v=1.5"></script>
 
     <div id="preroll"></div>
 
-    <div id="about" style="display: none;">
-        <p>Venge.io is an online shooter where you will be playing against real players from all around the world in an arena. There are several weapons to choose from such as Scar, Shotgun, Tec-9 and even a Sniper rifle!</p>
+    <div id="about" style="display: none">
+      <p>
+        Venge.io is an online shooter where you will be playing against real
+        players from all around the world in an arena. There are several weapons
+        to choose from such as Scar, Shotgun, Tec-9 and even a Sniper rifle!
+      </p>
 
-        <p>You must find the green areas on the map and capture that area before your opponents do. By capturing the area you will receive special skill cards that you can use, to improve your equipment and make you stronger.</p>
+      <p>
+        You must find the green areas on the map and capture that area before
+        your opponents do. By capturing the area you will receive special skill
+        cards that you can use, to improve your equipment and make you stronger.
+      </p>
     </div>
-</body>
+
+    <div id="snc-join-wrapper" class="snc-join-wrapper">
+      <form id="snc-join" class="snc-join">
+        <h2>Join Game</h2>
+        <input
+          id="join-game-input"
+          type="text"
+          class="join-game-input"
+          placeholder="Game ID"
+        />
+        <button class="join-game-button">Join Game</button>
+      </form>
+    </div>
+
+    <style>
+      .snc-join-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        height: 100vh;
+        width: 100vw;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .snc-join {
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+        align-items: center;
+
+        height: 200px;
+        width: 700px;
+
+        background-color: #fff;
+
+        box-sizing: border-box;
+
+        padding: 40px;
+      }
+
+      .snc-enter {
+        animation: snc-enter 0.5s ease-out;
+      }
+
+      .snc-leave {
+        animation: snc-leave 0.5s ease-in;
+      }
+
+      .snc-fade-in {
+        animation: snc-fade-in 0.5s;
+      }
+
+      .snc-fade-out {
+        animation: snc-fade-out 0.5s;
+      }
+
+      .snc-join h2 {
+        width: 100%;
+      }
+
+      .join-game-input {
+        padding: 5px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .join-game-button {
+        margin: 20px;
+        padding: 5px 20px !important;
+        font-size: 13px;
+      }
+
+      @keyframes snc-fade-in {
+        0% {
+          opacity: 0;
+        }
+
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes snc-fade-out {
+        0% {
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @keyframes snc-enter {
+        0% {
+          transform: translateY(1500px);
+        }
+
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes snc-leave {
+        0% {
+          transform: translateY(0);
+        }
+
+        100% {
+          transform: translateY(1500px);
+        }
+      }
+    </style>
+
+    <script>
+      const sncJoinElement = document.getElementById('snc-join');
+      const sncJoinWrapperElement = document.getElementById('snc-join-wrapper');
+      const joinGameInputElement = document.getElementById('join-game-input');
+      const joinGameButtonElement = document.getElementById('join-game-button');
+
+      var joinPanelEnabled = false;
+
+      sncJoinWrapperElement.style.display = 'none';
+
+      function enableJoinPanel() {
+        joinPanelEnabled = true;
+        sncJoinWrapperElement.style.display = 'flex';
+        joinGameInputElement.focus();
+        sncJoinElement.classList.add('snc-enter');
+        sncJoinWrapperElement.classList.add('snc-fade-in');
+        setTimeout(() => {
+          sncJoinElement.classList.remove('snc-enter');
+          sncJoinWrapperElement.classList.remove('snc-fade-in');
+        }, 500);
+      }
+
+      function disableJoinPanel() {
+        joinPanelEnabled = false;
+        joinGameInputElement.value = '';
+        sncJoinElement.classList.add('snc-leave');
+        sncJoinWrapperElement.classList.add('snc-fade-out');
+        setTimeout(() => {
+          sncJoinElement.classList.remove('snc-leave');
+          sncJoinWrapperElement.classList.remove('snc-fade-out');
+          sncJoinWrapperElement.style.display = 'none';
+        }, 500);
+      }
+
+      function toggleJoinPanel() {
+        joinPanelEnabled ? disableJoinPanel() : enableJoinPanel();
+      }
+
+      sncJoinElement.onsubmit = (event) => {
+        event.preventDefault();
+        window.location.href = `index.html#${joinGameInputElement.value}`;
+        disableJoinPanel();
+      };
+
+      joinGameButtonElement.addEventListener('click', (_) => {
+        sncJoinElement.submit();
+      });
+    </script>
+  </body>
 </html>
