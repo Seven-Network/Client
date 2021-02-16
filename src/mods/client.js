@@ -269,7 +269,9 @@ function modifyMenuUI() {
     '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
   );
 
-  bannerEntity.enabled = false;
+  window.contentEntity = contentEntity;
+
+  bannerEntity.enabled = false; //Disable Ad banner
   contentEntity.setLocalPosition(0, -110, 0);
   contentEntity.element.margin = { w: 120, x: -460, y: -600, z: -460 };
   contentEntity.children[0].children[2].enabled = false; //Social Links
@@ -336,7 +338,6 @@ function modifyInGameOverlay() {
       const pauseMenuEntity = pc.app.getEntityFromIndex(
         '042afaa4-4432-4e25-845e-9a1a7eb897a1'
       );
-
       pauseMenuWeaponsEntity.enabled = false;
       pauseMenuEntity.element.margin = { x: -315, y: -180, z: -315, w: -210 };
       pauseMenuEntity.element.opacity = 0.8;
@@ -383,6 +384,99 @@ function modifyKeybinds() {
   };
 }
 
+function modifyRoomPropertise() {
+    //Remove all Maps except Sierra & Xibalba for now
+    const mapSelectionPrivate = pc.app.getEntityFromIndex(
+      'a82cb119-ed8e-42ac-8ed9-6f82b4032fc1'
+    );
+    (mapSelectionPrivate.script.popup.itemNames = ["Sierra", "Xibalba"]),
+      (mapSelectionPrivate.script.popup.itemImages = [32202739, 32202738]);
+      window.mapSelectionPrivate = mapSelectionPrivate
+    const mapSelectionPublic = pc.app.getEntityFromIndex(
+      'c9b08a93-b86e-4fdf-a9e5-2e447e73b641'
+    )
+    window.mapSelectionPublic = mapSelectionPublic
+    mapSelectionPublic.script.scripts[1].data = `{
+      "maps": [{
+        "id": "Sierra",
+        "Image": "Sierra-512x.jpg",
+        "Title": "Sierra",
+        "Mode": "Point"
+      },
+      {
+        "id": "Xibalba",
+        "Image": "Xibalba-512x.jpg",
+        "Title": "Xibalba",
+        "Mode": "Point"
+      }]
+    }`;
+  
+    //Changing player limit from 4 to 6
+    const playerLimit = pc.app.getEntityFromIndex(
+      'bf844e30-96d9-408b-8315-82f20348df96'
+    );
+    window.playerLimit = playerLimit;
+    playerLimit.element.text = '1 / 6';
+}
+
+function modifyMenuInit() {
+  RoomManager.prototype.initialize = function () {
+    'undefined' != typeof VERSION && (this.isDebug = !1),
+      (this.currentUsernames = []),
+      (this.currentMap = 'Sierra'),
+      (this.currentMaps = ['Sierra', 'Xibalba']),
+      (this.currentServer = 'EU'),
+      (this.lastTickTime = Date.now()),
+      (this.lastSelfTime = Date.now()),
+      this.setRoomSettings(),
+      (this.friends = []),
+      (this.isSpectator = !1),
+      (this.isStarted = !1),
+      (this.waitingForInfo = !1),
+      (this.time = 0),
+      (this.totalTime = 0),
+      (this.ws = !1),
+      (this.username = 'Unknown Guest'),
+      (this.pack = MessagePack.initialize(4194304)),
+      (this.maxPlayers = 6),
+      (this.isMatchmaking = !1),
+      (this.isMatchmakingStarted = !1),
+      (window.onhashchange = this.reconnect.bind(this)),
+      this.reconnect(),
+      this.app.on('RoomManager:Preroll', this.onPreroll, this),
+      this.app.on('RoomManager:Copy', this.onCopy, this),
+      this.app.on('RoomManager:Match', this.onMatchSet, this),
+      this.app.on('RoomManager:Matchmaking', this.matchmaking, this),
+      this.app.on('RoomManager:Hash', this.onHashSet, this),
+      this.app.on('RoomManager:Leave', this.onLeave, this),
+      this.app.on('RoomManager:Private', this.onPrivateChange, this),
+      this.app.on('RoomManager:Start', this.onStart, this),
+      this.app.on('RoomManager:Map', this.onMapSelection, this),
+      this.app.on('RoomManager:Maps', this.onMapsSelection, this),
+      this.app.on('RoomManager:SetServer', this.onServerSelection, this),
+      this.app.on('RoomManager:Rematchmaking', this.rematchmaking, this),
+      this.app.on('Game:Found', this.onGameFound, this),
+      this.app.on('Template:Profile', this.setProfile, this),
+      this.app.on('Server:Tick', this.onServerTick, this),
+      this.app.on('RoomManager:CreateInvite', this.onCreateInvite, this),
+      (this.timer = setInterval(
+        function (t) {
+          !0 === t.isMatchmakingStarted &&
+            (t.time > -1 &&
+              (t.time > 15 && (t.matchEstEntity.element.text = Utils.mmss(50)),
+              t.time > 50 && (t.matchEstEntity.element.text = Utils.mmss(120)),
+              (t.matchTimeEntity.element.text = Utils.mmss(t.totalTime)),
+              t.totalTime++,
+              t.time++),
+            t.time > 20 && t.rematchmaking());
+        },
+        1e3,
+        this
+      )),
+      this.app.on(atob('TmV0d29yazpHdWFyZA=='), this.onSelfTime, this);
+  };
+}
+
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
 
@@ -394,6 +488,7 @@ process.once('loaded', () => {
     websocketProxy();
     weaponSelectionFix();
     modifyKeybinds();
+    modifyMenuInit();
   };
 
   global.mapInit = () => {
@@ -404,5 +499,6 @@ process.once('loaded', () => {
 
   global.startInit = () => {
     addWeaponsToMainMenuSelector();
+    modifyRoomPropertise();
   };
 });
