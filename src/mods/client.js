@@ -317,10 +317,10 @@ function modifyMenuUI() {
 
   window.contentEntity = contentEntity;
 
-  bannerEntity.enabled = false; //Disable Ad banner
+  bannerEntity.enabled = false; // Disable Ad banner
   contentEntity.setLocalPosition(0, -110, 0);
   contentEntity.element.margin = { w: 120, x: -460, y: -600, z: -460 };
-  contentEntity.children[0].children[2].enabled = false; //Social Links
+  contentEntity.children[0].children[2].enabled = false; // Social Links
   contentEntity.children[0].children[1].children[1].children[1].children[1].enabled = 0; //Quest Bar
   contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0; //Shop Notification (also called 'Slider')
   contentEntity.parent.children[2].children[1].children[0].element.width = 300;
@@ -346,14 +346,14 @@ function modifyInGameOverlay() {
     );
 
     if (ingameOverlay) {
-      //FPS Counter
+      // FPS Counter
       const fpsPingCounterEntity = pc.app.getEntityFromIndex(
         '2885c322-8cea-4b70-b591-89266a1bb5a0'
       );
       fpsPingCounterEntity.setLocalScale(1.5, 1.5, 1);
       fpsPingCounterEntity.element.color = { r: 0, g: 0.9, b: 0.9, a: 1 };
 
-      //Healht Bar
+      // Health Bar
       const healthBarEntity = pc.app.getEntityFromIndex(
         'd024dcbc-ab7c-4ab5-983e-47c86da9e017'
       );
@@ -363,21 +363,21 @@ function modifyInGameOverlay() {
         g: 0.75,
         b: 0.75,
         a: 1,
-      }; //Changes health bar color
+      }; // Changes health bar color
 
-      //Change Opacity of Scoreboards
+      // Change Opacity of Scoreboards
       const tabScoreboardEntity = pc.app.getEntityFromIndex(
         '907d5c7e-7daa-4663-a7e9-5807b0f17a74'
       );
       tabScoreboardEntity.children[0].element.opacity = 1;
 
-      //Pause Menu
+      // Pause Menu
       const ingameBannerEntity = pc.app.getEntityFromIndex(
         '274f775a-5d43-4147-8bbf-6db846f698c6'
       );
       ingameBannerEntity.enabled = false;
 
-      //Overall Pause Menu Rework
+      // Overall Pause Menu Rework
       const pauseMenuWeaponsEntity = pc.app.getEntityFromIndex(
         '677b52db-53b5-44fb-9c99-75733583d542'
       );
@@ -430,8 +430,8 @@ function modifyKeybinds() {
   };
 }
 
-function modifyRoomPropertise() {
-  //Remove all Maps except Sierra & Xibalba for now
+function modifyRoomProperties() {
+  // Remove all Maps except Sierra & Xibalba for now
   const mapSelectionPrivate = pc.app.getEntityFromIndex(
     'a82cb119-ed8e-42ac-8ed9-6f82b4032fc1'
   );
@@ -457,7 +457,7 @@ function modifyRoomPropertise() {
       }]
     }`;
 
-  //Changing player limit from 4 to 6
+  // Changing player limit from 4 to 6
   const playerLimit = pc.app.getEntityFromIndex(
     'bf844e30-96d9-408b-8315-82f20348df96'
   );
@@ -465,62 +465,18 @@ function modifyRoomPropertise() {
   playerLimit.element.text = '1 / 6';
 }
 
-function modifyMenuInit() {
-  RoomManager.prototype.initialize = function () {
-    'undefined' != typeof VERSION && (this.isDebug = !1),
-      (this.currentUsernames = []),
-      (this.currentMap = 'Sierra'),
-      (this.currentMaps = ['Sierra', 'Xibalba']),
-      (this.currentServer = 'EU'),
-      (this.lastTickTime = Date.now()),
-      (this.lastSelfTime = Date.now()),
-      this.setRoomSettings(),
-      (this.friends = []),
-      (this.isSpectator = !1),
-      (this.isStarted = !1),
-      (this.waitingForInfo = !1),
-      (this.time = 0),
-      (this.totalTime = 0),
-      (this.ws = !1),
-      (this.username = 'Unknown Guest'),
-      (this.pack = MessagePack.initialize(4194304)),
-      (this.maxPlayers = 6),
-      (this.isMatchmaking = !1),
-      (this.isMatchmakingStarted = !1),
-      (window.onhashchange = this.reconnect.bind(this)),
-      this.reconnect(),
-      this.app.on('RoomManager:Preroll', this.onPreroll, this),
-      this.app.on('RoomManager:Copy', this.onCopy, this),
-      this.app.on('RoomManager:Match', this.onMatchSet, this),
-      this.app.on('RoomManager:Matchmaking', this.matchmaking, this),
-      this.app.on('RoomManager:Hash', this.onHashSet, this),
-      this.app.on('RoomManager:Leave', this.onLeave, this),
-      this.app.on('RoomManager:Private', this.onPrivateChange, this),
-      this.app.on('RoomManager:Start', this.onStart, this),
-      this.app.on('RoomManager:Map', this.onMapSelection, this),
-      this.app.on('RoomManager:Maps', this.onMapsSelection, this),
-      this.app.on('RoomManager:SetServer', this.onServerSelection, this),
-      this.app.on('RoomManager:Rematchmaking', this.rematchmaking, this),
-      this.app.on('Game:Found', this.onGameFound, this),
-      this.app.on('Template:Profile', this.setProfile, this),
-      this.app.on('Server:Tick', this.onServerTick, this),
-      this.app.on('RoomManager:CreateInvite', this.onCreateInvite, this),
-      (this.timer = setInterval(
-        function (t) {
-          !0 === t.isMatchmakingStarted &&
-            (t.time > -1 &&
-              (t.time > 15 && (t.matchEstEntity.element.text = Utils.mmss(50)),
-              t.time > 50 && (t.matchEstEntity.element.text = Utils.mmss(120)),
-              (t.matchTimeEntity.element.text = Utils.mmss(t.totalTime)),
-              t.totalTime++,
-              t.time++),
-            t.time > 20 && t.rematchmaking());
-        },
-        1e3,
-        this
-      )),
-      this.app.on(atob('TmV0d29yazpHdWFyZA=='), this.onSelfTime, this);
-  };
+function modifyRoomManagerInit() {
+  RoomManager.prototype.initialize = new Proxy(
+    RoomManager.prototype.initialize,
+    {
+      apply: (target, thisArg, args) => {
+        target.apply(thisArg, args);
+        thisArg.currentMaps = ['Sierra', 'Xibalba'];
+        thisArg.username = 'Unknown Guest';
+        thisArg.maxPlayers = 6;
+      },
+    }
+  );
 }
 
 function fixQuitLogic() {
@@ -546,7 +502,7 @@ process.once('loaded', () => {
     modifyFetcher();
     websocketProxy();
     modifyKeybinds();
-    modifyMenuInit();
+    modifyRoomManagerInit();
     weaponSelectionFix();
     fixQuitLogic();
     allowSoloCustom();
@@ -561,6 +517,6 @@ process.once('loaded', () => {
 
   global.startInit = () => {
     addWeaponsToMainMenuSelector();
-    modifyRoomPropertise();
+    modifyRoomProperties();
   };
 });
