@@ -5,14 +5,14 @@ const RPC = require('discord-rpc');
 
 const isDev = require('electron-is-dev');
 
-app.commandLine.appendSwitch('high-dpi-support', 1);
-app.commandLine.appendSwitch('disable-frame-rate-limit');
-app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
-app.commandLine.appendSwitch('disable-accelerated-video-decode', false);
-app.commandLine.appendSwitch('disable-gpu-vsync');
-app.commandLine.appendSwitch('ignore-gpu-blacklist');
-app.commandLine.appendSwitch('enable-quic');
-app.commandLine.appendSwitch('enable-pointer-lock-options');
+// app.commandLine.appendSwitch('high-dpi-support', 1);
+// // app.commandLine.appendSwitch('disable-frame-rate-limit');
+// app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+// app.commandLine.appendSwitch('disable-accelerated-video-decode', false);
+// app.commandLine.appendSwitch('disable-gpu-vsync');
+// app.commandLine.appendSwitch('ignore-gpu-blacklist');
+// app.commandLine.appendSwitch('enable-quic');
+// app.commandLine.appendSwitch('enable-pointer-lock-options');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -33,6 +33,10 @@ function createWindow() {
 
   shortcut.register(win, 'F1', () => {
     win.loadFile('src/public/index.html');
+  });
+
+  shortcut.register(win, 'F2', () => {
+    win.webContents.executeJavaScript('toggleJoinPanel()');
   });
 
   shortcut.register(win, 'F3', () => {
