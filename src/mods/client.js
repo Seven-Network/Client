@@ -400,8 +400,8 @@ function modifyInGameOverlay() {
       const modifyViewmodel = pc.app.getEntityFromIndex(
         '63cc6332-bf3e-4da6-a11b-c467bead28a4'
       );
-      window.modifyViewmodel = modifyViewmodel
-      modifyViewmodel.localPosition = {x: 0.45, y: 0.60, z: -0.50}
+      window.modifyViewmodel = modifyViewmodel;
+      modifyViewmodel.localPosition = { x: 0.45, y: 0.6, z: -0.5 };
     }
   });
 }
@@ -507,6 +507,98 @@ function allowSoloCustom() {
   };
 }
 
+function removeReminder() {
+  Player.prototype.onKill = function (t, e) {
+    this.emoteReminder ||
+      'Suicide' == e ||
+      'FirstBlood' == e ||
+      Math.random() > 0.5((this.emoteReminder = !0)),
+      this.app.fire('Player:Frag', !0),
+      'Capture' != e &&
+        'Suicide' != e &&
+        (this.killCount++, this.app.fire('Digit:KillCount', this.killCount)),
+      setTimeout(
+        function (t) {
+          t.movement.inspect();
+        },
+        1e3,
+        this
+      );
+  };
+}
+
+function resultFunctionRework() {
+  NetworkManager.prototype.finish = function (e) {
+    if (
+      (this.app.fire('Game:Overtime', !1),
+      this.app.fire('Analytics:GameplayStop', !0),
+      e.length > 0)
+    ) {
+      var t = 'none',
+        a = e[0];
+      for (var i in a) {
+        var r = a[i];
+        r.id == this.playerId ? ((r.isMe = !0), (t = r.team)) : (r.isMe = !1);
+      }
+      (pc.stats = a),
+        'FFA' == pc.currentMode ||
+        'POINT' == pc.currentMode ||
+        'LASTMANSTANDING' == pc.currentMode ||
+        'GUNGAME' == pc.currentMode ||
+        'BLACKCOIN' == pc.currentMode
+          ? !0 === a[0].isMe
+            ? (pc.isVictory = !0)
+            : (pc.isVictory = !1)
+          : 'PAYLOAD' == pc.currentMode &&
+            (('red' == t && this.payloadPercentage < 0.5) ||
+            ('blue' == t && this.payloadPercentage >= 0.5)
+              ? (pc.isVictory = !0)
+              : (pc.isVictory = !1));
+      var s = '1.0.0';
+      'undefined' != typeof VERSION && (s = VERSION);
+      //var o = this.app.scenes.find('MVP'); //Changes this later for the new map
+      var o = this.app.scenes.find('Result');
+      this.app.scenes.loadSceneHierarchy(o.url + '?v=' + s, (err, entity) => {
+        console.log(pc.currentMap);
+        resultScreenMaps();
+        /*newResultScreen(); //Not done yet
+        if ((pc.currentMap = 'Sierra')) {
+        } else if ((pc.currentMap = 'Xibalba')) {
+        } else {
+          console.log('what fucking map is this???');
+        }*/
+      }),
+        (window.onbeforeunload = !1);
+    }
+  };
+}
+
+function resultScreenMaps() {
+  const mapSelection = pc.app.getEntityFromIndex(
+    '5f4f73be-e309-4151-871c-e04c60158d78'
+  )
+  window.mapSelection = mapSelection
+}
+/*function newResultScreen() { //Not done yet
+  // This should be loaded when match ends. No global init for it still
+  const mvpMode = pc.app.getEntityFromIndex(
+    '5a7daafc-cd66-44f8-9d6c-40e61db2c491'
+  );
+  mvpMode.enabled = false;
+  const mvpCamera = pc.app.getEntityFromIndex(
+    'f1e215cf-dd4d-41e9-9249-9d858ae1fbcf'
+  );
+  mvpCamera.enabled = false;
+  const mvpOverlay = pc.app.getEntityFromIndex(
+    'ecaf0684-09ca-4b0e-869a-02edbe1e3f9d'
+  );
+  mvpOverlay.enabled = true;
+  const mvpMap = pc.app.getEntityFromIndex(
+    '31e1399c-bd98-4ace-a4b9-6736258d913a'
+  );
+  mvpMap.enabled = false;
+}*/
+
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
 
@@ -519,6 +611,7 @@ process.once('loaded', () => {
     weaponSelectionFix();
     fixQuitLogic();
     allowSoloCustom();
+    resultFunctionRework();
   };
 
   global.mapInit = () => {
@@ -526,6 +619,7 @@ process.once('loaded', () => {
     modifyMenuUI();
     modifyInGameOverlay();
     modifyLinkEntity();
+    removeReminder();
   };
 
   global.startInit = () => {
