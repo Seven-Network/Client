@@ -101,7 +101,7 @@ function websocketProxy() {
 
       const instance = new target(...args);
 
-      const messageHandler = function (event) {
+      const messageHandler = function (_) {
         if (instance.url.includes('sn-invite.herokuapp.com')) {
           if (window.ipinterv) return;
           window.ipinterv = setInterval(() => {
@@ -400,8 +400,8 @@ function modifyInGameOverlay() {
       const modifyViewmodel = pc.app.getEntityFromIndex(
         '63cc6332-bf3e-4da6-a11b-c467bead28a4'
       );
-      window.modifyViewmodel = modifyViewmodel
-      modifyViewmodel.localPosition = {x: 0.45, y: 0.60, z: -0.50}
+      window.modifyViewmodel = modifyViewmodel;
+      modifyViewmodel.localPosition = { x: 0.45, y: 0.6, z: -0.5 };
     }
   });
 }
