@@ -16,8 +16,8 @@ app.commandLine.appendSwitch('enable-pointer-lock-options');
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    width: 1280,
+    height: 720,
     webPreferences: {
       nodeIntegration: true,
       devTools: isDev,
