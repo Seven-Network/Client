@@ -101,7 +101,7 @@ function websocketProxy() {
 
       const instance = new target(...args);
 
-      const messageHandler = function (event) {
+      const messageHandler = function (_) {
         if (instance.url.includes('sn-invite.herokuapp.com')) {
           if (window.ipinterv) return;
           window.ipinterv = setInterval(() => {
