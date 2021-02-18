@@ -343,7 +343,7 @@ function modifyMenuUI() {
     b: 0.3,
     a: 1,
   };
-  contentEntity.parent.children[2].children[0].element.opacity = 0.3
+  contentEntity.parent.children[2].children[0].element.opacity = 0.3;
 }
 
 function modifyInGameOverlay() {
@@ -450,13 +450,13 @@ function modifyRoomProperties() {
     'a82cb119-ed8e-42ac-8ed9-6f82b4032fc1'
   );
   //(mapSelectionPrivate.script.popup.itemNames = ['Sierra', 'Xibalba']),
-    //(mapSelectionPrivate.script.popup.itemImages = [32202739, 32202738]);
+  //(mapSelectionPrivate.script.popup.itemImages = [32202739, 32202738]);
   window.mapSelectionPrivate = mapSelectionPrivate;
   const mapSelectionPublic = pc.app.getEntityFromIndex(
     'c9b08a93-b86e-4fdf-a9e5-2e447e73b641'
   );
   window.mapSelectionPublic = mapSelectionPublic;
-mapSelectionPublic.script.scripts[1].data = `{
+  mapSelectionPublic.script.scripts[1].data = `{
   "maps": [
     {
       "id": "Sierra",
@@ -491,6 +491,20 @@ mapSelectionPublic.script.scripts[1].data = `{
   ]
 }`;
 
+  const privateMapName = pc.app.getEntityFromIndex(
+    '55c52f02-b451-4e2a-8f0b-4a04bee3814e'
+  );
+  window.privateMapName = privateMapName
+  privateMapName.script.scripts[1].transformers = [
+    {input: "Sierra", output: "Sierra - FFA"},
+    {input: "Xibalba", output: "Xibalba - FFA"},
+    {input: "Mistle", output: "Mistle - FFA"},
+    {input: "Tundra", output: "Tundra - FFA"},
+    {input: "Temple", output: "Temple - FFA"}]
+
+  privateMapName.element.text = "Sierra - FFA"
+
+
   // Changing player limit from 4 to 6
   const playerLimit = pc.app.getEntityFromIndex(
     'bf844e30-96d9-408b-8315-82f20348df96'
@@ -505,7 +519,13 @@ function modifyRoomManagerInit() {
     {
       apply: (target, thisArg, args) => {
         target.apply(thisArg, args);
-        thisArg.currentMaps = ['Sierra', 'Xibalba', 'Mistle', 'Tundra', 'Temple'];
+        thisArg.currentMaps = [
+          'Sierra',
+          'Xibalba',
+          'Mistle',
+          'Tundra',
+          'Temple',
+        ];
         thisArg.username = 'Unknown Guest';
         thisArg.maxPlayers = 6;
       },
@@ -597,9 +617,9 @@ function resultFunctionRework() {
 function resultScreenMaps() {
   const mapSelection = pc.app.getEntityFromIndex(
     '5f4f73be-e309-4151-871c-e04c60158d78'
-  )
-  window.mapSelection = mapSelection
-  mapSelection.enabled = false
+  );
+  window.mapSelection = mapSelection;
+  mapSelection.enabled = false;
 }
 /*function newResultScreen() { //Not done yet
   // This should be loaded when match ends. No global init for it still
