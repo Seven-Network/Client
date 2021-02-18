@@ -344,6 +344,35 @@ function modifyMenuUI() {
     a: 1,
   };
   contentEntity.parent.children[2].children[0].element.opacity = 0.3;
+
+  //Main Menu Page
+  contentEntity.children[0].children[1].children[0].children[0].element.opacity = 0.3
+  contentEntity.children[0].children[1].children[0].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+  contentEntity.children[0].children[1].children[0].children[1].element.opacity = 0.3
+  contentEntity.children[0].children[1].children[0].children[1].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+  contentEntity.children[0].children[1].children[1].children[0].element.opacity = 0.3
+  contentEntity.children[0].children[1].children[1].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+  contentEntity.children[0].children[0].children[0].element.opacity = 0.3
+  contentEntity.children[0].children[0].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+  contentEntity.children[0].children[0].children[1].element.opacity = 0.3
+  contentEntity.children[0].children[0].children[1].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+  contentEntity.children[0].children[1].children[1].children[1].children[5].element.color = {r: 0, g: 0.5, b: 0.8, a: 1}
+  contentEntity.children[0].children[1].children[1].children[1].children[3].element.color = {r: 0, g: 0.5, b: 0.8, a: 1}
+  contentEntity.parent.children[2].children[2].children[2].enabled = false
+  contentEntity.parent.children[2].children[2].children[1].enabled = false
+
+  //Account Page
+  contentEntity.children[3].children[0].element.opacity = 0.4
+  contentEntity.children[3].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+  contentEntity.children[3].children[2].children[0].children[0].element.opacity = 0.3
+  contentEntity.children[3].children[2].children[0].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+
+  //Fix for Markup in Private Player list
+  const playerListFix = pc.app.getEntityFromIndex(
+    'a71ac4fd-faea-4387-8185-268b7baed467'
+  )
+  playerListFix.element.text = "Loading..."
+  playerListFix.element.enableMarkup = true
 }
 
 function modifyInGameOverlay() {
