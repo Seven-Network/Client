@@ -352,6 +352,13 @@ function modifyMenuUI() {
   contentEntity.children[0].children[1].children[0].children[1].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
   contentEntity.children[0].children[1].children[1].children[0].element.opacity = 0.3
   contentEntity.children[0].children[1].children[1].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+  contentEntity.children[0].children[1].children[1].children[1].children[6].enabled = false
+  contentEntity.children[0].children[1].children[1].children[1].children[7].enabled = false
+  contentEntity.children[0].children[1].children[1].children[1].children[9].element.text = "Closed Beta" //Should be removed later
+  contentEntity.children[0].children[1].children[1].children[1].children[9].element.color = {r: 1, g: 1, b: 1, a: 1}
+  contentEntity.children[0].children[1].children[1].children[1].children[9].localScale = {x: 1.75, y: 1.75, z: 1.75}
+  contentEntity.children[0].children[1].children[1].children[1].children[9].localPosition = {x: 159.565, y: 0.003, z: 0}
+  contentEntity.children[0].children[1].children[1].children[1].children[8].element.color = {r: 0, g: 1, b: 1, a: 1}
   contentEntity.children[0].children[0].children[0].element.opacity = 0.3
   contentEntity.children[0].children[0].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
   contentEntity.children[0].children[0].children[1].element.opacity = 0.3
@@ -360,12 +367,21 @@ function modifyMenuUI() {
   contentEntity.children[0].children[1].children[1].children[1].children[3].element.color = {r: 0, g: 0.5, b: 0.8, a: 1}
   contentEntity.parent.children[2].children[2].children[2].enabled = false
   contentEntity.parent.children[2].children[2].children[1].enabled = false
+  contentEntity.children[0].children[3].enabled = false
 
   //Account Page
   contentEntity.children[3].children[0].element.opacity = 0.4
   contentEntity.children[3].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
   contentEntity.children[3].children[2].children[0].children[0].element.opacity = 0.3
   contentEntity.children[3].children[2].children[0].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+
+  //Settings Page
+  contentEntity.children[4].children[0].element.opacity = 0.4
+  contentEntity.children[4].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+  contentEntity.children[4].children[1].children[0].element.opacity = 0.3
+  contentEntity.children[4].children[1].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
+  contentEntity.children[4].children[4].children[1].children[2].enabled = false //Remove 'Disable Menu Music' since there is no menu music anymore ;-;
+
 
   //Fix for Markup in Private Player list
   const playerListFix = pc.app.getEntityFromIndex(
