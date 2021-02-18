@@ -339,10 +339,11 @@ function modifyMenuUI() {
   };
   contentEntity.parent.children[2].children[0].element.color = {
     r: 0,
-    g: 0.5,
-    b: 0.5,
+    g: 0,
+    b: 0.3,
     a: 1,
   };
+  contentEntity.parent.children[2].children[0].element.opacity = 0.3
 }
 
 function modifyInGameOverlay() {
@@ -448,27 +449,47 @@ function modifyRoomProperties() {
   const mapSelectionPrivate = pc.app.getEntityFromIndex(
     'a82cb119-ed8e-42ac-8ed9-6f82b4032fc1'
   );
-  (mapSelectionPrivate.script.popup.itemNames = ['Sierra', 'Xibalba']),
-    (mapSelectionPrivate.script.popup.itemImages = [32202739, 32202738]);
+  //(mapSelectionPrivate.script.popup.itemNames = ['Sierra', 'Xibalba']),
+    //(mapSelectionPrivate.script.popup.itemImages = [32202739, 32202738]);
   window.mapSelectionPrivate = mapSelectionPrivate;
   const mapSelectionPublic = pc.app.getEntityFromIndex(
     'c9b08a93-b86e-4fdf-a9e5-2e447e73b641'
   );
   window.mapSelectionPublic = mapSelectionPublic;
-  mapSelectionPublic.script.scripts[1].data = `{
-      "maps": [{
-        "id": "Sierra",
-        "Image": "Sierra-512x.jpg",
-        "Title": "Sierra",
-        "Mode": "Point"
-      },
-      {
-        "id": "Xibalba",
-        "Image": "Xibalba-512x.jpg",
-        "Title": "Xibalba",
-        "Mode": "Point"
-      }]
-    }`;
+mapSelectionPublic.script.scripts[1].data = `{
+  "maps": [
+    {
+      "id": "Sierra",
+      "Image": "Sierra-512x.jpg",
+      "Title": "Sierra",
+      "Mode": "FFA"
+    },
+    {
+      "id": "Xibalba",
+      "Image": "Xibalba-512x.jpg",
+      "Title": "Xibalba",
+      "Mode": "FFA"
+    },
+    {
+      "id": "Mistle",
+      "Image": "Mistle-512x.jpg",
+      "Title": "Mistle",
+      "Mode": "FFA"
+    },
+    {
+      "id": "Tundra",
+      "Image": "Tundra-512x.jpg",
+      "Title": "Tundra",
+      "Mode": "FFA"
+    },
+    {
+      "id": "Temple",
+      "Image": "Temple-512x.jpg",
+      "Title": "Temple",
+      "Mode": "FFA"
+    }
+  ]
+}`;
 
   // Changing player limit from 4 to 6
   const playerLimit = pc.app.getEntityFromIndex(
@@ -484,7 +505,7 @@ function modifyRoomManagerInit() {
     {
       apply: (target, thisArg, args) => {
         target.apply(thisArg, args);
-        thisArg.currentMaps = ['Sierra', 'Xibalba'];
+        thisArg.currentMaps = ['Sierra', 'Xibalba', 'Mistle', 'Tundra', 'Temple'];
         thisArg.username = 'Unknown Guest';
         thisArg.maxPlayers = 6;
       },
@@ -578,6 +599,7 @@ function resultScreenMaps() {
     '5f4f73be-e309-4151-871c-e04c60158d78'
   )
   window.mapSelection = mapSelection
+  mapSelection.enabled = false
 }
 /*function newResultScreen() { //Not done yet
   // This should be loaded when match ends. No global init for it still
