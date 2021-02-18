@@ -421,8 +421,6 @@ function modifyMenuUI() {
   contentEntity.children[0].children[1].children[1].children[1].children[7].enabled = false
   contentEntity.children[0].children[1].children[1].children[1].children[9].element.text = "Closed Beta" //Should be removed later
   contentEntity.children[0].children[1].children[1].children[1].children[9].element.color = {r: 1, g: 1, b: 1, a: 1}
-  contentEntity.children[0].children[1].children[1].children[1].children[9].localScale = {x: 1.75, y: 1.75, z: 1.75}
-  contentEntity.children[0].children[1].children[1].children[1].children[9].localPosition = {x: 159.565, y: 0.003, z: 0}
   contentEntity.children[0].children[1].children[1].children[1].children[8].element.color = {r: 0, g: 1, b: 1, a: 1}
   contentEntity.children[0].children[0].children[0].element.opacity = 0.3
   contentEntity.children[0].children[0].children[0].element.color = {r: 0, g: 0, b: 0.3, a: 0.3}
@@ -751,6 +749,64 @@ function resultScreenMaps() {
   mvpMap.enabled = false;
 }*/
 
+function packetReader() {
+  let _messagePack = MessagePack.initialize(0xFFF);
+
+    window.WebSocket = new Proxy(window.WebSocket, {
+        construct: function (target, args) {
+            let isFirstMessage = true;
+
+            const instance = new target(...args);
+
+            const openHandler = function (event) {
+                console.log('7Client: WebSocket connection opened', event);
+            };
+
+            const messageHandler = function (event) {
+                // console.log('7Client: WebSocket incoming message raw data intercepted', event);
+                try {
+                    let buffer = MessagePack.Buffer.from(new Uint8Array(event.data));
+                    let data = _messagePack.decode(buffer);
+                    if (_messagePack && data[0] != "p") {
+                        console.log(instance.url + ': WebSocket incoming message intercepted',
+                                    data);
+                    } //else if (_messagePack && isFirstMessage) {
+                    //let nestedData = _messagePack.decode(data[0])
+                    //console.log(instance.url + ': WebSocket nested incoming message intercepted',
+                    //nestedData);
+                    //isFirstMessage = false;
+                    //}
+                } catch (err) { console.log(err) }
+            };
+
+            const closeHandler = function (event) {
+                console.log('7Client: WebSocket connection closed', event);
+                instance.removeEventListener('open', openHandler);
+                instance.removeEventListener('message', messageHandler);
+                instance.removeEventListener('close', closeHandler);
+            };
+
+            instance.addEventListener('open', openHandler);
+            instance.addEventListener('message', messageHandler);
+            instance.addEventListener('close', closeHandler);
+
+            const sendProxy = new Proxy(instance.send, {
+                apply: function(target, thisArg, args) {
+                    if (_messagePack && _messagePack.decode(args[0])[0] != 'p') {
+                        console.log(instance.url + ': WebSocket outgoing message intercepted', _messagePack.decode(args[0]));
+                    }
+
+                    target.apply(thisArg, args);
+                }
+            });
+
+            instance.send = sendProxy;
+
+            return instance;
+        }
+    });
+}
+
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
 
@@ -765,6 +821,7 @@ process.once('loaded', () => {
     allowSoloCustom();
     resultFunctionRework();
     changeTweenAnimation();
+    //packetReader();
   };
 
   global.mapInit = () => {
