@@ -20,6 +20,10 @@
     "productName": "Seven Network Client",
     "appId": "com.sn.client",
     "asar": "true",
+    "win": {
+      "target": "nsis",
+      "icon": "build/game.png"
+    },
     "files": [
       "**/*",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
@@ -38,7 +42,34 @@
       "!src/source",
       "!src/builder.js",
       "!src/downloader.js"
-    ]
+    ],
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "license": "",
+      "artifactName": "Seven-Network-Client-Windows.${ext}",
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": true,
+      "runAfterFinish": true,
+      "shortcutName": "Seven-Network",
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "build/game.png"
+    },
+    "dmg": {
+      "title": "Seven-Network",
+      "artifactName": "Seven-Network-Client-Mac.dmg"
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "snap",
+        "rpm"
+      ]
+    }
   },
   "dependencies": {
     "discord-rpc": "^3.2.0",
