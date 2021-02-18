@@ -189,6 +189,71 @@ function modifyLinkEntity() {
   };
 }
 
+function changeTweenAnimation() { //Jenny was here :)
+  (Movement.prototype.jump = function () {
+    if (!this.isLanded && !this.isCollided) return !1;
+    if (this.playerAbilities.isDashing) return !1;
+    if (this.bounceJumpTime > this.timestamp) return !1;
+    if (this.jumpingTime > this.timestamp) return !1;
+    if (
+      ((this.jumpingTime = this.timestamp + this.jumpDuration),
+      (this.isJumping = !0),
+      (this.isLanded = !1),
+      (this.airTime = this.now()),
+      (this.randomDirection = Math.random() > 0.5 ? -1 : 1),
+      this.previousVelocity,
+      this.now() - this.lastImpactTime > 3e3)
+    ) {
+      var t = 'Jump-' + (Math.round(1 * Math.random()) + 1);
+      this.app.fire('Character:Sound', t, 0.1 * Math.random()),
+        this.entity.sound.play('Only-Jump'),
+        (this.entity.sound.slots['Only-Jump'].pitch =
+          0.1 * Math.random() + 1.1);
+    }
+    if (
+      ((this.dynamicGravity = 0),
+      this.app.fire('Overlay:Jump', !0),
+      this.player.fireNetworkEvent('j'),
+      this.isShooting > this.timestamp)
+    )
+      return !1;
+    this.app
+      .tween(this.animation)
+      .to({ jumpAngle: -6 }, 0.15, pc.BackOut)
+      .start();
+  })
+
+  (Movement.prototype.bounceJump = function (t, e) {
+    if (this.jumpingTime > this.timestamp) return !1;
+    if (this.locked) return !1;
+    var i = 1;
+    if (e) {
+      var s = e.tags.list();
+      s.indexOf('Long') > -1
+        ? (i = 1.25)
+        : s.indexOf('Short') > -1 && (i = 0.7);
+    }
+    if (
+      ((this.airTime = this.now()),
+      (this.bounceJumpTime = this.timestamp - 500),
+      this.entity.sound.play('BounceJump'),
+      this.entity.sound.play('Only-Jump'),
+      this.entity.rigidbody.applyImpulse(0, this.bounceJumpForce * i, 0),
+      (this.entity.sound.slots['Only-Jump'].pitch = 0.1 * Math.random() + 1.1),
+      (this.isJumping = !0),
+      (this.isLanded = !1),
+      this.app.fire('Overlay:Jump', !0),
+      this.player.fireNetworkEvent('bj'),
+      this.isShooting > this.timestamp)
+    )
+      return !1;
+    this.app
+      .tween(this.animation)
+      .to({ jumpAngle: -18 }, 0.15, pc.BackOut)
+      .start();
+  })
+}
+
 function addWeaponsToMainMenuSelector() {
   const weaponEnity = pc.app.getEntityFromIndex(
     '1a599c4d-e39b-40f8-b41e-a6a260acb9bb'
@@ -699,6 +764,7 @@ process.once('loaded', () => {
     fixQuitLogic();
     allowSoloCustom();
     resultFunctionRework();
+    changeTweenAnimation();
   };
 
   global.mapInit = () => {
