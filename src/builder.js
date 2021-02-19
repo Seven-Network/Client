@@ -59,12 +59,28 @@ async function moveClientJS() {
   });
 }
 
+async function moveClientSource() {
+  console.log('Building client source');
+
+  return new Promise((resolve, reject) => {
+    const source = path.join(__dirname, 'mods', 'client-src');
+    const output = path.join(__dirname, 'public', 'client-src');
+
+    fs.copy(source, output, { overwrite: true }, function (err) {
+      if (err) throw err;
+      console.log('Built client source');
+      resolve();
+    });
+  });
+}
+
 async function buildProcess() {
   console.log("Starting build process");
   await clearPublicFolder();
   await copySource();
   await performOverwrites();
   await moveClientJS();
+  await moveClientSource();
   console.log("Build process complete");
 }
 
