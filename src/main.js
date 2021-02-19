@@ -29,6 +29,7 @@ function createWindow() {
       nodeIntegration: true,
       devTools: true,
       preload: path.join(__dirname, 'public', 'client.js'),
+      additionalArguments: [isDev ? 'ELECTRON_IS_DEV' : 'ELECTRON_IS_PROD'],
     },
   });
   autoUpdater.checkForUpdatesAndNotify();
@@ -57,6 +58,10 @@ function createWindow() {
         'pc.app.fire("Chat:Message", "[rainbow]Seven-Client[/rainbow]", "Link copied!")'
       )
       .catch((e) => {});
+  });
+
+  shortcut.register(win, 'F4', () => {
+    win.webContents.executeJavaScript('try { toggleDevPanel() } catch (_) {}');
   });
 
   shortcut.register(win, 'Alt+F4', () => {
