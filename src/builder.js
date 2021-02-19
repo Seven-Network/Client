@@ -3,12 +3,12 @@ const readDir = require('recursive-readdir');
 const path = require('path');
 
 async function clearPublicFolder() {
-  console.log("Clearing public folder");
+  console.log('Clearing public folder');
   const folder = path.join(__dirname, 'public');
   return new Promise((resolve, reject) => {
     fs.rmdir(folder, { recursive: true }, function (err) {
       if (err) throw err;
-      console.log("Cleared public folder");
+      console.log('Cleared public folder');
       resolve();
     });
   });
@@ -75,13 +75,13 @@ async function moveClientSource() {
 }
 
 async function buildProcess() {
-  console.log("Starting build process");
+  console.log('Starting build process');
   await clearPublicFolder();
   await copySource();
   await performOverwrites();
   await moveClientJS();
   await moveClientSource();
-  console.log("Build process complete");
+  console.log('Build process complete');
 }
 
 buildProcess();
