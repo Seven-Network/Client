@@ -190,6 +190,73 @@ function modifyLinkEntity() {
   };
 }
 
+function changeTweenAnimation() {
+  //Jenny was here :)
+  (Movement.prototype.jump = function () {
+    if (!this.isLanded && !this.isCollided) return !1;
+    if (this.playerAbilities.isDashing) return !1;
+    if (this.bounceJumpTime > this.timestamp) return !1;
+    if (this.jumpingTime > this.timestamp) return !1;
+    if (
+      ((this.jumpingTime = this.timestamp + this.jumpDuration),
+      (this.isJumping = !0),
+      (this.isLanded = !1),
+      (this.airTime = this.now()),
+      (this.randomDirection = Math.random() > 0.5 ? -1 : 1),
+      this.previousVelocity,
+      this.now() - this.lastImpactTime > 3e3)
+    ) {
+      var t = 'Jump-' + (Math.round(1 * Math.random()) + 1);
+      this.app.fire('Character:Sound', t, 0.1 * Math.random()),
+        this.entity.sound.play('Only-Jump'),
+        (this.entity.sound.slots['Only-Jump'].pitch =
+          0.1 * Math.random() + 1.1);
+    }
+    if (
+      ((this.dynamicGravity = 0),
+      this.app.fire('Overlay:Jump', !0),
+      this.player.fireNetworkEvent('j'),
+      this.isShooting > this.timestamp)
+    )
+      return !1;
+    this.app
+      .tween(this.animation)
+      .to({ jumpAngle: -6 }, 0.15, pc.BackOut)
+      .start();
+  })(
+    (Movement.prototype.bounceJump = function (t, e) {
+      if (this.jumpingTime > this.timestamp) return !1;
+      if (this.locked) return !1;
+      var i = 1;
+      if (e) {
+        var s = e.tags.list();
+        s.indexOf('Long') > -1
+          ? (i = 1.25)
+          : s.indexOf('Short') > -1 && (i = 0.7);
+      }
+      if (
+        ((this.airTime = this.now()),
+        (this.bounceJumpTime = this.timestamp - 500),
+        this.entity.sound.play('BounceJump'),
+        this.entity.sound.play('Only-Jump'),
+        this.entity.rigidbody.applyImpulse(0, this.bounceJumpForce * i, 0),
+        (this.entity.sound.slots['Only-Jump'].pitch =
+          0.1 * Math.random() + 1.1),
+        (this.isJumping = !0),
+        (this.isLanded = !1),
+        this.app.fire('Overlay:Jump', !0),
+        this.player.fireNetworkEvent('bj'),
+        this.isShooting > this.timestamp)
+      )
+        return !1;
+      this.app
+        .tween(this.animation)
+        .to({ jumpAngle: -18 }, 0.15, pc.BackOut)
+        .start();
+    })
+  );
+}
+
 function addWeaponsToMainMenuSelector() {
   const weaponEnity = pc.app.getEntityFromIndex(
     '1a599c4d-e39b-40f8-b41e-a6a260acb9bb'
@@ -324,6 +391,8 @@ function modifyMenuUI() {
 
   window.contentEntity = contentEntity;
 
+  //Redo this. Spaghetti Code
+
   bannerEntity.enabled = false; // Disable Ad banner
   contentEntity.setLocalPosition(0, -110, 0);
   contentEntity.element.margin = { w: 120, x: -460, y: -600, z: -460 };
@@ -340,10 +409,119 @@ function modifyMenuUI() {
   };
   contentEntity.parent.children[2].children[0].element.color = {
     r: 0,
-    g: 0.5,
-    b: 0.5,
+    g: 0,
+    b: 0.3,
     a: 1,
   };
+  contentEntity.parent.children[2].children[0].element.opacity = 0.3;
+
+  //Main Menu Page
+  contentEntity.children[0].children[1].children[0].children[0].element.opacity = 0.3;
+  contentEntity.children[0].children[1].children[0].children[0].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+  contentEntity.children[0].children[1].children[0].children[1].element.opacity = 0.3;
+  contentEntity.children[0].children[1].children[0].children[1].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+  contentEntity.children[0].children[1].children[1].children[0].element.opacity = 0.3;
+  contentEntity.children[0].children[1].children[1].children[0].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+  contentEntity.children[0].children[1].children[1].children[1].children[6].enabled = false;
+  contentEntity.children[0].children[1].children[1].children[1].children[7].enabled = false;
+  contentEntity.children[0].children[1].children[1].children[1].children[9].element.text =
+    'Closed Beta'; //Should be removed later
+  contentEntity.children[0].children[1].children[1].children[1].children[9].element.color = {
+    r: 1,
+    g: 1,
+    b: 1,
+    a: 1,
+  };
+  contentEntity.children[0].children[1].children[1].children[1].children[8].element.color = {
+    r: 0,
+    g: 1,
+    b: 1,
+    a: 1,
+  };
+  contentEntity.children[0].children[0].children[0].element.opacity = 0.3;
+  contentEntity.children[0].children[0].children[0].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+  contentEntity.children[0].children[0].children[1].element.opacity = 0.3;
+  contentEntity.children[0].children[0].children[1].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+  contentEntity.children[0].children[1].children[1].children[1].children[5].element.color = {
+    r: 0,
+    g: 0.5,
+    b: 0.8,
+    a: 1,
+  };
+  contentEntity.children[0].children[1].children[1].children[1].children[3].element.color = {
+    r: 0,
+    g: 0.5,
+    b: 0.8,
+    a: 1,
+  };
+  //contentEntity.parent.children[2].children[2].children[2].enabled = false
+  //contentEntity.parent.children[2].children[2].children[1].enabled = false
+  contentEntity.children[0].children[3].enabled = false;
+
+  //Account Page
+  contentEntity.children[3].children[0].element.opacity = 0.4;
+  contentEntity.children[3].children[0].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+  contentEntity.children[3].children[2].children[0].children[0].element.opacity = 0.3;
+  contentEntity.children[3].children[2].children[0].children[0].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+
+  //Settings Page
+  contentEntity.children[4].children[0].element.opacity = 0.4;
+  contentEntity.children[4].children[0].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+  contentEntity.children[4].children[1].children[0].element.opacity = 0.3;
+  contentEntity.children[4].children[1].children[0].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+  contentEntity.children[4].children[4].children[1].children[2].enabled = false; //Remove 'Disable Menu Music' since there is no menu music anymore ;-;
+
+  //Fix for Markup in Private Player list
+  const playerListFix = pc.app.getEntityFromIndex(
+    'a71ac4fd-faea-4387-8185-268b7baed467'
+  );
+  playerListFix.element.text = 'Loading...';
+  playerListFix.element.enableMarkup = true;
 }
 
 function modifyInGameOverlay() {
@@ -449,27 +627,61 @@ function modifyRoomProperties() {
   const mapSelectionPrivate = pc.app.getEntityFromIndex(
     'a82cb119-ed8e-42ac-8ed9-6f82b4032fc1'
   );
-  (mapSelectionPrivate.script.popup.itemNames = ['Sierra', 'Xibalba']),
-    (mapSelectionPrivate.script.popup.itemImages = [32202739, 32202738]);
+  //(mapSelectionPrivate.script.popup.itemNames = ['Sierra', 'Xibalba']),
+  //(mapSelectionPrivate.script.popup.itemImages = [32202739, 32202738]);
   window.mapSelectionPrivate = mapSelectionPrivate;
   const mapSelectionPublic = pc.app.getEntityFromIndex(
     'c9b08a93-b86e-4fdf-a9e5-2e447e73b641'
   );
   window.mapSelectionPublic = mapSelectionPublic;
   mapSelectionPublic.script.scripts[1].data = `{
-      "maps": [{
-        "id": "Sierra",
-        "Image": "Sierra-512x.jpg",
-        "Title": "Sierra",
-        "Mode": "Point"
-      },
-      {
-        "id": "Xibalba",
-        "Image": "Xibalba-512x.jpg",
-        "Title": "Xibalba",
-        "Mode": "Point"
-      }]
-    }`;
+  "maps": [
+    {
+      "id": "Sierra",
+      "Image": "Sierra-512x.jpg",
+      "Title": "Sierra",
+      "Mode": "FFA"
+    },
+    {
+      "id": "Xibalba",
+      "Image": "Xibalba-512x.jpg",
+      "Title": "Xibalba",
+      "Mode": "FFA"
+    },
+    {
+      "id": "Mistle",
+      "Image": "Mistle-512x.jpg",
+      "Title": "Mistle",
+      "Mode": "FFA"
+    },
+    {
+      "id": "Tundra",
+      "Image": "Tundra-512x.jpg",
+      "Title": "Tundra",
+      "Mode": "FFA"
+    },
+    {
+      "id": "Temple",
+      "Image": "Temple-512x.jpg",
+      "Title": "Temple",
+      "Mode": "FFA"
+    }
+  ]
+}`;
+
+  const privateMapName = pc.app.getEntityFromIndex(
+    '55c52f02-b451-4e2a-8f0b-4a04bee3814e'
+  );
+  window.privateMapName = privateMapName;
+  privateMapName.script.scripts[1].transformers = [
+    { input: 'Sierra', output: 'Sierra - FFA' },
+    { input: 'Xibalba', output: 'Xibalba - FFA' },
+    { input: 'Mistle', output: 'Mistle - FFA' },
+    { input: 'Tundra', output: 'Tundra - FFA' },
+    { input: 'Temple', output: 'Temple - FFA' },
+  ];
+
+  privateMapName.element.text = 'Sierra - FFA';
 
   // Changing player limit from 4 to 6
   const playerLimit = pc.app.getEntityFromIndex(
@@ -485,7 +697,13 @@ function modifyRoomManagerInit() {
     {
       apply: (target, thisArg, args) => {
         target.apply(thisArg, args);
-        thisArg.currentMaps = ['Sierra', 'Xibalba'];
+        thisArg.currentMaps = [
+          'Sierra',
+          'Xibalba',
+          'Mistle',
+          'Tundra',
+          'Temple',
+        ];
         thisArg.username = 'Unknown Guest';
         thisArg.maxPlayers = 6;
       },
@@ -577,8 +795,9 @@ function resultFunctionRework() {
 function resultScreenMaps() {
   const mapSelection = pc.app.getEntityFromIndex(
     '5f4f73be-e309-4151-871c-e04c60158d78'
-  )
-  window.mapSelection = mapSelection
+  );
+  window.mapSelection = mapSelection;
+  mapSelection.enabled = false;
 }
 /*function newResultScreen() { //Not done yet
   // This should be loaded when match ends. No global init for it still
@@ -600,6 +819,71 @@ function resultScreenMaps() {
   mvpMap.enabled = false;
 }*/
 
+function packetReader() {
+  let _messagePack = MessagePack.initialize(0xfff);
+
+  window.WebSocket = new Proxy(window.WebSocket, {
+    construct: function (target, args) {
+      let isFirstMessage = true;
+
+      const instance = new target(...args);
+
+      const openHandler = function (event) {
+        console.log('7Client: WebSocket connection opened', event);
+      };
+
+      const messageHandler = function (event) {
+        // console.log('7Client: WebSocket incoming message raw data intercepted', event);
+        try {
+          let buffer = MessagePack.Buffer.from(new Uint8Array(event.data));
+          let data = _messagePack.decode(buffer);
+          if (_messagePack && data[0] != 'p') {
+            console.log(
+              instance.url + ': WebSocket incoming message intercepted',
+              data
+            );
+          } //else if (_messagePack && isFirstMessage) {
+          //let nestedData = _messagePack.decode(data[0])
+          //console.log(instance.url + ': WebSocket nested incoming message intercepted',
+          //nestedData);
+          //isFirstMessage = false;
+          //}
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+      const closeHandler = function (event) {
+        console.log('7Client: WebSocket connection closed', event);
+        instance.removeEventListener('open', openHandler);
+        instance.removeEventListener('message', messageHandler);
+        instance.removeEventListener('close', closeHandler);
+      };
+
+      instance.addEventListener('open', openHandler);
+      instance.addEventListener('message', messageHandler);
+      instance.addEventListener('close', closeHandler);
+
+      const sendProxy = new Proxy(instance.send, {
+        apply: function (target, thisArg, args) {
+          if (_messagePack && _messagePack.decode(args[0])[0] != 'p') {
+            console.log(
+              instance.url + ': WebSocket outgoing message intercepted',
+              _messagePack.decode(args[0])
+            );
+          }
+
+          target.apply(thisArg, args);
+        },
+      });
+
+      instance.send = sendProxy;
+
+      return instance;
+    },
+  });
+}
+
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
 
@@ -613,6 +897,8 @@ process.once('loaded', () => {
     fixQuitLogic();
     allowSoloCustom();
     resultFunctionRework();
+    changeTweenAnimation();
+    //packetReader();
   };
 
   global.mapInit = () => {
