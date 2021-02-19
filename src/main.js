@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, clipboard } = require('electron');
+const { app, BrowserWindow, globalShortcut, clipboard, dialog } = require('electron');
 const path = require('path');
 const shortcut = require('electron-localshortcut');
 const RPC = require('discord-rpc');
@@ -14,13 +14,14 @@ app.commandLine.appendSwitch('ignore-gpu-blacklist');
 app.commandLine.appendSwitch('enable-quic');
 app.commandLine.appendSwitch('enable-pointer-lock-options');
 
+let win;
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 1280,
     height: 720,
     webPreferences: {
       nodeIntegration: true,
-      devTools: isDev,
+      devTools: true,
       preload: path.join(__dirname, 'public', 'client.js'),
     },
   });
@@ -121,10 +122,8 @@ rpc
     dialog.showMessageBox(dialogOpts).then((returnValue) => {
       if (returnValue.response === 0)
         console.log('User saw New Version message');
-        console.clear();
-        console.log((
-          `Download Speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.transferred} + '/ ${progressObj.total}`
-        ))
+        //Add later on some sort of download progress into client itself
+        //win.webContents.openDevTools();
     });
   });
   autoUpdater.on('update-not-available', () => {
