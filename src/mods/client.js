@@ -509,7 +509,11 @@ function modifyMenuUI() {
     b: 0.3,
     a: 0.3,
   };
-  contentEntity.children[3].children[2].children[1].children[1].children[12].localScale = {x: 0, y: 0, z: 0} //Fuck you >:C
+  contentEntity.children[3].children[2].children[1].children[1].children[12].localScale = {
+    x: 0,
+    y: 0,
+    z: 0,
+  }; //Fuck you >:C
 
   //Settings Page
   contentEntity.children[4].children[0].element.opacity = 0.4;
@@ -530,8 +534,8 @@ function modifyMenuUI() {
 
   const removeServerButton = pc.app.getEntityFromIndex(
     '6e36935a-9361-4b62-88a8-76e255a1cc4b'
-  )
-  removeServerButton.enabled = false
+  );
+  removeServerButton.enabled = false;
 
   //Fix for Markup in Private Player list
   const playerListFixCreator = pc.app.getEntityFromIndex(
