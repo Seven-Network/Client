@@ -509,6 +509,7 @@ function modifyMenuUI() {
     b: 0.3,
     a: 0.3,
   };
+  contentEntity.children[3].children[2].children[1].children[1].children[12].localScale = {x: 0, y: 0, z: 0} //Fuck you >:C
 
   //Settings Page
   contentEntity.children[4].children[0].element.opacity = 0.4;
@@ -527,12 +528,44 @@ function modifyMenuUI() {
   };
   contentEntity.children[4].children[4].children[1].children[2].enabled = false; //Remove 'Disable Menu Music' since there is no menu music anymore ;-;
 
+  const removeServerButton = pc.app.getEntityFromIndex(
+    '6e36935a-9361-4b62-88a8-76e255a1cc4b'
+  )
+  removeServerButton.enabled = false
+
   //Fix for Markup in Private Player list
-  const playerListFix = pc.app.getEntityFromIndex(
+  const playerListFixCreator = pc.app.getEntityFromIndex(
     'a71ac4fd-faea-4387-8185-268b7baed467'
   );
-  playerListFix.element.text = 'Loading...';
-  playerListFix.element.enableMarkup = true;
+  playerListFixCreator.element.text = 'Loading...';
+  playerListFixCreator.element.enableMarkup = true;
+  const playerListFixJoiner = pc.app.getEntityFromIndex(
+    '6f4ea2ce-32c0-4715-b053-73c57d85c607'
+  );
+  playerListFixJoiner.element.enableMarkup = true;
+  window.playerListFixJoiner = playerListFixJoiner;
+
+  RoomManager.prototype.setFriendList = function (t) {
+    this.clearFriendList();
+    var e = 0;
+    for (var i in t) {
+      var a = t[i];
+      if (parseInt(i) > 0) {
+        var n = 30 * -parseInt(e),
+          s = this.friendEntity.clone();
+        (s.enabled = !0),
+          s.setLocalPosition(0, n, 0),
+          (s.findByName('Username').element.text = a),
+          (s.findByName('Username').element.enableMarkup = true),
+          this.friendHolder.addChild(s),
+          this.friends.push(s),
+          e++;
+      }
+    }
+    t.length > 1
+      ? (this.friendWaiting.enabled = !1)
+      : (this.friendWaiting.enabled = !0);
+  };
 }
 
 function modifyInGameOverlay() {
@@ -849,7 +882,7 @@ function packetReader() {
         try {
           let buffer = MessagePack.Buffer.from(new Uint8Array(event.data));
           let data = _messagePack.decode(buffer);
-          if (_messagePack && data[0] != 'p') {
+          if (_messagePack && data[0]) {
             console.log(
               instance.url + ': WebSocket incoming message intercepted',
               data
@@ -878,7 +911,7 @@ function packetReader() {
 
       const sendProxy = new Proxy(instance.send, {
         apply: function (target, thisArg, args) {
-          if (_messagePack && _messagePack.decode(args[0])[0] != 'p') {
+          if (_messagePack && _messagePack.decode(args[0])[0]) {
             console.log(
               instance.url + ': WebSocket outgoing message intercepted',
               _messagePack.decode(args[0])
