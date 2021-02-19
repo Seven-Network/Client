@@ -5,7 +5,9 @@
   "description": "Seven Network Client is a Private Venge.io Client that connects to the Seven Network Private Server",
   "scripts": {
     "serve": "electron .",
+    "serve:local": "concurrently \"cd ../Gateway && yon start:dev\" \"cd ../Invite && yon start:dev\" \"cd ../GameServer && yon start:dev\" \"yon serve\"",
     "hot-serve": "yon build-public && yon serve",
+    "hot-serve:local": "concurrently \"cd ../Gateway && yon start:dev\" \"cd ../Invite && yon start:dev\" \"cd ../GameServer && yon start:dev\" \"yon build-public && yon serve\"",
     "build-win": "electron-builder -w",
     "build-mac": "electron-builder -m",
     "build-linux": "electron-builder -l",
