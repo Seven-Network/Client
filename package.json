@@ -22,7 +22,13 @@
     "asar": "true",
     "win": {
       "target": "nsis",
-      "icon": "build/game.png"
+      "icon": "build/game.png",
+      "publish": [
+        {
+          "provider": "github",
+          "url": "https://github.com/Seven-Network/Client/releases"
+        }
+      ]
     },
     "files": [
       "**/*",
