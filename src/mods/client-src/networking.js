@@ -9,7 +9,10 @@ const requestMap = {
 };
 
 function modifyFetcher() {
-  if (process.argv.includes('ELECTRON_IS_DEV') && localStorage.getItem('useLocalServer') == '1') {
+  if (
+    process.argv.includes('ELECTRON_IS_DEV') &&
+    localStorage.getItem('useLocalServer') == '1'
+  ) {
     console.log('Using development request map');
     for (let [key, value] of Object.entries(requestMap)) {
       requestMap[key] = value.replace(
@@ -119,7 +122,10 @@ function websocketProxy() {
         );
       }
       if (args[0].includes('invite.venge.io')) {
-        if (process.argv.includes('ELECTRON_IS_DEV') && localStorage.getItem('useLocalServer') == '1') {
+        if (
+          process.argv.includes('ELECTRON_IS_DEV') &&
+          localStorage.getItem('useLocalServer') == '1'
+        ) {
           args[0] = args[0].replace(
             'wss://invite.venge.io/',
             'ws://localhost:7778/'
