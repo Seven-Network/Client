@@ -6,6 +6,7 @@ function modifyFetcher() {
     get_details: 'https://sn-gateway.tk/user/details',
     create_room: 'https://invite.sn-gateway.tk/create-room',
     get_room: 'https://invite.sn-gateway.tk/get-room',
+    update_map: 'https://invite.sn-gateway.tk/update-room',
   };
 
   Fetcher.prototype.fetch = function (t, e, i) {
@@ -13,8 +14,9 @@ function modifyFetcher() {
       // We start doing business with the URL if it is gateway URL
       var params = new URLSearchParams(new URL(t).search);
 
-      // Remember hash if needed in case it's a room request
+      // Remember params incase if needed
       const roomHash = params.get('hash');
+      const newMap = params.get('map');
 
       // This does not work ATM.
       // Check if hash is needed
@@ -41,8 +43,11 @@ function modifyFetcher() {
       var params = new URLSearchParams(new URL(t).search);
 
       // Add room hash if needed
-      if (t.includes('get-room')) {
+      if (t.includes('get-room') || t.includes('update-map')) {
         t += `/${roomHash}`;
+      }
+      if (t.includes('update-map')) {
+        t += `/${newMap}`;
       }
 
       // Add hash if not present
@@ -102,13 +107,13 @@ function websocketProxy() {
       const instance = new target(...args);
 
       // const messageHandler = function (_) {
-        // NO NEED FOR THIS NOW LMAO
-        // if (instance.url.includes('sn-invite.herokuapp.com')) {
-        //   if (window.ipinterv) return;
-        //   window.ipinterv = setInterval(() => {
-        //     instance.send('ping');
-        //   }, 10000);
-        // }
+      // NO NEED FOR THIS NOW LMAO
+      // if (instance.url.includes('sn-invite.herokuapp.com')) {
+      //   if (window.ipinterv) return;
+      //   window.ipinterv = setInterval(() => {
+      //     instance.send('ping');
+      //   }, 10000);
+      // }
       // };
 
       // instance.addEventListener('message', messageHandler);
@@ -727,15 +732,11 @@ function allowSoloCustom() {
 }
 
 function removeReminder() {
-  (Player.prototype.onKill = function (t, e) {
+  Player.prototype.onKill = function (t, e) {
     this.emoteReminder ||
       'Suicide' == e ||
       'FirstBlood' == e ||
-      (Math.random() > 0.5
-        ? this.app.fire(
-          )
-        : this.app.fire(
-          ),
+      (Math.random() > 0.5 ? this.app.fire() : this.app.fire(),
       (this.emoteReminder = !0)),
       this.app.fire('Player:Frag', !0),
       'Capture' != e &&
@@ -748,7 +749,7 @@ function removeReminder() {
         1e3,
         this
       );
-  })
+  };
 }
 
 function resultFunctionRework() {
