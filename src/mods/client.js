@@ -92,6 +92,12 @@ function modifyFetcher() {
 function websocketProxy() {
   window.WebSocket = new Proxy(window.WebSocket, {
     construct: (target, args) => {
+      if (args[0].includes('chat.venge.io')) {
+        args[0] = args[0].replace(
+          'wss://chat.venge.io/',
+          'wss://chat.sn-gateway.tk/'
+        );
+      }
       if (args[0].includes('invite.venge.io')) {
         args[0] = args[0].replace(
           'wss://invite.venge.io/',
@@ -102,13 +108,13 @@ function websocketProxy() {
       const instance = new target(...args);
 
       // const messageHandler = function (_) {
-        // NO NEED FOR THIS NOW LMAO
-        // if (instance.url.includes('sn-invite.herokuapp.com')) {
-        //   if (window.ipinterv) return;
-        //   window.ipinterv = setInterval(() => {
-        //     instance.send('ping');
-        //   }, 10000);
-        // }
+      // NO NEED FOR THIS NOW LMAO
+      // if (instance.url.includes('sn-invite.herokuapp.com')) {
+      //   if (window.ipinterv) return;
+      //   window.ipinterv = setInterval(() => {
+      //     instance.send('ping');
+      //   }, 10000);
+      // }
       // };
 
       // instance.addEventListener('message', messageHandler);
@@ -727,15 +733,11 @@ function allowSoloCustom() {
 }
 
 function removeReminder() {
-  (Player.prototype.onKill = function (t, e) {
+  Player.prototype.onKill = function (t, e) {
     this.emoteReminder ||
       'Suicide' == e ||
       'FirstBlood' == e ||
-      (Math.random() > 0.5
-        ? this.app.fire(
-          )
-        : this.app.fire(
-          ),
+      (Math.random() > 0.5 ? this.app.fire() : this.app.fire(),
       (this.emoteReminder = !0)),
       this.app.fire('Player:Frag', !0),
       'Capture' != e &&
@@ -748,7 +750,7 @@ function removeReminder() {
         1e3,
         this
       );
-  })
+  };
 }
 
 function resultFunctionRework() {
@@ -889,6 +891,65 @@ function packetReader() {
   });
 }
 
+function removeDeathWeaponSelect() {
+  (Overlay.prototype.clearCircularMenu = function () {
+    for (var t = this.circularItems.length; t--; )
+      this.circularItems[t].destroy();
+    (this.circularItems = []), (this.circularItemsList = []);
+  }),
+    (Overlay.prototype.showSmallBanner = function (t) {}),
+    (Overlay.prototype.triggerSmallBanner = function (t) {}),
+    (Overlay.prototype.onCircularMenu = function (t) {
+      if ((this.clearCircularMenu(), 'GUNGAME' == pc.currentMode)) return !1;
+      (this.circularEntity.enabled = !1), (this.circularPiece.enabled = !1);
+      var e = 0,
+        i = 23.15 * t.length;
+      for (var a in t) {
+        var n = t[a],
+          s = this.app.assets.find(n + '-Thumbnail-White.png'),
+          o = parseInt(a),
+          l = 0.1 * o,
+          r = this.circularPiece.clone();
+        r.setLocalScale(0.5, 0.5, 0.5),
+          (r.findByName('Key').element.text = o + 1 + ''),
+          (r.findByName('Icon').element.textureAsset = s),
+          r.findByName('Icon').setLocalEulerAngles(0, 0, -e - i),
+          r.setLocalEulerAngles(0, 0, e),
+          r
+            .tween(r.getLocalScale())
+            .to({ x: 1.1, y: 1.1, z: 1.1 }, 0.35 + l, pc.BackOut)
+            .delay(l)
+            .start(),
+          setTimeout(
+            function (t, e) {
+              (e.enabled = !0), t.entity.sound.play('Whoosh');
+            },
+            1e3 * l,
+            this,
+            r
+          ),
+          this.circularHolder.addChild(r),
+          this.circularItems.push(r),
+          this.circularItemsList.push(n),
+          (e -= 62);
+      }
+      this.circularHolder.setLocalEulerAngles(0, 0, i),
+        (this.circularSpinner.enabled = !0),
+        this.circularEntity.setLocalPosition(0, -300, 0),
+        this.circularEntity
+          .tween(this.circularEntity.getLocalPosition())
+          .to({ x: 0, y: 55, z: 0 }, 0.5, pc.BackOut)
+          .start(),
+        setTimeout(
+          function (t) {
+            t.hideCircularMenu();
+          },
+          3500,
+          this
+        );
+    });
+}
+
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
 
@@ -904,6 +965,7 @@ process.once('loaded', () => {
     resultFunctionRework();
     changeTweenAnimation();
     //packetReader();
+    removeDeathWeaponSelect();
   };
 
   global.mapInit = () => {
