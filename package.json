@@ -47,7 +47,8 @@
       "!src/mods",
       "!src/source",
       "!src/builder.js",
-      "!src/downloader.js"
+      "!src/downloader.js",
+      "!.github/*"
     ],
     "nsis": {
       "oneClick": false,

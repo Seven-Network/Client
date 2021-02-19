@@ -71,7 +71,9 @@
           class="join-game-input"
           placeholder="Game ID"
         />
-        <button type="submit" id="join-game-button" class="join-game-button">Join Game</button>
+        <button type="submit" id="join-game-button" class="join-game-button">
+          Join Game
+        </button>
       </form>
     </div>
 
@@ -220,7 +222,7 @@
         joinPanelEnabled ? disableJoinPanel() : enableJoinPanel();
       }
 
-      sncJoinElement.addEventListener('submit', event => {
+      sncJoinElement.addEventListener('submit', (event) => {
         event.preventDefault();
         window.location.href = `index.html#${joinGameInputElement.value}`;
         disableJoinPanel();
