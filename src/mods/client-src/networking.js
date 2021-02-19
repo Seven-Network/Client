@@ -1,13 +1,28 @@
+const requestMap = {
+  create_account: 'https://sn-gateway.tk/user/create',
+  login: 'https://sn-gateway.tk/user/login',
+  logout: 'https://sn-gateway.tk/user/logout',
+  get_details: 'https://sn-gateway.tk/user/details',
+  create_room: 'https://invite.sn-gateway.tk/create-room',
+  get_room: 'https://invite.sn-gateway.tk/get-room',
+  update_map: 'https://invite.sn-gateway.tk/update-map',
+};
+
 function modifyFetcher() {
-  const requestMap = {
-    create_account: 'https://sn-gateway.tk/user/create',
-    login: 'https://sn-gateway.tk/user/login',
-    logout: 'https://sn-gateway.tk/user/logout',
-    get_details: 'https://sn-gateway.tk/user/details',
-    create_room: 'https://invite.sn-gateway.tk/create-room',
-    get_room: 'https://invite.sn-gateway.tk/get-room',
-    update_map: 'https://invite.sn-gateway.tk/update-map',
-  };
+  if (process.argv.includes('ELECTRON_IS_DEV') && localStorage.getItem('useLocalServer') == '1') {
+    console.log('Using development request map');
+    for (let [key, value] of Object.entries(requestMap)) {
+      requestMap[key] = value.replace(
+        'https://sn-gateway.tk/',
+        'http://localhost:7777/'
+      );
+      requestMap[key] = requestMap[key].replace(
+        'https://invite.sn-gateway.tk/',
+        'http://localhost:7778/'
+      );
+      console.log(key, requestMap[key]);
+    }
+  }
 
   Fetcher.prototype.fetch = function (t, e, i) {
     if (t.includes('gateway.venge.io') || t.includes('matchmaking.venge.io')) {
@@ -104,10 +119,20 @@ function websocketProxy() {
         );
       }
       if (args[0].includes('invite.venge.io')) {
-        args[0] = args[0].replace(
-          'wss://invite.venge.io/',
-          'wss://invite.sn-gateway.tk/'
-        );
+        if (process.argv.includes('ELECTRON_IS_DEV') && localStorage.getItem('useLocalServer') == '1') {
+          args[0] = args[0].replace(
+            'wss://invite.venge.io/',
+            'ws://localhost:7778/'
+          );
+        } else {
+          args[0] = args[0].replace(
+            'wss://invite.venge.io/',
+            'wss://invite.sn-gateway.tk/'
+          );
+        }
+      }
+      if (args[0].includes('localhost')) {
+        args[0] = args[0].replace('wss://', 'ws://');
       }
 
       const instance = new target(...args);

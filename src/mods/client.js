@@ -2,6 +2,7 @@ const clientNetworking = require('./client-src/networking');
 const userInterface = require('./client-src/ui');
 const userExperience = require('./client-src/ux');
 const gungameWeapons = require('./client-src/gg-weapons');
+const devTools = require('./client-src/dev');
 
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
@@ -17,6 +18,7 @@ process.once('loaded', () => {
     gungameWeapons.modifyKeybinds();
     gungameWeapons.removeCircularWeaponSelector();
     gungameWeapons.weaponSelectionFix();
+    devTools.initialize();
   };
 
   global.mapInit = () => {
