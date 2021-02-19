@@ -727,11 +727,16 @@ function allowSoloCustom() {
 }
 
 function removeReminder() {
-  Player.prototype.onKill = function (t, e) {
+  (Player.prototype.onKill = function (t, e) {
     this.emoteReminder ||
       'Suicide' == e ||
       'FirstBlood' == e ||
-      Math.random() > 0.5((this.emoteReminder = !0)),
+      (Math.random() > 0.5
+        ? this.app.fire(
+          )
+        : this.app.fire(
+          ),
+      (this.emoteReminder = !0)),
       this.app.fire('Player:Frag', !0),
       'Capture' != e &&
         'Suicide' != e &&
@@ -743,7 +748,7 @@ function removeReminder() {
         1e3,
         this
       );
-  };
+  })
 }
 
 function resultFunctionRework() {
