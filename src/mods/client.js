@@ -6,7 +6,7 @@ function modifyFetcher() {
     get_details: 'https://sn-gateway.tk/user/details',
     create_room: 'https://invite.sn-gateway.tk/create-room',
     get_room: 'https://invite.sn-gateway.tk/get-room',
-    update_map: 'https://invite.sn-gateway.tk/update-room',
+    update_map: 'https://invite.sn-gateway.tk/update-map',
   };
 
   Fetcher.prototype.fetch = function (t, e, i) {
