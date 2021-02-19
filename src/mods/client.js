@@ -1,11 +1,11 @@
 function modifyFetcher() {
   const requestMap = {
-    create_account: 'https://sn-gateway.herokuapp.com/user/create',
-    login: 'https://sn-gateway.herokuapp.com/user/login',
-    logout: 'https://sn-gateway.herokuapp.com/user/logout',
-    get_details: 'https://sn-gateway.herokuapp.com/user/details',
-    create_room: 'https://sn-invite.herokuapp.com/create-room',
-    get_room: 'https://sn-game-na.herokuapp.com/get-room',
+    create_account: 'https://sn-gateway.tk/user/create',
+    login: 'https://sn-gateway.tk/user/login',
+    logout: 'https://sn-gateway.tk/user/logout',
+    get_details: 'https://sn-gateway.tk/user/details',
+    create_room: 'https://invite.sn-gateway.tk/create-room',
+    get_room: 'https://invite.sn-gateway.tk/get-room',
   };
 
   Fetcher.prototype.fetch = function (t, e, i) {
@@ -35,7 +35,7 @@ function modifyFetcher() {
       // that it means it couldn't find the key in the
       // request map. So we use backup method.
       if (t.includes('gateway.venge.io')) {
-        t = t.replace('gateway.venge.io', 'sn-gateway.herokuapp.com');
+        t = t.replace('gateway.venge.io', 'sn-gateway.tk');
       }
       // Update params
       var params = new URLSearchParams(new URL(t).search);
@@ -95,22 +95,23 @@ function websocketProxy() {
       if (args[0].includes('invite.venge.io')) {
         args[0] = args[0].replace(
           'wss://invite.venge.io/',
-          'wss://sn-invite.herokuapp.com/'
+          'wss://invite.sn-gateway.tk/'
         );
       }
 
       const instance = new target(...args);
 
-      const messageHandler = function (_) {
-        if (instance.url.includes('sn-invite.herokuapp.com')) {
-          if (window.ipinterv) return;
-          window.ipinterv = setInterval(() => {
-            instance.send('ping');
-          }, 10000);
-        }
-      };
+      // const messageHandler = function (_) {
+        // NO NEED FOR THIS NOW LMAO
+        // if (instance.url.includes('sn-invite.herokuapp.com')) {
+        //   if (window.ipinterv) return;
+        //   window.ipinterv = setInterval(() => {
+        //     instance.send('ping');
+        //   }, 10000);
+        // }
+      // };
 
-      instance.addEventListener('message', messageHandler);
+      // instance.addEventListener('message', messageHandler);
       instance.addEventListener('close', () => {
         if (window.ipinterv) {
           clearInterval(window.ipinterv);
