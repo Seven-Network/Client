@@ -3,6 +3,7 @@ const userInterface = require('./client-src/ui');
 const userExperience = require('./client-src/ux');
 const gungameWeapons = require('./client-src/gg-weapons');
 const devTools = require('./client-src/dev');
+const weaponPropertise = require('./client-src/weaponPropertise');
 
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
@@ -26,6 +27,7 @@ process.once('loaded', () => {
     gungameWeapons.addWeaponsToMainMenuScene();
     userInterface.modifyMenuUI();
     userInterface.modifyInGameOverlay();
+    weaponPropertise.weaponBalancing();
     userInterface.disableResultScreenMapSelection();
   };
 
