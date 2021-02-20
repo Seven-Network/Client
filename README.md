@@ -21,7 +21,7 @@ Contains all the original Venge assets and scripts. More info below.
 ## Developer Setup
 
 1. Clone the repository on to your machine:
-   `git clone git@github.com:niazmsameer/xVenge.git`
+   `git clone git@github.com:Seven-Network/Client.git`
 
 2. Install dependencies:
    `npm install` or `yarn` (Run these in the project root)
