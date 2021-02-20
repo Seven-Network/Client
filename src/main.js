@@ -51,7 +51,7 @@ function createWindow() {
 
   shortcut.register(win, 'F3', () => {
     var game = win.webContents.getURL().split('#').pop();
-    var url = 'https://venge.io/#' + game;
+    var url = game;
     clipboard.writeText(url);
     win.webContents
       .executeJavaScript(
