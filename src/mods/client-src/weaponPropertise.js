@@ -9,7 +9,7 @@ function weaponBalancing() {
         '00e8efa1-8e2a-4162-97a3-202b601757ca'
       );
       window.scarPropertise = scarPropertise;
-      
+
       scarPropertise.script.weapon.capacity = 20;
       scarPropertise.script.weapon.ammo = 20;
       scarPropertise.script.weapon.shootTime = 0.08;
