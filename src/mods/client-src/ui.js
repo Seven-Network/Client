@@ -218,12 +218,12 @@ function modifyInGameOverlay() {
       //Remove Scope Border
       const scopeBorder1 = pc.app.getEntityFromIndex(
         '78c01491-2565-417a-987b-6c95af4cc8eb'
-      )
+      );
       const scopeBorder2 = pc.app.getEntityFromIndex(
         '03a21dce-6227-4aff-a9a5-3e1e4492ec75'
-      )
-      scopeBorder1.enabled = false
-      scopeBorder2.enabled = false
+      );
+      scopeBorder1.enabled = false;
+      scopeBorder2.enabled = false;
     }
   });
 }
