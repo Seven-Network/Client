@@ -7,8 +7,6 @@ function modifyMenuUI() {
     '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
   );
 
-  window.contentEntity = contentEntity;
-
   //Redo this. Spaghetti Code
 
   bannerEntity.enabled = false; // Disable Ad banner
@@ -154,7 +152,6 @@ function modifyMenuUI() {
     '6f4ea2ce-32c0-4715-b053-73c57d85c607'
   );
   playerListFixJoiner.element.enableMarkup = true;
-  window.playerListFixJoiner = playerListFixJoiner;
 }
 
 function modifyInGameOverlay() {
@@ -212,7 +209,6 @@ function modifyInGameOverlay() {
       const modifyViewmodel = pc.app.getEntityFromIndex(
         '63cc6332-bf3e-4da6-a11b-c467bead28a4'
       );
-      window.modifyViewmodel = modifyViewmodel;
       modifyViewmodel.localPosition = { x: 0.45, y: 0.6, z: -0.5 };
 
       //Remove Scope Border

@@ -297,11 +297,9 @@ function modifyRoomProperties() {
   );
   //(mapSelectionPrivate.script.popup.itemNames = ['Sierra', 'Xibalba']),
   //(mapSelectionPrivate.script.popup.itemImages = [32202739, 32202738]);
-  window.mapSelectionPrivate = mapSelectionPrivate;
   const mapSelectionPublic = pc.app.getEntityFromIndex(
     'c9b08a93-b86e-4fdf-a9e5-2e447e73b641'
   );
-  window.mapSelectionPublic = mapSelectionPublic;
   mapSelectionPublic.script.scripts[1].data = `{
   "maps": [
     {
@@ -340,7 +338,6 @@ function modifyRoomProperties() {
   const privateMapName = pc.app.getEntityFromIndex(
     '55c52f02-b451-4e2a-8f0b-4a04bee3814e'
   );
-  window.privateMapName = privateMapName;
   privateMapName.script.scripts[1].transformers = [
     { input: 'Sierra', output: 'Sierra - FFA' },
     { input: 'Xibalba', output: 'Xibalba - FFA' },
@@ -355,7 +352,6 @@ function modifyRoomProperties() {
   const playerLimit = pc.app.getEntityFromIndex(
     'bf844e30-96d9-408b-8315-82f20348df96'
   );
-  window.playerLimit = playerLimit;
   playerLimit.element.text = '1 / 6';
 }
 
