@@ -4,6 +4,9 @@ const HTML_MARKUP = `
     <button onclick="useLocalServers()" id="use-local-servers-button" class="join-game-button">
       Use Local Servers
     </button>
+    <button onclick="useTestServers()" id="use-test-servers-button" class="join-game-button">
+      Use Test Servers
+    </button>
   </div>
 </div>
 `;
@@ -17,6 +20,9 @@ function initialize() {
   const sncDevWrapperElement = document.getElementById('snc-dev-wrapper');
   const useLocalServerElement = document.getElementById(
     'use-local-servers-button'
+  );
+  const useTestServerElement = document.getElementById(
+    'use-test-servers-button'
   );
 
   var devPanelEnabled = false;
@@ -59,8 +65,22 @@ function initialize() {
     }
   };
 
+  window.useTestServers = function () {
+    if (localStorage.getItem('useTestServer') == '1') {
+      localStorage.setItem('useTestServer', '0');
+      useTestServerElement.innerHTML = 'Use Test Servers';
+    } else {
+      localStorage.setItem('useTestServer', '1');
+      useTestServerElement.innerHTML = 'Do Not Use Test Servers';
+    }
+  };
+
   if (localStorage.getItem('useLocalServer') == '1') {
     useLocalServerElement.innerHTML = 'Do Not Use Local Servers';
+  }
+
+  if (localStorage.getItem('useTestServer') == '1') {
+    useTestServerElement.innerHTML = 'Do Not Use Test Servers';
   }
 }
 
