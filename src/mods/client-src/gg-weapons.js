@@ -50,9 +50,9 @@ function addWeaponsToMainMenuSelector() {
   ];
   weaponEnity.script.popup.itemImages = [
     34217429,
-    31196952,
-    31196950,
-    31196954,
+    34217430,
+    34217431,
+    34217435,
     36674698,
     36674696,
     36674697,
