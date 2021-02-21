@@ -25,6 +25,22 @@ function modifyFetcher() {
       );
       console.log(key, requestMap[key]);
     }
+  } else if (
+    process.argv.includes('ELECTRON_IS_DEV') &&
+    localStorage.getItem('useTestServer') == '1'
+  ) {
+    console.log('Using test server request map');
+    for (let [key, value] of Object.entries(requestMap)) {
+      requestMap[key] = value.replace(
+        'https://sn-gateway.tk/',
+        'https://sn-gateway.tk/'
+      );
+      requestMap[key] = requestMap[key].replace(
+        'https://invite.sn-gateway.tk/',
+        'https://invite-test.sn-gateway.tk/'
+      );
+      console.log(key, requestMap[key]);
+    }
   }
 
   Fetcher.prototype.fetch = function (t, e, i) {
@@ -123,6 +139,14 @@ function websocketProxy() {
       }
       if (args[0].includes('invite.venge.io')) {
         if (
+          process.argv.includes('ELECTRON_IS_DEV') &&
+          localStorage.getItem('useTestServer') == '1'
+        ) {
+          args[0] = args[0].replace(
+            'wss://invite.venge.io/',
+            'wss://invite-test.sn-gateway.tk/'
+          );
+        } else if (
           process.argv.includes('ELECTRON_IS_DEV') &&
           localStorage.getItem('useLocalServer') == '1'
         ) {
