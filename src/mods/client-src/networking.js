@@ -6,6 +6,7 @@ const requestMap = {
   create_room: 'https://invite.sn-gateway.tk/create-room',
   get_room: 'https://invite.sn-gateway.tk/get-room',
   update_map: 'https://invite.sn-gateway.tk/update-map',
+  find_room_v2: 'https://invite.sn-gateway.tk/matchmaking',
 };
 
 function modifyFetcher() {
@@ -51,12 +52,14 @@ function modifyFetcher() {
           }
         }
       }
+
       // If the URL still includes the original host,
       // that it means it couldn't find the key in the
       // request map. So we use backup method.
       if (t.includes('gateway.venge.io')) {
         t = t.replace('gateway.venge.io', 'sn-gateway.tk');
       }
+
       // Update params
       var params = new URLSearchParams(new URL(t).search);
 
