@@ -62,10 +62,11 @@ function createWindow() {
 
   shortcut.register(win, 'F4', () => {
     if (electronIsDev) {
-      win.webContents.executeJavaScript('try { toggleDevPanel() } catch (_) {}');
-    }
-    else {
-      console.log("Not running in dev mode.")
+      win.webContents.executeJavaScript(
+        'try { toggleDevPanel() } catch (_) {}'
+      );
+    } else {
+      console.log('Not running in dev mode.');
     }
   });
 
