@@ -152,6 +152,11 @@ function modifyMenuUI() {
     '6f4ea2ce-32c0-4715-b053-73c57d85c607'
   );
   playerListFixJoiner.element.enableMarkup = true;
+
+  const playerCountFix = pc.app.getEntityFromIndex(
+    '471019e4-364f-4b84-8b78-3248af891cce'
+  );
+  playerCountFix.element.text = '1 / 6';
 }
 
 function modifyInGameOverlay() {
@@ -266,8 +271,13 @@ function disableResultScreenMapSelection() {
   };
 }
 
+function disableRematchmaking() {
+  RoomManager.prototype.rematchmaking = function () {};
+}
+
 module.exports = {
   modifyMenuUI,
   modifyInGameOverlay,
   disableResultScreenMapSelection,
+  disableRematchmaking,
 };
