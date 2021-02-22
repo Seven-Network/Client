@@ -2,7 +2,6 @@ function menuUID() {
   const menuUIDFind = pc.app.getEntityFromIndex(
     '06c5ec69-e469-4a9c-8d86-1f10ab8e0412'
   );
-  window.MenuUI = menuUIDFind;
 
   MenuUI.sound.slots = {
     1: {
@@ -130,7 +129,6 @@ function onMatchMakingFound() {
   const stupidMatchFoundSound = pc.app.getEntityFromIndex(
     '90849701-0c04-4a04-a782-1db2f9077105'
   );
-  window.stupidMatchFoundSound = stupidMatchFoundSound;
   stupidMatchFoundSound.sound.slots['Found'].autoPlay = false;
 
   Menu.prototype.onMatchFound = function () {
