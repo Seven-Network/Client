@@ -3,7 +3,7 @@ function menuUID() {
     '06c5ec69-e469-4a9c-8d86-1f10ab8e0412'
   );
 
-  MenuUI.sound.slots = {
+  menuUIDFind.sound.slots = {
     1: {
       name: 'Primary-Click',
       loop: false,
@@ -85,6 +85,9 @@ function menuUID() {
 }
 
 function onMatchMakingStart() {
+  const menuUIDFind = pc.app.getEntityFromIndex(
+    '06c5ec69-e469-4a9c-8d86-1f10ab8e0412'
+  );
   RoomManager.prototype.startMatchmaking = function () {
     (this.isMatchmakingStarted = !0),
       this.app.fire('RoomManager:Matchmaking', !0),
@@ -101,11 +104,14 @@ function onMatchMakingStart() {
       (pc.currentMaps = this.currentMaps),
       (pc.maxPlayers = this.maxPlayers),
       this.app.fire('Analytics:Event', 'Matchmaking', 'Start');
-    MenuUI.sound.slots['Matchmaker'].play();
+    menuUIDFind.sound.slots['Matchmaker'].play();
   };
 }
 
 function onMatchMakingLeave() {
+  const menuUIDFind = pc.app.getEntityFromIndex(
+    '06c5ec69-e469-4a9c-8d86-1f10ab8e0412'
+  );
   RoomManager.prototype.onLeave = function (t) {
     this.ws && (this.ws.close(), (this.ws = !1)),
       (window.location.hash = ''),
@@ -121,7 +127,7 @@ function onMatchMakingLeave() {
           this.app.fire('Analytics:Event', 'Invite', 'Cancel')),
       (this.matchmakingEntity.enabled = !1),
       (this.friendWaiting.enabled = !1);
-    MenuUI.sound.slots['Matchmaker'].stop();
+    menuUIDFind.sound.slots['Matchmaker'].stop();
   };
 }
 
@@ -130,10 +136,13 @@ function onMatchMakingFound() {
     '90849701-0c04-4a04-a782-1db2f9077105'
   );
   stupidMatchFoundSound.sound.slots['Found'].autoPlay = false;
+  const menuUIDFind = pc.app.getEntityFromIndex(
+    '06c5ec69-e469-4a9c-8d86-1f10ab8e0412'
+  );
 
   Menu.prototype.onMatchFound = function () {
-    (this.isMatchFound = !0), MenuUI.sound.slots['Matchmaker'].stop();
-    MenuUI.sound.slots['Loop'].play();
+    (this.isMatchFound = !0), menuUIDFind.sound.slots['Matchmaker'].stop();
+    menuUIDFind.sound.slots['Loop'].play();
     (this.app.scene.layers.getLayerByName('Lightroom').enabled = !1),
       (this.app.scene.layers.getLayerByName('Lightroom-Top').enabled = !1),
       clearTimeout(this.bannerTimeout),
