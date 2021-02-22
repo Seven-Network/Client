@@ -61,7 +61,12 @@ function createWindow() {
   });
 
   shortcut.register(win, 'F4', () => {
-    win.webContents.executeJavaScript('try { toggleDevPanel() } catch (_) {}');
+    if (electronIsDev) {
+      win.webContents.executeJavaScript('try { toggleDevPanel() } catch (_) {}');
+    }
+    else {
+      console.log("Not running in dev mode.")
+    }
   });
 
   shortcut.register(win, 'Alt+F4', () => {
@@ -115,6 +120,7 @@ rpc
   });
 
 const { autoUpdater } = require('electron-updater');
+const electronIsDev = require('electron-is-dev');
 autoUpdater.logger = require('electron-log');
 autoUpdater.logger.transports.file.level = 'info';
 autoUpdater.on('checking-for-update', () => {
