@@ -34,7 +34,7 @@ function menuUID() {
       asset: 31696928,
       startTime: 0,
       duration: null,
-      volume: 0.275,
+      volume: 0.33,
       pitch: 1,
     },
     4: {
@@ -78,7 +78,7 @@ function menuUID() {
       asset: 36578644,
       startTime: 0,
       duration: null,
-      volume: 0.275,
+      volume: 0.33,
       pitch: 1,
     },
   };

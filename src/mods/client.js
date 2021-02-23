@@ -40,5 +40,7 @@ process.once('loaded', () => {
   global.startInit = () => {
     gungameWeapons.addWeaponsToMainMenuSelector();
     clientNetworking.modifyRoomProperties();
+    userInterface.changeVersionURL();
+    userInterface.profilePageEntity();
   };
 });

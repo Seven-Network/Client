@@ -32,7 +32,7 @@ function weaponBalancing() {
 
       sniperPropertise.script.weapon.capacity = 4;
       sniperPropertise.script.weapon.ammo = 4;
-      sniperPropertise.script.weapon.focusFov = 20;
+      sniperPropertise.script.weapon.focusFov = 22.5;
       sniperPropertise.script.weapon.focusSpread = 0;
 
       const tec9Propertise = pc.app.getEntityFromIndex(
@@ -52,9 +52,10 @@ function weaponBalancing() {
       m4Propertise.script.weapon.capacity = 30;
       m4Propertise.script.weapon.ammo = 30;
       m4Propertise.script.weapon.shootTime = 0.05;
-      m4Propertise.script.weapon.damage = 12;
-      m4Propertise.script.weapon.spread = 600;
-      m4Propertise.script.weapon.focusSpread = 400;
+      m4Propertise.script.weapon.damage = 9;
+      m4Propertise.script.weapon.cameraShake = 16;
+      m4Propertise.script.weapon.spread = 750;
+      m4Propertise.script.weapon.focusSpread = 650;
 
       const lmgPropertise = pc.app.getEntityFromIndex(
         '46f6693f-bbe6-48a7-b7fd-0c352d744e67'
@@ -64,7 +65,7 @@ function weaponBalancing() {
       lmgPropertise.script.weapon.ammo = 50;
       lmgPropertise.script.weapon.shootTime = 0.05;
       lmgPropertise.script.weapon.reloadingTime = 4;
-      lmgPropertise.script.weapon.damage = 10;
+      lmgPropertise.script.weapon.damage = 12;
       lmgPropertise.script.weapon.cameraShake = 25;
       lmgPropertise.script.weapon.focusFov = 35;
       lmgPropertise.script.weapon.focusSpread = 350;
@@ -73,11 +74,11 @@ function weaponBalancing() {
         '6da0a919-8f04-41d5-b3c5-1d67d97a0c0c'
       );
 
-      deaglePropertise.script.weapon.capacity = 5;
-      deaglePropertise.script.weapon.ammo = 5;
+      deaglePropertise.script.weapon.capacity = 7;
+      deaglePropertise.script.weapon.ammo = 7;
       deaglePropertise.script.weapon.shootTime = 0.32;
-      deaglePropertise.script.weapon.cameraShake = 44;
-      deaglePropertise.script.weapon.focusFov = 70;
+      deaglePropertise.script.weapon.cameraShake = 52;
+      deaglePropertise.script.weapon.focusFov = 60;
       deaglePropertise.script.weapon.focusSpread = 1000;
     }
   });
