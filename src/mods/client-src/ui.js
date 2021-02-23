@@ -99,27 +99,6 @@ function modifyMenuUI() {
   //contentEntity.parent.children[2].children[2].children[1].enabled = false
   contentEntity.children[0].children[3].enabled = false;
 
-  //Account Page
-  contentEntity.children[3].children[0].element.opacity = 0.4;
-  contentEntity.children[3].children[0].element.color = {
-    r: 0,
-    g: 0,
-    b: 0.3,
-    a: 0.3,
-  };
-  contentEntity.children[3].children[2].children[0].children[0].element.opacity = 0.3;
-  contentEntity.children[3].children[2].children[0].children[0].element.color = {
-    r: 0,
-    g: 0,
-    b: 0.3,
-    a: 0.3,
-  };
-  contentEntity.children[3].children[2].children[1].children[1].children[12].localScale = {
-    x: 0,
-    y: 0,
-    z: 0,
-  }; //Fuck you >:C
-
   //Settings Page
   contentEntity.children[4].children[0].element.opacity = 0.4;
   contentEntity.children[4].children[0].element.color = {
@@ -265,6 +244,7 @@ function disableResultScreenMapSelection() {
           '5f4f73be-e309-4151-871c-e04c60158d78'
         );
         mapSelection.enabled = false;
+        mapSelection.parent.children[4].enabled = false;
       }),
         (window.onbeforeunload = !1);
     }
@@ -275,9 +255,50 @@ function disableRematchmaking() {
   RoomManager.prototype.rematchmaking = function () {};
 }
 
+function changeVersionURL() {
+  const contentEntity = pc.app.getEntityFromIndex(
+    '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
+  );
+
+  contentEntity.children[0].children[1].children[1].children[1].children[8].script.scripts[0].triggerFunction =
+    "window.open('https://discord.gg/85wE47ZK8b');";
+}
+
+function profilePageEntity() {
+  const contentEntity = pc.app.getEntityFromIndex(
+    '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
+  );
+
+  //Account Page
+  contentEntity.children[3].children[0].element.opacity = 0.4;
+  contentEntity.children[3].children[0].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+  contentEntity.children[3].children[2].children[0].children[0].element.opacity = 0.3;
+  contentEntity.children[3].children[2].children[0].children[0].element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+  contentEntity.children[3].children[2].children[1].children[1].children[12].localScale = {
+    x: 0,
+    y: 0,
+    z: 0,
+  }; //Fuck you >:C
+
+  contentEntity.children[3].children[2].children[7].children[1].children[6].enabled = false; // Partnership Button
+  contentEntity.children[3].children[2].children[7].children[1].children[3].enabled = false; // Emoji Button
+}
+
 module.exports = {
   modifyMenuUI,
   modifyInGameOverlay,
   disableResultScreenMapSelection,
   disableRematchmaking,
+  changeVersionURL,
+  profilePageEntity,
 };
