@@ -1,4 +1,10 @@
-const { app, BrowserWindow, globalShortcut, clipboard, dialog } = require('electron');
+const {
+  app,
+  BrowserWindow,
+  globalShortcut,
+  clipboard,
+  dialog,
+} = require('electron');
 const path = require('path');
 const shortcut = require('electron-localshortcut');
 const RPC = require('discord-rpc');
@@ -23,6 +29,7 @@ function createWindow() {
       nodeIntegration: true,
       devTools: true,
       preload: path.join(__dirname, 'public', 'client.js'),
+      additionalArguments: [isDev ? 'ELECTRON_IS_DEV' : 'ELECTRON_IS_PROD'],
     },
   });
   autoUpdater.checkForUpdatesAndNotify();
@@ -44,13 +51,23 @@ function createWindow() {
 
   shortcut.register(win, 'F3', () => {
     var game = win.webContents.getURL().split('#').pop();
-    var url = 'https://venge.io/#' + game;
+    var url = game;
     clipboard.writeText(url);
     win.webContents
       .executeJavaScript(
         'pc.app.fire("Chat:Message", "[rainbow]Seven-Client[/rainbow]", "Link copied!")'
       )
       .catch((e) => {});
+  });
+
+  shortcut.register(win, 'F4', () => {
+    if (electronIsDev) {
+      win.webContents.executeJavaScript(
+        'try { toggleDevPanel() } catch (_) {}'
+      );
+    } else {
+      console.log('Not running in dev mode.');
+    }
   });
 
   shortcut.register(win, 'Alt+F4', () => {
@@ -103,54 +120,53 @@ rpc
     );
   });
 
-  const { autoUpdater } = require('electron-updater');
-  autoUpdater.logger = require('electron-log');
-  autoUpdater.logger.transports.file.level = 'info';
-  autoUpdater.on('checking-for-update', () => {
-    console.log('Checking for updates...');
-  });
-  autoUpdater.on('update-available', (info) => {
-    const dialogOpts = {
-      type: 'info',
-      buttons: ['Alright. I wait for the download to finish'],
-      title: 'Seven Client Update',
-      message: 'You have to download a update for our client!',
-      detail:
-        'Due to recent changes in our network. The client has to be updated to fit the latest update.',
-    };
+const { autoUpdater } = require('electron-updater');
+const electronIsDev = require('electron-is-dev');
+autoUpdater.logger = require('electron-log');
+autoUpdater.logger.transports.file.level = 'info';
+autoUpdater.on('checking-for-update', () => {
+  console.log('Checking for updates...');
+});
+autoUpdater.on('update-available', (info) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Alright. I wait for the download to finish'],
+    title: 'Seven Client Update',
+    message: 'You have to download a update for our client!',
+    detail:
+      'Due to recent changes in our network. The client has to be updated to fit the latest update.',
+  };
 
-    dialog.showMessageBox(dialogOpts).then((returnValue) => {
-      if (returnValue.response === 0)
-        console.log('User saw New Version message');
-        //Add later on some sort of download progress into client itself
-        //win.webContents.openDevTools();
-    });
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) console.log('User saw New Version message');
+    //Add later on some sort of download progress into client itself
+    //win.webContents.openDevTools();
   });
-  autoUpdater.on('update-not-available', () => {
-    console.log('Version is up-to-date');
-  });
-  autoUpdater.on('download-progress', (progressObj) => {
-    console.log(
-      `Download Speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.transferred} + '/ ${progressObj.total}`
-    );
-  });
-  autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-    const dialogOpts = {
-      type: 'info',
-      buttons: ['Restart'],
-      title: 'Application Update',
-      message: process.platform === 'win32' ? releaseNotes : releaseName,
-      detail:
-        'Update has been downloaded. Press Restart to install it!',
-    };
+});
+autoUpdater.on('update-not-available', () => {
+  console.log('Version is up-to-date');
+});
+autoUpdater.on('download-progress', (progressObj) => {
+  console.log(
+    `Download Speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.transferred} + '/ ${progressObj.total}`
+  );
+});
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart'],
+    title: 'Application Update',
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail: 'Update has been downloaded. Press Restart to install it!',
+  };
 
-    dialog.showMessageBox(dialogOpts).then((returnValue) => {
-      if (returnValue.response === 0) autoUpdater.quitAndInstall();
-    });
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall();
   });
-  autoUpdater.on('error', (error) => {
-    console.log(error);
-  });
+});
+autoUpdater.on('error', (error) => {
+  console.log(error);
+});
 
 app.whenReady().then(createWindow);
 

@@ -1,11 +1,13 @@
 {
   "name": "seven-network-client",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "src/main.js",
   "description": "Seven Network Client is a Private Venge.io Client that connects to the Seven Network Private Server",
   "scripts": {
     "serve": "electron .",
+    "serve:local": "concurrently \"cd ../Gateway && yon start:dev\" \"cd ../Invite && yon start:dev\" \"cd ../GameServer && yon start:dev\" \"yon serve\"",
     "hot-serve": "yon build-public && yon serve",
+    "hot-serve:local": "concurrently \"cd ../Gateway && yon start:dev\" \"cd ../Invite && yon start:dev\" \"cd ../GameServer && yon start:dev\" \"yon build-public && yon serve\"",
     "build-win": "electron-builder -w",
     "build-mac": "electron-builder -m",
     "build-linux": "electron-builder -l",
@@ -47,7 +49,8 @@
       "!src/mods",
       "!src/source",
       "!src/builder.js",
-      "!src/downloader.js"
+      "!src/downloader.js",
+      "!.github/*"
     ],
     "nsis": {
       "oneClick": false,
@@ -89,6 +92,7 @@
   },
   "devDependencies": {
     "axios": "^0.21.1",
+    "concurrently": "^5.3.0",
     "electron": "9.4.3",
     "electron-builder": "^22.9.1",
     "fs-extra": "^9.0.1",

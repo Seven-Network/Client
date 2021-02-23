@@ -21,21 +21,22 @@ Contains all the original Venge assets and scripts. More info below.
 ## Developer Setup
 
 1. Clone the repository on to your machine:
-`git clone git@github.com:niazmsameer/xVenge.git`
+   `git clone git@github.com:Seven-Network/Client.git`
 
 2. Install dependencies:
-`npm install` or `yarn` (Run these in the project root)
+   `npm install` or `yarn` (Run these in the project root)
 
 3. Update source folder:
-`npm run update-source` or `yarn update-source`
+   `npm run update-source` or `yarn update-source`
 
 4. Build client public files:
-`npm run build-public` or `yarn build-public`
+   `npm run build-public` or `yarn build-public`
 
 5. Start app in development mode:
-`npm run serve` or `yarn serve`
+   `npm run serve` or `yarn serve`
 
 6. Package the app for distribution:
+
 - Windows: `npm run build-win` or `yarn build-win`
 - macOS: `npm run build-mac` or `yarn build-mac` (Can only be run on macOS)
 - Linux: `npm run build-linux` or `yarn build-linux`
