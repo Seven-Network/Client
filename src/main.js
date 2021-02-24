@@ -34,7 +34,7 @@ function createWindow() {
   });
   autoUpdater.checkForUpdatesAndNotify();
 
-  win.loadFile('src/public/index.html');
+  win.loadFile('src/public/preload.html');
 
   // Crashes app.commandLine.appendSwitch function somehow. Better use Shortcut for opening it
   //if (isDev) win.webContents.openDevTools();
@@ -71,7 +71,9 @@ function createWindow() {
   });
 
   shortcut.register(win, 'Alt+F4', () => {
-    app.quit();
+    shortcut.unregisterAll(win, BrowserWindow);
+
+    app.quit(0);
   });
 
   shortcut.register(win, 'F11', () => {

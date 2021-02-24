@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Seven Network Client</title>
+    <style type="text/css">
+      .fade-in {
+        animation: fadeIn ease 3s;
+        -webkit-animation: fadeIn ease 3s;
+        -moz-animation: fadeIn ease 3s;
+        -o-animation: fadeIn ease 3s;
+        -ms-animation: fadeIn ease 3s;
+      }
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @-moz-keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @-webkit-keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @-o-keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @-ms-keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      .fade-out {
+        animation: fadeOut ease 3s;
+        -webkit-animation: fadeOut ease 3s;
+        -moz-animation: fadeOut ease 3s;
+        -o-animation: fadeOut ease 3s;
+        -ms-animation: fadeOut ease 3s;
+      }
+      @keyframes fadeOut {
+        100% {
+          opacity: 0;
+        }
+        0% {
+          opacity: 1;
+        }
+      }
+
+      @-moz-keyframes fadeOut {
+        100% {
+          opacity: 0;
+        }
+        0% {
+          opacity: 1;
+        }
+      }
+
+      @-webkit-keyframes fadeOut {
+        100% {
+          opacity: 0;
+        }
+        0% {
+          opacity: 1;
+        }
+      }
+
+      @-o-keyframes fadeOut {
+        100% {
+          opacity: 0;
+        }
+        0% {
+          opacity: 1;
+        }
+      }
+
+      @-ms-keyframes fadeOut {
+        100% {
+          opacity: 0;
+        }
+        0% {
+          opacity: 1;
+        }
+      }
+      body,
+      html {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        background: #000000;
+        font-family: Arial;
+      }
+
+      .center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-family: Arial;
+        font-size: 2vw;
+      }
+
+      .center img {
+        width: 10vw;
+      }
+
+      .shortcuts {
+        position: absolute;
+        bottom: 3vh;
+        width: 100%;
+        padding-left: 3vw;
+        padding-right: 3vw;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+        left: 0;
+      }
+
+      .shortcuts span {
+        float: left;
+        color: #fff;
+        font-size: 1vw;
+        margin-right: 4vw;
+      }
+
+      .shortcuts key {
+        background: #fff;
+        padding: 0.4vw;
+        color: #000;
+        border: solid 1px #666;
+        border-radius: 4px;
+      }
+
+      .shortcuts label {
+        margin-left: 1vw;
+      }
+
+      .version {
+        float: right !important;
+        margin-right: 0px !important;
+      }
+      #myVideo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: auto;
+        width: auto;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="myAudio" autoplay>
+      <source src="files/intro.mp3" type="audio/mp3" />
+    </audio>
+    <video autoplay muted loop id="myVideo" class="fade-in">
+      <source src="files/intro.mp4" type="video/mp4" />
+    </video>
+
+    <div class="center">
+      <div id="seven" class="fade-in">
+        <img src="files/logo.png" />
+      </div>
+    </div>
+
+    <div class="shortcuts">
+      <span>
+        <key>F1</key>
+        <label>Reload Client</label>
+      </span>
+
+      <span>
+        <key>F2</key>
+        <label>Join Link Prompt</label>
+      </span>
+      <span>
+        <key>F11</key>
+        <label>Full screen</label>
+      </span>
+
+      <span>
+        <key>ALT</key>
+        +
+        <key>F4</key>
+        <label>Quit Client</label>
+      </span>
+
+      <span id="version" class="version"> 0.1.2 </span>
+    </div>
+
+    <script type="text/javascript">
+      var audio = document.getElementById('myAudio');
+      audio.volume = 0.15;
+      setTimeout(function () {
+        var logo = document.getElementById('seven');
+        var video = document.getElementById('myVideo');
+        logo.classList.remove('fade-in');
+        logo.classList.add('fade-out');
+        video.classList.remove('fade-in');
+        video.classList.add('fade-out');
+      }, 12550);
+      setTimeout(function () {
+        window.location.href = 'index.html';
+      }, 15500);
+    </script>
+  </body>
+</html>
