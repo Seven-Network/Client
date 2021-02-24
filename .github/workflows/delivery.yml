@@ -1,0 +1,103 @@
+name: Continous Delivery Workflow
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
+
+  build-win:
+    name: Build Windows
+    runs-on: windows-2016
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Update source
+        run: npm run update-source
+
+      - name: Build public files
+        run: npm run build-public
+
+      - name: Build distributable
+        run: npm run build-win
+
+      - name: Upload release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/Seven-Network-Client-Windows.exe
+          asset_name: Seven-Network-Client-Windows.exe
+          tag: ${{ github.ref }}
+          overwrite: true
+
+  build-mac:
+    name: Build Mac
+    runs-on: macOS-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Update source
+        run: npm run update-source
+
+      - name: Build public files
+        run: npm run build-public
+
+      - name: Build distributable
+        run: npm run build-mac
+
+      - name: Upload release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/Seven-Network-Client-Mac.dmg
+          asset_name: Seven-Network-Client-Mac.dmg
+          tag: ${{ github.ref }}
+          overwrite: true
