@@ -52,7 +52,7 @@ function weaponBalancing() {
       m4Propertise.script.weapon.capacity = 30;
       m4Propertise.script.weapon.ammo = 30;
       m4Propertise.script.weapon.shootTime = 0.05;
-      m4Propertise.script.weapon.damage = 9;
+      m4Propertise.script.weapon.damage = 11;
       m4Propertise.script.weapon.cameraShake = 16;
       m4Propertise.script.weapon.spread = 750;
       m4Propertise.script.weapon.focusSpread = 650;
