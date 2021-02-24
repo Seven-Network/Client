@@ -1,6 +1,6 @@
 {
   "name": "seven-network-client",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "src/main.js",
   "description": "Seven Network Client is a Private Venge.io Client that connects to the Seven Network Private Server",
   "scripts": {
