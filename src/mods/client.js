@@ -5,6 +5,7 @@ const gungameWeapons = require('./client-src/gg-weapons');
 const devTools = require('./client-src/dev');
 const weaponPropertise = require('./client-src/weaponPropertise');
 const menuSoundRedesign = require('./client-src/menuSounds');
+const mapProperties = require('./client-src/mapProperties');
 
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
@@ -35,6 +36,7 @@ process.once('loaded', () => {
     menuSoundRedesign.onMatchMakingLeave();
     menuSoundRedesign.onMatchMakingStart();
     menuSoundRedesign.onMatchMakingFound();
+    mapProperties.mapChanges();
   };
 
   global.startInit = () => {
