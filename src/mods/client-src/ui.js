@@ -204,6 +204,11 @@ function modifyInGameOverlay() {
       );
       scopeBorder1.enabled = false;
       scopeBorder2.enabled = false;
+
+      const healthEntity = pc.app.getEntityFromIndex(
+        '68d4e7a3-7063-11ea-97ae-026349a27a7c'
+      )
+      healthEntity.script.variables.health = {r: 0, g: 0.75, b: 0.75, a: 1}
     }
   });
 }
