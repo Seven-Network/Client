@@ -3,6 +3,10 @@
   <head>
     <title>Seven Network Client</title>
     <style type="text/css">
+      @font-face {
+        font-family: 'Blender Pro Thin'; /*a name to be used later*/
+        src: url('files/BlenderPro-Thin.ttf'); /*URL to font*/
+      }
       .fade-in {
         animation: fadeIn ease 3s;
         -webkit-animation: fadeIn ease 3s;
@@ -118,6 +122,17 @@
         font-family: Arial;
       }
 
+      .center-above {
+        position: relative;
+        top: 25%;
+        text-align: center;
+        color: #fff;
+        font-family: Blender Pro Thin;
+        font-size: 2vw;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+
       .center {
         position: absolute;
         left: 50%;
@@ -195,6 +210,12 @@
       </div>
     </div>
 
+    <div class="center-above">
+      <div class="fade-in" id="center-text">
+        <h2>Welcome to Seven Network</h2>
+      </div>
+    </div>
+
     <div class="shortcuts">
       <span>
         <key>F1</key>
@@ -222,14 +243,17 @@
 
     <script type="text/javascript">
       var audio = document.getElementById('myAudio');
-      audio.volume = 0.15;
+      audio.volume = 0.075;
       setTimeout(function () {
         var logo = document.getElementById('seven');
         var video = document.getElementById('myVideo');
+        var text_center = document.getElementById('center-text');
         logo.classList.remove('fade-in');
         logo.classList.add('fade-out');
         video.classList.remove('fade-in');
         video.classList.add('fade-out');
+        text_center.classList.remove('fade-in');
+        text_center.classList.add('fade-out');
       }, 12550);
       setTimeout(function () {
         window.location.href = 'index.html';
