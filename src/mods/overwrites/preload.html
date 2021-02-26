@@ -212,7 +212,7 @@
 
     <div class="center-above">
       <div class="fade-in" id="center-text">
-        <h2>Welcome to Seven Network</h2>
+        <h2 id="update-el">Welcome to Seven Network</h2>
       </div>
     </div>
 
@@ -242,6 +242,11 @@
     </div>
 
     <script type="text/javascript">
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.on('update-progress', (ev, arg) => {
+        document.getElementById('update-el').innerHTML =
+        `Downloading update: ${arg}%`;
+      });
       var audio = document.getElementById('myAudio');
       audio.volume = 0.075;
       setTimeout(function () {
@@ -258,6 +263,10 @@
       setTimeout(function () {
         window.location.href = 'index.html';
       }, 15500);
+      // Here we can ask the main process for
+      // the progress
+      // No I mean we need to ask the main
+      // process every tick
     </script>
   </body>
 </html>

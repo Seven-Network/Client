@@ -4,6 +4,7 @@ const {
   globalShortcut,
   clipboard,
   dialog,
+  ipcMain,
 } = require('electron');
 const path = require('path');
 const shortcut = require('electron-localshortcut');
@@ -149,6 +150,8 @@ autoUpdater.on('update-not-available', () => {
   console.log('Version is up-to-date');
 });
 autoUpdater.on('download-progress', (progressObj) => {
+  // Here you can fire an IPC event
+  win.webContents.send('update-progress', progressObj.percent)
   console.log(
     `Download Speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.transferred} + '/ ${progressObj.total}`
   );
