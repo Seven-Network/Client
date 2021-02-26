@@ -11,8 +11,8 @@ function weaponBalancing() {
 
       scarPropertise.script.weapon.capacity = 20;
       scarPropertise.script.weapon.ammo = 20;
-      scarPropertise.script.weapon.spread = 1500
-      scarPropertise.script.weapon.shootTime = 0.10;
+      scarPropertise.script.weapon.spread = 1500;
+      scarPropertise.script.weapon.shootTime = 0.1;
       scarPropertise.script.weapon.focusFov = 35;
       scarPropertise.script.weapon.focusSpread = 150;
 
