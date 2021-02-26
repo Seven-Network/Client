@@ -7,10 +7,6 @@ function modifyMenuUI() {
     '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
   );
 
-  //Redo this. Spaghetti Code
-
-  window.contentEntity = contentEntity;
-
   bannerEntity.enabled = false; // Disable Ad banner
   contentEntity.setLocalPosition(0, -110, 0);
   contentEntity.element.margin = { w: 120, x: -460, y: -600, z: -460 };
@@ -366,7 +362,7 @@ function profilePageEntity() {
 
   const accountBackground = pc.app.getEntityFromIndex(
     '80a82ef3-d074-4fd5-9c99-9f969ef29888'
-  )
+  );
   accountBackground.element.opacity = 0.4;
   accountBackground.element.color = {
     r: 0,
@@ -377,7 +373,7 @@ function profilePageEntity() {
 
   const sideBar = pc.app.getEntityFromIndex(
     'bac460ee-3cd9-4de0-ae3c-ed99ff1619f1'
-  )
+  );
 
   sideBar.element.opacity = 0.3;
   sideBar.element.color = {
@@ -389,7 +385,7 @@ function profilePageEntity() {
 
   const removeSocialLink = pc.app.getEntityFromIndex(
     '1c84fac2-9b22-415d-a477-3d6afd470e9f'
-  )
+  );
   removeSocialLink.localScale = {
     x: 0,
     y: 0,
