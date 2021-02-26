@@ -9,112 +9,201 @@ function modifyMenuUI() {
 
   //Redo this. Spaghetti Code
 
+  window.contentEntity = contentEntity;
+
   bannerEntity.enabled = false; // Disable Ad banner
   contentEntity.setLocalPosition(0, -110, 0);
   contentEntity.element.margin = { w: 120, x: -460, y: -600, z: -460 };
-  contentEntity.children[0].children[2].enabled = false; // Social Links
-  contentEntity.children[0].children[1].children[1].children[1].children[1].enabled = 0; //Quest Bar
-  contentEntity.children[0].children[1].children[1].children[1].children[0].enabled = 0; //Shop Notification (also called 'Slider')
-  contentEntity.parent.children[2].children[1].children[0].element.width = 300;
-  contentEntity.parent.children[2].children[1].children[0].element.height = 200;
-  contentEntity.parent.children[2].children[1].element.margin = {
+
+  const socialLinks = pc.app.getEntityFromIndex(
+    'cb6b5875-716b-41cf-b8b3-1366c9c0d388'
+  );
+  socialLinks.enabled = false;
+
+  const questBar = pc.app.getEntityFromIndex(
+    'c54764ff-a5d4-49d9-b7a6-24de6e3def41'
+  );
+  questBar.enabled = false;
+
+  const shopSliderNotification = pc.app.getEntityFromIndex(
+    '58aad250-a3ee-484c-a580-f6dfc9b5c8ad'
+  );
+  shopSliderNotification.enabled = false;
+
+  const logoElements = pc.app.getEntityFromIndex(
+    'f4639fce-ab03-4766-847a-3beee201bc2a'
+  );
+
+  logoElements.element.width = 300;
+  logoElements.element.height = 200;
+
+  const logoRectangle = pc.app.getEntityFromIndex(
+    '78923add-f2a6-4bd9-88fc-253ffcea3ab3'
+  );
+  logoRectangle.element.margin = {
     x: 215,
     y: -20,
     z: -210,
     w: -25,
   };
-  contentEntity.parent.children[2].children[0].element.color = {
+
+  const headerBackground = pc.app.getEntityFromIndex(
+    'a8864f8b-ae61-470d-99b2-91800ab9c798'
+  );
+
+  headerBackground.element.color = {
     r: 0,
     g: 0,
     b: 0.3,
     a: 1,
   };
-  contentEntity.parent.children[2].children[0].element.opacity = 0.3;
+  headerBackground.element.opacity = 0.3;
 
-  //Main Menu Page
-  contentEntity.children[0].children[1].children[0].children[0].element.opacity = 0.3;
-  contentEntity.children[0].children[1].children[0].children[0].element.color = {
+  const weaponBackground = pc.app.getEntityFromIndex(
+    'a5831d25-af1f-43ad-bcff-962c437cb583'
+  );
+
+  weaponBackground.element.opacity = 0.3;
+  weaponBackground.element.color = {
     r: 0,
     g: 0,
     b: 0.3,
     a: 0.3,
   };
-  contentEntity.children[0].children[1].children[0].children[1].element.opacity = 0.3;
-  contentEntity.children[0].children[1].children[0].children[1].element.color = {
+
+  const heroBackground = pc.app.getEntityFromIndex(
+    '2a54bcff-f343-4256-9ca9-3f8c5d2e1ad8'
+  );
+
+  heroBackground.element.opacity = 0.3;
+  heroBackground.element.color = {
     r: 0,
     g: 0,
     b: 0.3,
     a: 0.3,
   };
-  contentEntity.children[0].children[1].children[1].children[0].element.opacity = 0.3;
-  contentEntity.children[0].children[1].children[1].children[0].element.color = {
+
+  const quickMatchBackground = pc.app.getEntityFromIndex(
+    'dfbe908b-c82f-4f1b-a13f-e5ec56619b03'
+  );
+
+  quickMatchBackground.element.opacity = 0.3;
+  quickMatchBackground.element.color = {
     r: 0,
     g: 0,
     b: 0.3,
     a: 0.3,
   };
-  contentEntity.children[0].children[1].children[1].children[1].children[6].enabled = false;
-  contentEntity.children[0].children[1].children[1].children[1].children[7].enabled = false;
-  contentEntity.children[0].children[1].children[1].children[1].children[9].element.text =
-    'Closed Beta'; //Should be removed later
-  contentEntity.children[0].children[1].children[1].children[1].children[9].element.color = {
+
+  const changeLogButton = pc.app.getEntityFromIndex(
+    '019bfc08-7caa-49fe-a4b1-681dc7060a80'
+  );
+  changeLogButton.enabled = false;
+
+  const tosButton = pc.app.getEntityFromIndex(
+    '72fadb2f-bcce-4848-9c17-f66bfce97edf'
+  );
+
+  tosButton.enabled = false;
+
+  const betaText = pc.app.getEntityFromIndex(
+    'e0850441-d29d-4e62-ae27-b1853130faec'
+  );
+
+  betaText.element.text = 'Closed Beta'; //Should be removed later
+  betaText.element.color = {
     r: 1,
     g: 1,
     b: 1,
     a: 1,
   };
-  contentEntity.children[0].children[1].children[1].children[1].children[8].element.color = {
+
+  const versionText = pc.app.getEntityFromIndex(
+    '9b3f317d-b27f-4819-8303-5c0bab068d86'
+  );
+
+  versionText.element.color = {
     r: 0,
     g: 1,
     b: 1,
     a: 1,
   };
-  contentEntity.children[0].children[0].children[0].element.opacity = 0.3;
-  contentEntity.children[0].children[0].children[0].element.color = {
-    r: 0,
-    g: 0,
-    b: 0.3,
-    a: 0.3,
-  };
-  contentEntity.children[0].children[0].children[1].element.opacity = 0.3;
-  contentEntity.children[0].children[0].children[1].element.color = {
-    r: 0,
-    g: 0,
-    b: 0.3,
-    a: 0.3,
-  };
-  contentEntity.children[0].children[1].children[1].children[1].children[5].element.color = {
-    r: 0,
-    g: 0.5,
-    b: 0.8,
-    a: 1,
-  };
-  contentEntity.children[0].children[1].children[1].children[1].children[3].element.color = {
-    r: 0,
-    g: 0.5,
-    b: 0.8,
-    a: 1,
-  };
-  //contentEntity.parent.children[2].children[2].children[2].enabled = false
-  //contentEntity.parent.children[2].children[2].children[1].enabled = false
-  contentEntity.children[0].children[3].enabled = false;
 
-  //Settings Page
-  contentEntity.children[4].children[0].element.opacity = 0.4;
-  contentEntity.children[4].children[0].element.color = {
+  const createAccountPage = pc.app.getEntityFromIndex(
+    '92abc8d7-6585-44de-aff6-604ccdbe1524'
+  );
+  createAccountPage.element.opacity = 0.3;
+  createAccountPage.element.color = {
     r: 0,
     g: 0,
     b: 0.3,
     a: 0.3,
   };
-  contentEntity.children[4].children[1].children[0].element.opacity = 0.3;
-  contentEntity.children[4].children[1].children[0].element.color = {
+
+  const pageProfile = pc.app.getEntityFromIndex(
+    '4fbdbd0e-b3f1-4561-bb71-a8038145c6e6'
+  );
+  pageProfile.element.opacity = 0.3;
+  pageProfile.element.color = {
     r: 0,
     g: 0,
     b: 0.3,
     a: 0.3,
   };
-  contentEntity.children[4].children[4].children[1].children[2].enabled = false; //Remove 'Disable Menu Music' since there is no menu music anymore ;-;
+
+  const findMatchEntity = pc.app.getEntityFromIndex(
+    'ed3526e2-16ff-4fa9-a9a5-2dd5908e842e'
+  );
+
+  findMatchEntity.element.color = {
+    r: 0,
+    g: 0.5,
+    b: 0.8,
+    a: 1,
+  };
+
+  const inviteFriendsPage = pc.app.getEntityFromIndex(
+    '0f3aaa83-aa4e-4a46-af03-a40bf527f726'
+  );
+
+  inviteFriendsPage.element.color = {
+    r: 0,
+    g: 0.5,
+    b: 0.8,
+    a: 1,
+  };
+
+  const twitchLink = pc.app.getEntityFromIndex(
+    '2123a6e2-3bf0-40f8-86cd-9a68f689bd2b'
+  );
+  twitchLink.enabled = false;
+
+  const settingsBackground = pc.app.getEntityFromIndex(
+    'af0b095d-2ad7-42ee-8c10-6cd4f1f25602'
+  );
+  settingsBackground.element.opacity = 0.4;
+  settingsBackground.element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+
+  const setttingsSidebarBackground = pc.app.getEntityFromIndex(
+    'db1a4837-96c1-4bf7-b11a-0074a6e042ed'
+  );
+  setttingsSidebarBackground.element.opacity = 0.3;
+  setttingsSidebarBackground.element.color = {
+    r: 0,
+    g: 0,
+    b: 0.3,
+    a: 0.3,
+  };
+
+  const disableMusicButton = pc.app.getEntityFromIndex(
+    'c719a624-3eb0-4761-9c3d-a18c7963b776'
+  );
+  disableMusicButton.enabled = false; //Remove 'Disable Menu Music' since there is no menu music anymore ;-;
 
   const removeServerButton = pc.app.getEntityFromIndex(
     '6e36935a-9361-4b62-88a8-76e255a1cc4b'
@@ -127,6 +216,7 @@ function modifyMenuUI() {
   );
   playerListFixCreator.element.text = 'Loading...';
   playerListFixCreator.element.enableMarkup = true;
+
   const playerListFixJoiner = pc.app.getEntityFromIndex(
     '6f4ea2ce-32c0-4715-b053-73c57d85c607'
   );
@@ -193,7 +283,7 @@ function modifyInGameOverlay() {
       const modifyViewmodel = pc.app.getEntityFromIndex(
         '63cc6332-bf3e-4da6-a11b-c467bead28a4'
       );
-      modifyViewmodel.localPosition = { x: 0.45, y: 0.6, z: -0.5 };
+      modifyViewmodel.localPosition = { x: 0.55, y: 0.56, z: -0.66 };
 
       //Remove Scope Border
       const scopeBorder1 = pc.app.getEntityFromIndex(
@@ -207,8 +297,8 @@ function modifyInGameOverlay() {
 
       const healthEntity = pc.app.getEntityFromIndex(
         '68d4e7a3-7063-11ea-97ae-026349a27a7c'
-      )
-      healthEntity.script.variables.health = {r: 0, g: 0.75, b: 0.75, a: 1}
+      );
+      healthEntity.script.variables.health = { r: 0, g: 0.75, b: 0.75, a: 1 };
     }
   });
 }
@@ -274,26 +364,37 @@ function profilePageEntity() {
     '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
   );
 
-  //Account Page
-  contentEntity.children[3].children[0].element.opacity = 0.4;
-  contentEntity.children[3].children[0].element.color = {
+  const accountBackground = pc.app.getEntityFromIndex(
+    '80a82ef3-d074-4fd5-9c99-9f969ef29888'
+  )
+  accountBackground.element.opacity = 0.4;
+  accountBackground.element.color = {
     r: 0,
     g: 0,
     b: 0.3,
     a: 0.3,
   };
-  contentEntity.children[3].children[2].children[0].children[0].element.opacity = 0.3;
-  contentEntity.children[3].children[2].children[0].children[0].element.color = {
+
+  const sideBar = pc.app.getEntityFromIndex(
+    'bac460ee-3cd9-4de0-ae3c-ed99ff1619f1'
+  )
+
+  sideBar.element.opacity = 0.3;
+  sideBar.element.color = {
     r: 0,
     g: 0,
     b: 0.3,
     a: 0.3,
   };
-  contentEntity.children[3].children[2].children[1].children[1].children[12].localScale = {
+
+  const removeSocialLink = pc.app.getEntityFromIndex(
+    '1c84fac2-9b22-415d-a477-3d6afd470e9f'
+  )
+  removeSocialLink.localScale = {
     x: 0,
     y: 0,
     z: 0,
-  }; //Fuck you >:C
+  };
 
   contentEntity.children[3].children[2].children[7].children[1].children[6].enabled = false; // Partnership Button
   contentEntity.children[3].children[2].children[7].children[1].children[3].enabled = false; // Emoji Button
