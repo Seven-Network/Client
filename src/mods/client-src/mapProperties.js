@@ -29,12 +29,26 @@ function mapChanges() {
 
       console.log('Found Map: Sierra');
     } else if (pc.currentMap == 'Xibalba') {
+      pc.app.renderer.scene.exposure = 1;
+      pc.app.renderer.scene.skyboxIntensity = 0.01;
+      pc.app.renderer.scene.fogStart = 5;
+      pc.app.renderer.scene.fog = 'linear';
+      pc.app.renderer.scene.fogColor = { r: 0, g: 0, b: 0, a: 1 };
+      pc.app.renderer.scene.fogEnd = 50;
+      console.log('Added Fog');
+
       console.log('Found Map: Xibalba');
     } else if (pc.currentMap == 'Mistle') {
       console.log('Found Map: Mistle');
     } else if (pc.currentMap == 'Tundra') {
       console.log('Found Map: Tundra');
     } else if (pc.currentMap == 'Temple') {
+      pc.app.renderer.scene.skyboxIntensity = 20;
+      pc.app.renderer.scene.fog = 'linear';
+      pc.app.renderer.scene.fogStart = 0.01;
+      pc.app.renderer.scene.fogEnd = 500;
+      console.log('Added Fog');
+
       console.log('Found Map: Temple');
     } else {
       console.log('What fucking map is this...');
