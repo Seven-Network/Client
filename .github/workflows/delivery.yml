@@ -44,6 +44,15 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
 
+      - name: Upload blockmap
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/Seven-Network-Client-Windows.exe.blockmap
+          asset_name: Seven-Network-Client-Windows.exe.blockmap
+          tag: ${{ github.ref }}
+          overwrite: true
+
   build-mac:
     name: Build Mac
     runs-on: macOS-latest
