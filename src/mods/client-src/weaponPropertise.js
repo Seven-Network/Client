@@ -11,7 +11,8 @@ function weaponBalancing() {
 
       scarPropertise.script.weapon.capacity = 20;
       scarPropertise.script.weapon.ammo = 20;
-      scarPropertise.script.weapon.shootTime = 0.08;
+      scarPropertise.script.weapon.spread = 1500
+      scarPropertise.script.weapon.shootTime = 0.10;
       scarPropertise.script.weapon.focusFov = 35;
       scarPropertise.script.weapon.focusSpread = 150;
 
@@ -54,8 +55,8 @@ function weaponBalancing() {
       m4Propertise.script.weapon.shootTime = 0.05;
       m4Propertise.script.weapon.damage = 11;
       m4Propertise.script.weapon.cameraShake = 16;
-      m4Propertise.script.weapon.spread = 750;
-      m4Propertise.script.weapon.focusSpread = 650;
+      m4Propertise.script.weapon.spread = 700;
+      m4Propertise.script.weapon.focusSpread = 600;
 
       const lmgPropertise = pc.app.getEntityFromIndex(
         '46f6693f-bbe6-48a7-b7fd-0c352d744e67'
