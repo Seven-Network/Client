@@ -129,42 +129,21 @@ autoUpdater.logger.transports.file.level = 'info';
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for updates...');
 });
-autoUpdater.on('update-available', (info) => {
-  const dialogOpts = {
-    type: 'info',
-    buttons: ['Alright. I wait for the download to finish'],
-    title: 'Seven Client Update',
-    message: 'You have to download a update for our client!',
-    detail:
-      'Due to recent changes in our network. The client has to be updated to fit the latest update.',
-  };
-
-  dialog.showMessageBox(dialogOpts).then((returnValue) => {
-    if (returnValue.response === 0) console.log('User saw New Version message');
-    //Add later on some sort of download progress into client itself
-    //win.webContents.openDevTools();
-  });
+autoUpdater.on('update-available', (_) => {
+  win.webContents.send('update-found');
+  shortcut.unregisterAll(win);
 });
 autoUpdater.on('update-not-available', () => {
   console.log('Version is up-to-date');
 });
 autoUpdater.on('download-progress', (progressObj) => {
+  win.webContents.send('update-progress', progressObj.percent);
   console.log(
     `Download Speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.transferred} + '/ ${progressObj.total}`
   );
 });
-autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-  const dialogOpts = {
-    type: 'info',
-    buttons: ['Restart'],
-    title: 'Application Update',
-    message: process.platform === 'win32' ? releaseNotes : releaseName,
-    detail: 'Update has been downloaded. Press Restart to install it!',
-  };
-
-  dialog.showMessageBox(dialogOpts).then((returnValue) => {
-    if (returnValue.response === 0) autoUpdater.quitAndInstall();
-  });
+autoUpdater.on('update-downloaded', () => {
+  autoUpdater.quitAndInstall();
 });
 autoUpdater.on('error', (error) => {
   console.log(error);

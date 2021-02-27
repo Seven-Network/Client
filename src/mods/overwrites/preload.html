@@ -212,7 +212,7 @@
 
     <div class="center-above">
       <div class="fade-in" id="center-text">
-        <h2>Welcome to Seven Network</h2>
+        <h2 id="update-el">Welcome to Seven Network</h2>
       </div>
     </div>
 
@@ -242,9 +242,22 @@
     </div>
 
     <script type="text/javascript">
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.on('update-found', (ev, _) => {
+        if (window.redirTimeout) {
+          clearTimeout(window.redirTimeout);
+          clearTimeout(window.redirTimeout2);
+        }
+        document.getElementById('update-el').innerHTML = 'Update found';
+      });
+      ipcRenderer.on('update-progress', (ev, arg) => {
+        document.getElementById(
+          'update-el'
+        ).innerHTML = `Downloading update: ${Math.floor(arg)}%`;
+      });
       var audio = document.getElementById('myAudio');
       audio.volume = 0.075;
-      setTimeout(function () {
+      window.redirTimeout = setTimeout(function () {
         var logo = document.getElementById('seven');
         var video = document.getElementById('myVideo');
         var text_center = document.getElementById('center-text');
@@ -255,9 +268,13 @@
         text_center.classList.remove('fade-in');
         text_center.classList.add('fade-out');
       }, 12550);
-      setTimeout(function () {
+      window.redirTimeout2 = setTimeout(function () {
         window.location.href = 'index.html';
       }, 15500);
+      // Here we can ask the main process for
+      // the progress
+      // No I mean we need to ask the main
+      // process every tick
     </script>
   </body>
 </html>
