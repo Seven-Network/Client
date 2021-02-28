@@ -231,7 +231,6 @@ function modifyInGameOverlay() {
     );
 
     if (ingameOverlay) {
-
       // FPS Counter
       const fpsPingCounterEntity = pc.app.getEntityFromIndex(
         '2885c322-8cea-4b70-b591-89266a1bb5a0'
@@ -435,8 +434,6 @@ function profilePageEntity() {
   }
 })
 }*/
-
-
 
 module.exports = {
   modifyMenuUI,
