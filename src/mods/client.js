@@ -29,6 +29,7 @@ process.once('loaded', () => {
     gungameWeapons.addWeaponsToMainMenuScene();
     userInterface.modifyMenuUI();
     userInterface.modifyInGameOverlay();
+    //userInterface.addBloom();
     userInterface.disableRematchmaking();
     weaponPropertise.weaponBalancing();
     userInterface.disableResultScreenMapSelection();
