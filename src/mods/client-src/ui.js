@@ -445,5 +445,5 @@ module.exports = {
   disableRematchmaking,
   changeVersionURL,
   profilePageEntity,
-  addBloom,
+  //addBloom,
 };

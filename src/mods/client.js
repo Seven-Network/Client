@@ -18,6 +18,7 @@ process.once('loaded', () => {
     userExperience.allowSoloCustom();
     userExperience.reduceJumpAnimIntensity();
     userExperience.removeReminder();
+    userExperience.removeCastShadows();
     gungameWeapons.modifyKeybinds();
     gungameWeapons.removeCircularWeaponSelector();
     gungameWeapons.weaponSelectionFix();
