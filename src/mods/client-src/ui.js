@@ -397,7 +397,7 @@ function profilePageEntity() {
 }
 
 //Added bloom which breaks on respawns >:C
-/*function addBloom() {
+function addBloom() {
   pc.app.on('Map:Loaded', () => {
     const ingameOverlay = pc.app.getEntityFromIndex(
       '9fcdea8c-ee29-403e-8e5b-0eddd1e548f6'
@@ -410,9 +410,9 @@ function profilePageEntity() {
         window.fpsCamera = fpsCamera;
   
         var bloom = new pc.BloomEffect(pc.app.graphicsDevice);
-        fpsCamera.camera.postEffects.addEffect(bloom)
+        window.bloom = bloom
         if (pc.currentMap == 'Sierra'){
-          bloom.bloomIntensity = 2.5
+          bloom.bloomIntensity = 1.75
           bloom.bloomThreshold = 0.7
         }
         else if (pc.currentMap == 'Xibalba'){
@@ -433,7 +433,7 @@ function profilePageEntity() {
         }
   }
 })
-}*/
+}
 
 module.exports = {
   modifyMenuUI,
