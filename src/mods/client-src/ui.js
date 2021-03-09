@@ -3,6 +3,17 @@ function modifyMenuUI() {
     '2baa7f22-cb28-4cbb-a175-55b8d4385c6f'
   );
 
+  var bloom = new pc.BloomEffect(pc.app.graphicsDevice);
+  window.bloom = bloom;
+
+  const menu = pc.app.getEntityFromIndex(
+    'f476d893-1c86-419b-a3f6-7062a0928b7c'
+  );
+
+  menu.camera.postEffects.addEffect(bloom);
+  bloom.bloomThreshold = 0.5;
+  bloom.bloomIntensity = 0.5;
+
   const contentEntity = pc.app.getEntityFromIndex(
     '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
   );
@@ -396,6 +407,41 @@ function profilePageEntity() {
   contentEntity.children[3].children[2].children[7].children[1].children[3].enabled = false; // Emoji Button
 }
 
+//Added bloom which breaks on respawns >:C
+function addBloom() {
+  pc.app.on('Map:Loaded', () => {
+    const ingameOverlay = pc.app.getEntityFromIndex(
+      '9fcdea8c-ee29-403e-8e5b-0eddd1e548f6'
+    );
+    if (ingameOverlay) {
+      // Testing Bloom Effect
+      const fpsCamera = pc.app.getEntityFromIndex(
+        '68d4e7a4-7063-11ea-97ae-026349a27a7c'
+      );
+      window.fpsCamera = fpsCamera;
+
+      var bloom = new pc.BloomEffect(pc.app.graphicsDevice);
+      window.bloom = bloom;
+      if (pc.currentMap == 'Sierra') {
+        bloom.bloomIntensity = 1.8;
+        bloom.bloomThreshold = 0.7;
+      } else if (pc.currentMap == 'Xibalba') {
+        bloom.bloomIntensity = 2;
+        bloom.bloomThreshold = 0.1;
+      } else if (pc.currentMap == 'Mistle') {
+        bloom.bloomIntensity = 2;
+        bloom.bloomThreshold = 0.8;
+      } else if (pc.currentMap == 'Tundra') {
+        bloom.bloomIntensity = 2;
+        bloom.bloomThreshold = 0.8;
+      } else if (pc.currentMap == 'Temple') {
+        bloom.bloomIntensity = 0.8;
+        bloom.bloomThreshold = 0.1;
+      }
+    }
+  });
+}
+
 module.exports = {
   modifyMenuUI,
   modifyInGameOverlay,
@@ -403,4 +449,5 @@ module.exports = {
   disableRematchmaking,
   changeVersionURL,
   profilePageEntity,
+  addBloom,
 };

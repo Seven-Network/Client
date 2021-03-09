@@ -31,11 +31,19 @@ function mapChanges() {
     } else if (pc.currentMap == 'Xibalba') {
       pc.app.renderer.scene.exposure = 1;
       pc.app.renderer.scene.skyboxIntensity = 0.01;
+      console.log('Changed Lighting');
+
       pc.app.renderer.scene.fogStart = 5;
       pc.app.renderer.scene.fog = 'linear';
       pc.app.renderer.scene.fogColor = { r: 0, g: 0, b: 0, a: 1 };
       pc.app.renderer.scene.fogEnd = 50;
       console.log('Added Fog');
+
+      const xierraAmbient = pc.app.getEntityFromIndex(
+        '97000aad-f0e6-4c25-957a-0c86e0380745'
+      );
+      xierraAmbient.sound.slots.Ambient.volume = 0;
+      console.log('Changed Sounds');
 
       console.log('Found Map: Xibalba');
     } else if (pc.currentMap == 'Mistle') {

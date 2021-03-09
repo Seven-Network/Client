@@ -18,6 +18,7 @@ process.once('loaded', () => {
     userExperience.allowSoloCustom();
     userExperience.reduceJumpAnimIntensity();
     userExperience.removeReminder();
+    userExperience.bloomFix();
     gungameWeapons.modifyKeybinds();
     gungameWeapons.removeCircularWeaponSelector();
     gungameWeapons.weaponSelectionFix();
@@ -29,6 +30,7 @@ process.once('loaded', () => {
     gungameWeapons.addWeaponsToMainMenuScene();
     userInterface.modifyMenuUI();
     userInterface.modifyInGameOverlay();
+    userInterface.addBloom();
     userInterface.disableRematchmaking();
     weaponPropertise.weaponBalancing();
     userInterface.disableResultScreenMapSelection();

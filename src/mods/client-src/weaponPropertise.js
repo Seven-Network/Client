@@ -36,6 +36,11 @@ function weaponBalancing() {
       sniperPropertise.script.weapon.focusFov = 22.5;
       sniperPropertise.script.weapon.focusSpread = 0;
 
+      const sniperLens = pc.app.getEntityFromIndex(
+        'b655ed04-9844-4957-a03c-1756b25bda05'
+      );
+      sniperLens.enabled = false;
+
       const tec9Propertise = pc.app.getEntityFromIndex(
         '952abbee-906a-45c8-b343-a33c07860148'
       );
