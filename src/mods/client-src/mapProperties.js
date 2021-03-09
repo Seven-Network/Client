@@ -42,7 +42,7 @@ function mapChanges() {
       const xierraAmbient = pc.app.getEntityFromIndex(
         '97000aad-f0e6-4c25-957a-0c86e0380745'
       );
-      xierraAmbient.sound.slots.Ambient.volume = 0
+      xierraAmbient.sound.slots.Ambient.volume = 0;
       console.log('Changed Sounds');
 
       console.log('Found Map: Xibalba');
