@@ -1,12 +1,12 @@
 const requestMap = {
-  create_account: 'https://sn-gateway.tk/user/create',
-  login: 'https://sn-gateway.tk/user/login',
-  logout: 'https://sn-gateway.tk/user/logout',
-  get_details: 'https://sn-gateway.tk/user/details',
-  create_room: 'https://invite.sn-gateway.tk/create-room',
-  get_room: 'https://invite.sn-gateway.tk/get-room',
-  update_map: 'https://invite.sn-gateway.tk/update-map',
-  find_room_v2: 'https://invite.sn-gateway.tk/matchmaking',
+  create_account: 'https://seven-network-gateway.herokuapp.com/user/create',
+  login: 'https://seven-network-gateway.herokuapp.com/user/login',
+  logout: 'https://seven-network-gateway.herokuapp.com/user/logout',
+  get_details: 'https://seven-network-gateway.herokuapp.com/user/details',
+  create_room: 'https://seven-network-invite.herokuapp.com/create-room',
+  get_room: 'https://seven-network-invite.herokuapp.com/get-room',
+  update_map: 'https://seven-network-invite.herokuapp.com/update-map',
+  find_room_v2: 'https://seven-network-invite.herokuapp.com/matchmaking',
 };
 
 function modifyFetcher() {
@@ -17,11 +17,11 @@ function modifyFetcher() {
     console.log('Using development request map');
     for (let [key, value] of Object.entries(requestMap)) {
       requestMap[key] = value.replace(
-        'https://sn-gateway.tk/',
+        'https://seven-network-gateway.herokuapp.com/',
         'http://localhost:7777/'
       );
       requestMap[key] = requestMap[key].replace(
-        'https://invite.sn-gateway.tk/',
+        'https://seven-network-invite.herokuapp.com/',
         'http://localhost:7778/'
       );
       console.log(key, requestMap[key]);
@@ -33,11 +33,11 @@ function modifyFetcher() {
     console.log('Using test server request map');
     for (let [key, value] of Object.entries(requestMap)) {
       requestMap[key] = value.replace(
-        'https://sn-gateway.tk/',
-        'https://sn-gateway.tk/'
+        'https://seven-network-gateway.herokuapp.com/',
+        'https://seven-network-gateway.herokuapp.com/'
       );
       requestMap[key] = requestMap[key].replace(
-        'https://invite.sn-gateway.tk/',
+        'https://seven-network-invite.herokuapp.com/',
         'https://invite-test.sn-gateway.tk/'
       );
       console.log(key, requestMap[key]);
@@ -160,7 +160,7 @@ function websocketProxy() {
         } else {
           args[0] = args[0].replace(
             'wss://invite.venge.io/',
-            'wss://invite.sn-gateway.tk/'
+            'wss://seven-network-invite.herokuapp.com/'
           );
         }
       }
@@ -295,8 +295,16 @@ function modifyRoomProperties() {
   const mapSelectionPrivate = pc.app.getEntityFromIndex(
     'a82cb119-ed8e-42ac-8ed9-6f82b4032fc1'
   );
-  //(mapSelectionPrivate.script.popup.itemNames = ['Sierra', 'Sierra.Snow']),
-  //(mapSelectionPrivate.script.popup.itemImages = [32202739, 32202738]);
+  (mapSelectionPrivate.script.popup.itemNames = [
+    'FloatingIslands',
+    'Sierra.Snow',
+    'Sierra-Halloween',
+  ]),
+    (mapSelectionPrivate.script.popup.itemImages = [
+      32202739,
+      32202738,
+      32202739,
+    ]);
   const mapSelectionPublic = pc.app.getEntityFromIndex(
     'c9b08a93-b86e-4fdf-a9e5-2e447e73b641'
   );
