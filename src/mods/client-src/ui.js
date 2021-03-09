@@ -3,6 +3,17 @@ function modifyMenuUI() {
     '2baa7f22-cb28-4cbb-a175-55b8d4385c6f'
   );
 
+  var bloom = new pc.BloomEffect(pc.app.graphicsDevice);
+  window.bloom = bloom
+
+  const menu = pc.app.getEntityFromIndex(
+    'f476d893-1c86-419b-a3f6-7062a0928b7c'
+  );
+
+  menu.camera.postEffects.addEffect(bloom);
+  bloom.bloomThreshold = 0.5
+  bloom.bloomIntensity = 0.5
+
   const contentEntity = pc.app.getEntityFromIndex(
     '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
   );
@@ -412,7 +423,7 @@ function addBloom() {
         var bloom = new pc.BloomEffect(pc.app.graphicsDevice);
         window.bloom = bloom
         if (pc.currentMap == 'Sierra'){
-          bloom.bloomIntensity = 1.75
+          bloom.bloomIntensity = 1.8
           bloom.bloomThreshold = 0.7
         }
         else if (pc.currentMap == 'Xibalba'){

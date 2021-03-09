@@ -174,13 +174,14 @@ function bloomFix() {
       var a = Utils.displayUsername(this.killedBy.script.enemy.username);
       this.app.fire(
         'Overlay:Status',
-        'Following [color="#FF0000"]' + a + '[/color]'
+        'Killed by [color="#FF0000"]' + a + '[/color]'
       );
     }
     this.app.fire('Player:StopSpeaking', !0), this.showCircularMenu();
   };
 
   Player.prototype.onRespawn = function (t) {
+    fpsCamera.camera.postEffects.removeEffect(bloom);
     if (pc.isFinished) return !1;
     if (!pc.isMapLoaded) return !1;
     if (!this.isRespawnAllowed && 'undefined' != typeof VERSION) return !1;
@@ -222,6 +223,91 @@ function bloomFix() {
       (this.isCardSelection = !1),
       (this.canBuy = !1),
       (this.isMapLoaded = !1);
+  };
+
+  Player.prototype.emote = function () {
+    fpsCamera.camera.postEffects.removeEffect(bloom);
+    fpsCamera.camera.postEffects.addEffect(bloom);
+    if (this.isEmotePlaying) return !1;
+    if (this.emoteTimeout) return !1;
+    var t = this.danceName;
+    (this.isEmotePlaying = !0),
+      this.movement.disableMovement(),
+      (this.characterHolder.enabled = !0),
+      this.characterEntity.setLocalPosition(0, -2.15, 0),
+      this.characterEntity.animation.play(t + '-Animation'),
+      (this.characterEntity.animation.speed = 1),
+      (this.characterEntity.animation.loop = !0),
+      this.entity.sound.play('Emote'),
+      setTimeout(
+        function (t) {
+          t.movement.lookEntity.enabled = !1;
+        },
+        100,
+        this
+      ),
+      (this.characterCamera.script.blackWhite.enabled = !1),
+      this.characterCamera.setLocalPosition(0, 1.215, -0.115),
+      this.characterCamera
+        .tween(this.characterCamera.getLocalPosition())
+        .to(
+          {
+            x: 0,
+            y: 3.015,
+            z: 7,
+          },
+          1,
+          pc.SineOut
+        )
+        .start(),
+      this.characterCamera.setLocalEulerAngles(0, 0, 0),
+      this.characterCamera
+        .tween(this.characterCamera.getLocalEulerAngles())
+        .rotate(
+          {
+            x: -18,
+            y: 0,
+            z: 0,
+          },
+          0.7,
+          pc.BackOut
+        )
+        .start(),
+      this.fireNetworkEvent('emote', t),
+      setTimeout(
+        function (t) {
+          t.allowEmoteCancelation = !0;
+        },
+        1500,
+        this
+      ),
+      (this.emoteTimeout = setTimeout(
+        function (t) {
+          t.finishEmote();
+        },
+        4500,
+        this
+      ));
+    fpsCamera.camera.postEffects.removeEffect(bloom);
+  };
+
+  Player.prototype.finishEmote = function () {
+    fpsCamera.camera.postEffects.removeEffect(bloom);
+    if (!this.isEmotePlaying) return !1;
+    this.isDeath ||
+      (this.onCameraReturn(),
+      clearTimeout(this.emoteTimeout),
+      setTimeout(
+        function (t) {
+          (t.allowEmoteCancelation = !1),
+            (t.emoteTimeout = !1),
+            (t.isEmotePlaying = !1),
+            t.movement.enableMovement();
+        },
+        400,
+        this
+      ));
+    fpsCamera.camera.postEffects.addEffect(bloom);
   };
 }
 
