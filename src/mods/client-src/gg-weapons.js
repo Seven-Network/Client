@@ -7,14 +7,14 @@ function modifyKeybinds() {
         !this.isCardSelection &&
         this.isMapLoaded &&
         ('GUNGAME' != pc.currentMode &&
-          (this.app.keyboard.wasPressed(pc.KEY_1) && this.setWeapon('Scar'),
-          this.app.keyboard.wasPressed(pc.KEY_2) && this.setWeapon('Shotgun'),
-          this.app.keyboard.wasPressed(pc.KEY_3) && this.setWeapon('Sniper'),
-          this.app.keyboard.wasPressed(pc.KEY_4) && this.setWeapon('Tec-9'),
-          this.app.keyboard.wasPressed(pc.KEY_5) && this.setWeapon('M4'),
-          this.app.keyboard.wasPressed(pc.KEY_6) && this.setWeapon('LMG'),
+          (this.app.keyboard.wasPressed(pc.KEY_1) && this.setWeapon('Tec-9'),
+          this.app.keyboard.wasPressed(pc.KEY_2) && this.setWeapon('M4'),
+          this.app.keyboard.wasPressed(pc.KEY_3) && this.setWeapon('Scar'),
+          this.app.keyboard.wasPressed(pc.KEY_4) && this.setWeapon('Sniper'),
+          this.app.keyboard.wasPressed(pc.KEY_5) && this.setWeapon('Shotgun'),
+          this.app.keyboard.wasPressed(pc.KEY_6) && this.setWeapon('Desert-Eagle'),
           this.app.keyboard.wasPressed(pc.KEY_7) &&
-            this.setWeapon('Desert-Eagle')),
+            this.setWeapon('LMG')),
         this.isDeath && this.isCircularMenuActive)
       ) &&
       (this.isCardSelection &&
@@ -40,22 +40,15 @@ function addWeaponsToMainMenuSelector() {
     '1a599c4d-e39b-40f8-b41e-a6a260acb9bb'
   );
   weaponEnity.script.popup.itemNames = [
-    'Scar',
-    'Shotgun',
-    'Sniper',
     'Tec-9',
     'M4',
-    'LMG',
+    'Scar',
+    'Sniper',
+    'Shotgun',
     'Desert-Eagle',
+    'LMG',
   ];
   weaponEnity.script.popup.itemImages = [
-    34217429,
-    34217430,
-    34217431,
-    34217435,
-    36674698,
-    36674696,
-    36674697,
   ];
 }
 
@@ -64,13 +57,8 @@ function addWeaponsToMainMenuScene() {
   // anything outside main menu
   // pc.app.on('Map:Loaded', () => {
 
-  const holderEntity = pc.app.getEntityFromIndex(
-    'ffd2ace5-ed11-472d-8ec6-7f36980e3fa6'
-  );
-
   // M4
   const m4Entity = new pc.Entity();
-  holderEntity.addChild(m4Entity);
   m4Entity.setName('M4');
   m4Entity.setLocalPosition(-0.1, 0, 0.02);
   m4Entity.setLocalScale(21, 21, 21);
@@ -95,7 +83,6 @@ function addWeaponsToMainMenuScene() {
 
   // LMG
   const lmgEntity = new pc.Entity();
-  holderEntity.addChild(lmgEntity);
   lmgEntity.setName('LMG');
   lmgEntity.setLocalPosition(-0.1, 0, 0.02);
   lmgEntity.setLocalScale(21, 21, 21);
@@ -120,7 +107,6 @@ function addWeaponsToMainMenuScene() {
 
   // Desert-Eagle
   const desertEntity = new pc.Entity();
-  holderEntity.addChild(desertEntity);
   desertEntity.setName('Desert-Eagle');
   desertEntity.setLocalPosition(-0.1, 0, 0.02);
   desertEntity.setLocalScale(21, 21, 21);

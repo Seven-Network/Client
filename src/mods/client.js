@@ -32,8 +32,10 @@ process.once('loaded', () => {
     userInterface.modifyMenuUI();
     userInterface.modifyInGameOverlay();
     userInterface.addBloom();
+    userInterface.fixWeaponMenu();
     userInterface.disableRematchmaking();
     weaponPropertise.weaponBalancing();
+    weaponPropertise.weaponModels();
     userInterface.disableResultScreenMapSelection();
     menuSoundRedesign.menuUID();
     menuSoundRedesign.onMatchMakingLeave();
