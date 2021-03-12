@@ -13,6 +13,10 @@ function allowSoloCustom() {
   };
 }
 
+function removeCastShadows() {
+  MapManager.prototype.onSettingsChange = function () {};
+}
+
 function reduceJumpAnimIntensity() {
   //Jenny was here :)
   (Movement.prototype.jump = function () {
@@ -314,6 +318,7 @@ function bloomFix() {
 module.exports = {
   fixQuitLogic,
   allowSoloCustom,
+  removeCastShadows,
   reduceJumpAnimIntensity,
   removeReminder,
   bloomFix,

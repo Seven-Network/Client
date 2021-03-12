@@ -295,16 +295,18 @@ function modifyRoomProperties() {
   const mapSelectionPrivate = pc.app.getEntityFromIndex(
     'a82cb119-ed8e-42ac-8ed9-6f82b4032fc1'
   );
-  (mapSelectionPrivate.script.popup.itemNames = [
-    'FloatingIslands',
-    'Sierra.Snow',
-    'Sierra-Halloween',
+  /*(mapSelectionPrivate.script.popup.itemNames = [
+    'Sierra',
+    'Xibalba',
+    'Mistle',
+    'Tundra',
+    'Temple',
   ]),
     (mapSelectionPrivate.script.popup.itemImages = [
       32202739,
       32202738,
       32202739,
-    ]);
+    ]);*/
   const mapSelectionPublic = pc.app.getEntityFromIndex(
     'c9b08a93-b86e-4fdf-a9e5-2e447e73b641'
   );

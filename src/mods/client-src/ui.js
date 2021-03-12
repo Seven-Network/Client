@@ -362,7 +362,7 @@ function changeVersionURL() {
     '25c130ff-ea6b-4aa7-aaac-92668ab9d466'
   );
 
-  contentEntity.children[0].children[1].children[1].children[1].children[8].script.scripts[0].triggerFunction =
+  contentEntity.parent.children[3].children[3].children[1].children[1].children[7].script.scripts[0].triggerFunction =
     "window.open('https://discord.gg/85wE47ZK8b');";
 }
 
@@ -413,6 +413,8 @@ function addBloom() {
     const ingameOverlay = pc.app.getEntityFromIndex(
       '9fcdea8c-ee29-403e-8e5b-0eddd1e548f6'
     );
+
+    window.ingameOverlay = ingameOverlay;
     if (ingameOverlay) {
       // Testing Bloom Effect
       const fpsCamera = pc.app.getEntityFromIndex(
@@ -442,6 +444,18 @@ function addBloom() {
   });
 }
 
+function fixWeaponMenu() {
+  Menu.prototype.attachCharacterEntity = function () {
+    /*var e = "Character1_RightHand";
+    "Lilium" == pc.session.character ? e = "Character1_RightHand" : "Shin" == pc.session.character ? e = "Hand_R" : "Echo" == pc.session.character && (e = "hand_r");
+    var t = this.characterEntity.findByName(e);
+    t && (this.weaponEntity = this.characterEntity.findByName("Weapon"),
+    this.weaponEntity.setLocalScale(100, 100, 100),
+    this.weaponEntity.reparent(t)),
+    this.app.fire("Player:Weapon", pc.session.weapon)*/
+  };
+}
+
 module.exports = {
   modifyMenuUI,
   modifyInGameOverlay,
@@ -450,4 +464,5 @@ module.exports = {
   changeVersionURL,
   profilePageEntity,
   addBloom,
+  fixWeaponMenu,
 };
