@@ -14,8 +14,7 @@ function allowSoloCustom() {
 }
 
 function removeCastShadows() {
-  MapManager.prototype.onSettingsChange = function () {
-  };
+  MapManager.prototype.onSettingsChange = function () {};
 }
 
 function reduceJumpAnimIntensity() {

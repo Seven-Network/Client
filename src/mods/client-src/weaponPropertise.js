@@ -206,8 +206,7 @@ function weaponModels() {
         modifyViewmodel.localPosition = { x: 0.55, y: 0.56, z: -0.66 };
         LeftHand.setLocalPosition(-0.03, 0.03, -0.02);
         LeftArm.setLocalPosition(-0.03, 0.03, -0.02);
-      }
-      else if (this.currentWeapon.capacity == 7) {
+      } else if (this.currentWeapon.capacity == 7) {
         //Desert-Eagle = Deagle-Eagle Silenced
         const deaglePropertise = pc.app.getEntityFromIndex(
           '6da0a919-8f04-41d5-b3c5-1d67d97a0c0c'
@@ -221,13 +220,12 @@ function weaponModels() {
           '8b07a182-402b-4af9-a2d7-ec35be35d50f'
         );
 
-        RightHand.setLocalPosition(0.12, 0.02, -0.01)
-        RightHand.setLocalPosition(0.12, 0.02, -0.01)
-        modifyViewmodel.localPosition = { x: 0.30, y: 0.68, z: -0.60 };
-        RightHand.setLocalScale(1.6, 1.0, 1.2)
-        RightArm.setLocalScale(1.6, 1.0, 1.2)
-        deaglePropertise.children[2].enabled = false
-
+        RightHand.setLocalPosition(0.12, 0.02, -0.01);
+        RightHand.setLocalPosition(0.12, 0.02, -0.01);
+        modifyViewmodel.localPosition = { x: 0.3, y: 0.68, z: -0.6 };
+        RightHand.setLocalScale(1.6, 1.0, 1.2);
+        RightArm.setLocalScale(1.6, 1.0, 1.2);
+        deaglePropertise.children[2].enabled = false;
       }
 
       Movement.prototype.setCurrentWeapon = function () {
@@ -334,8 +332,7 @@ function weaponModels() {
           modifyViewmodel.localPosition = { x: 0.55, y: 0.56, z: -0.66 };
           LeftHand.setLocalPosition(-0.03, 0.03, -0.02);
           LeftArm.setLocalPosition(-0.03, 0.03, -0.02);
-        }
-        else if (this.currentWeapon.capacity == 7) {
+        } else if (this.currentWeapon.capacity == 7) {
           //Desert-Eagle = Deagle-Eagle Silenced
           const deaglePropertise = pc.app.getEntityFromIndex(
             '6da0a919-8f04-41d5-b3c5-1d67d97a0c0c'
@@ -349,13 +346,12 @@ function weaponModels() {
             '8b07a182-402b-4af9-a2d7-ec35be35d50f'
           );
 
-          RightHand.setLocalPosition(0.12, 0.02, -0.01)
-          RightHand.setLocalPosition(0.12, 0.02, -0.01)
-          modifyViewmodel.localPosition = { x: 0.30, y: 0.68, z: -0.60 };
-          RightHand.setLocalScale(1.6, 1.0, 1.2)
-          RightArm.setLocalScale(1.6, 1.0, 1.2)
-          deaglePropertise.children[2].enabled = false
-
+          RightHand.setLocalPosition(0.12, 0.02, -0.01);
+          RightHand.setLocalPosition(0.12, 0.02, -0.01);
+          modifyViewmodel.localPosition = { x: 0.3, y: 0.68, z: -0.6 };
+          RightHand.setLocalScale(1.6, 1.0, 1.2);
+          RightArm.setLocalScale(1.6, 1.0, 1.2);
+          deaglePropertise.children[2].enabled = false;
         }
       };
     }

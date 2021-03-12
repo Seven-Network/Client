@@ -12,9 +12,9 @@ function modifyKeybinds() {
           this.app.keyboard.wasPressed(pc.KEY_3) && this.setWeapon('Scar'),
           this.app.keyboard.wasPressed(pc.KEY_4) && this.setWeapon('Sniper'),
           this.app.keyboard.wasPressed(pc.KEY_5) && this.setWeapon('Shotgun'),
-          this.app.keyboard.wasPressed(pc.KEY_6) && this.setWeapon('Desert-Eagle'),
-          this.app.keyboard.wasPressed(pc.KEY_7) &&
-            this.setWeapon('LMG')),
+          this.app.keyboard.wasPressed(pc.KEY_6) &&
+            this.setWeapon('Desert-Eagle'),
+          this.app.keyboard.wasPressed(pc.KEY_7) && this.setWeapon('LMG')),
         this.isDeath && this.isCircularMenuActive)
       ) &&
       (this.isCardSelection &&
@@ -48,8 +48,7 @@ function addWeaponsToMainMenuSelector() {
     'Desert-Eagle',
     'LMG',
   ];
-  weaponEnity.script.popup.itemImages = [
-  ];
+  weaponEnity.script.popup.itemImages = [];
 }
 
 function addWeaponsToMainMenuScene() {

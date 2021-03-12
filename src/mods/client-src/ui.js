@@ -414,7 +414,7 @@ function addBloom() {
       '9fcdea8c-ee29-403e-8e5b-0eddd1e548f6'
     );
 
-    window.ingameOverlay = ingameOverlay
+    window.ingameOverlay = ingameOverlay;
     if (ingameOverlay) {
       // Testing Bloom Effect
       const fpsCamera = pc.app.getEntityFromIndex(
