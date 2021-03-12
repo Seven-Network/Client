@@ -3,6 +3,10 @@
   <head>
     <title>Seven Network Client</title>
     <style type="text/css">
+      @font-face {
+        font-family: 'Blender Pro Thin'; /*a name to be used later*/
+        src: url('files/BlenderPro-Thin.ttf'); /*URL to font*/
+      }
       .fade-in {
         animation: fadeIn ease 3s;
         -webkit-animation: fadeIn ease 3s;
@@ -118,6 +122,17 @@
         font-family: Arial;
       }
 
+      .center-above {
+        position: relative;
+        top: 25%;
+        text-align: center;
+        color: #fff;
+        font-family: Blender Pro Thin;
+        font-size: 2vw;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+
       .center {
         position: absolute;
         left: 50%;
@@ -195,6 +210,12 @@
       </div>
     </div>
 
+    <div class="center-above">
+      <div class="fade-in" id="center-text">
+        <h2 id="update-el">Welcome to Seven Network</h2>
+      </div>
+    </div>
+
     <div class="shortcuts">
       <span>
         <key>F1</key>
@@ -217,23 +238,43 @@
         <label>Quit Client</label>
       </span>
 
-      <span id="version" class="version"> 0.1.2 </span>
+      <span id="version" class="version"> 1.0.0 </span>
     </div>
 
     <script type="text/javascript">
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.on('update-found', (ev, _) => {
+        if (window.redirTimeout) {
+          clearTimeout(window.redirTimeout);
+          clearTimeout(window.redirTimeout2);
+        }
+        document.getElementById('update-el').innerHTML = 'Update found';
+      });
+      ipcRenderer.on('update-progress', (ev, arg) => {
+        document.getElementById(
+          'update-el'
+        ).innerHTML = `Downloading update: ${Math.floor(arg)}%`;
+      });
       var audio = document.getElementById('myAudio');
-      audio.volume = 0.15;
-      setTimeout(function () {
+      audio.volume = 0.075;
+      window.redirTimeout = setTimeout(function () {
         var logo = document.getElementById('seven');
         var video = document.getElementById('myVideo');
+        var text_center = document.getElementById('center-text');
         logo.classList.remove('fade-in');
         logo.classList.add('fade-out');
         video.classList.remove('fade-in');
         video.classList.add('fade-out');
+        text_center.classList.remove('fade-in');
+        text_center.classList.add('fade-out');
       }, 12550);
-      setTimeout(function () {
+      window.redirTimeout2 = setTimeout(function () {
         window.location.href = 'index.html';
       }, 15500);
+      // Here we can ask the main process for
+      // the progress
+      // No I mean we need to ask the main
+      // process every tick
     </script>
   </body>
 </html>

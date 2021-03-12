@@ -5,6 +5,7 @@ const gungameWeapons = require('./client-src/gg-weapons');
 const devTools = require('./client-src/dev');
 const weaponPropertise = require('./client-src/weaponPropertise');
 const menuSoundRedesign = require('./client-src/menuSounds');
+const mapProperties = require('./client-src/mapProperties');
 
 process.once('loaded', () => {
   console.log('Welcome to Seven Network');
@@ -17,6 +18,8 @@ process.once('loaded', () => {
     userExperience.allowSoloCustom();
     userExperience.reduceJumpAnimIntensity();
     userExperience.removeReminder();
+    userExperience.removeCastShadows();
+    userExperience.bloomFix();
     gungameWeapons.modifyKeybinds();
     gungameWeapons.removeCircularWeaponSelector();
     gungameWeapons.weaponSelectionFix();
@@ -28,13 +31,17 @@ process.once('loaded', () => {
     gungameWeapons.addWeaponsToMainMenuScene();
     userInterface.modifyMenuUI();
     userInterface.modifyInGameOverlay();
+    userInterface.addBloom();
+    userInterface.fixWeaponMenu();
     userInterface.disableRematchmaking();
     weaponPropertise.weaponBalancing();
+    weaponPropertise.weaponModels();
     userInterface.disableResultScreenMapSelection();
     menuSoundRedesign.menuUID();
     menuSoundRedesign.onMatchMakingLeave();
     menuSoundRedesign.onMatchMakingStart();
     menuSoundRedesign.onMatchMakingFound();
+    mapProperties.mapChanges();
   };
 
   global.startInit = () => {

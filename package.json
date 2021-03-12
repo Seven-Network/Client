@@ -1,6 +1,6 @@
 {
   "name": "seven-network-client",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "main": "src/main.js",
   "description": "Seven Network Client is a Private Venge.io Client that connects to the Seven Network Private Server",
   "scripts": {
@@ -28,7 +28,7 @@
       "publish": [
         {
           "provider": "github",
-          "url": "https://github.com/Seven-Network/Client/releases"
+          "url": "https://github.com/NeXiDE/Client-Test-Builds/releases"
         }
       ]
     },
